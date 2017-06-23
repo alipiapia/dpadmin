@@ -1,24 +1,24 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
 return [
     // 产品信息
-    'product_name'      => 'DolphinPHP',
-    'product_version'   => '1.0.4',
-    'build_version'     => '201706042207',
-    'product_website'   => 'http://www.dolphinphp.com',
-    'product_update'    => 'http://www.dolphinphp.com/checkUpdate',
-    'develop_team'      => 'DolphinPHP',
+    'product_name'      => 'thinkphp',
+    'product_version'   => '5.0.9',
+    'build_version'     => '2017',
+    'product_website'   => 'http://www.thinkphp.cn',
+    'product_update'    => 'http://www.thinkphp.cn/checkUpdate',
+    'develop_team'      => 'thinkphp',
 
     // 公司信息
-    'company_name'    => '河源市卓锐科技有限公司',
-    'company_website' => 'http://www.zrthink.com',
+    'company_name'    => 'thinkphp',
+    'company_website' => 'http://www.thinkphp.cn',
 ];

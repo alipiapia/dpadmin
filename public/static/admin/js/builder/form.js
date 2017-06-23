@@ -1,6 +1,6 @@
 /*!
  *  Document   : form.js
- *  Author     : caiweiming <314013107@qq.com>
+ *  Author     : thinkphp
  *  Description: 表单构建器
  */
 jQuery(document).ready(function() {
@@ -368,7 +368,7 @@ jQuery(document).ready(function() {
 
         editormds[editormd_name] = editormd(editormd_name, {
             height: 500, // 高度
-            placeholder: '海豚PHP，为提升开发效率而生！！',
+            placeholder: 'thinkPHP，为提升开发效率而生！！',
             watch : watch,
             searchReplace : true,
             toolbarAutoFixed: false, // 取消工具栏固定

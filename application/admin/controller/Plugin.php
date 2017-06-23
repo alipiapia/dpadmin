@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -29,7 +29,7 @@ class Plugin extends Admin
      * 首页
      * @param string $group 分组
      * @param string $type 显示类型
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function index($group = 'local', $type = '')
@@ -82,7 +82,7 @@ class Plugin extends Admin
     /**
      * 安装插件
      * @param string $name 插件标识
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     public function install($name = '')
     {
@@ -149,7 +149,7 @@ class Plugin extends Admin
     /**
      * 卸载插件
      * @param string $name 插件标识
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     public function uninstall($name = '')
     {
@@ -202,7 +202,7 @@ class Plugin extends Admin
     /**
      * 插件管理
      * @param string $name 插件名
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     public function manage($name = '')
     {
@@ -280,7 +280,7 @@ class Plugin extends Admin
     /**
      * 插件新增方法
      * @param string $plugin_name 插件名称
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed|void
      */
     public function add($plugin_name = '')
@@ -336,7 +336,7 @@ class Plugin extends Admin
      * 编辑插件方法
      * @param string $id 数据id
      * @param string $plugin_name 插件名称
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed|void
      */
     public function edit($id = '', $plugin_name = '')
@@ -400,7 +400,7 @@ class Plugin extends Admin
     /**
      * 插件参数设置
      * @param string $name 插件名称
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     public function config($name = '')
     {
@@ -441,7 +441,7 @@ class Plugin extends Admin
      * 设置状态
      * @param string $type 状态类型:enable/disable
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function setStatus($type = '', $record = [])
@@ -459,7 +459,7 @@ class Plugin extends Admin
     /**
      * 禁用插件
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function disable($record = [])
@@ -470,7 +470,7 @@ class Plugin extends Admin
     /**
      * 启用插件
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function enable($record = [])
@@ -480,7 +480,7 @@ class Plugin extends Admin
 
     /**
      * 执行插件内部方法
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed|void
      */
     public function execute()
@@ -503,7 +503,7 @@ class Plugin extends Admin
     /**
      * 分析后台字段信息
      * @param array $data 字段信息
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return array
      */
     private function parseAdmin($data = [])
@@ -542,7 +542,7 @@ class Plugin extends Admin
      * 解析按钮链接
      * @param string $button 按钮名称
      * @param array $data 字段信息
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return array
      */
     private function parseButton($button = '', &$data)

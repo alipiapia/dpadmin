@@ -1,6 +1,6 @@
 /*
  *  Document   : field.js
- *  Author     : CaiWeiMing <314013107@qq.com>
+ *  Author     : thinkphp
  */
 
 jQuery(function () {

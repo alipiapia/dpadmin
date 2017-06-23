@@ -1,4 +1,4 @@
-DolphinPHP
+thinkphp
 ===============
 
 # 数据导出目录

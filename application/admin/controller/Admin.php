@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -28,7 +28,7 @@ class Admin extends Common
 {
     /**
      * 初始化
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     protected function _initialize()
     {
@@ -77,7 +77,7 @@ class Admin extends Common
 
     /**
      * 设置分页参数
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     final protected function setPageParam()
     {
@@ -88,7 +88,7 @@ class Admin extends Common
 
     /**
      * 检查是否登录，没有登录则跳转到登录页面
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return int
      */
     final protected function isLogin()
@@ -106,7 +106,7 @@ class Admin extends Common
     /**
      * 禁用
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function disable($record = [])
@@ -117,7 +117,7 @@ class Admin extends Common
     /**
      * 启用
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function enable($record = [])
@@ -128,7 +128,7 @@ class Admin extends Common
     /**
      * 启用
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function delete($record = [])
@@ -139,7 +139,7 @@ class Admin extends Common
     /**
      * 快速编辑
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function quickEdit($record = [])
@@ -207,7 +207,7 @@ class Admin extends Common
 
     /**
      * 自动创建添加页面
-     * @author caiweiming <314013107@qq.com>
+     * @author thinkphp
      */
     public function add()
     {
@@ -260,7 +260,7 @@ class Admin extends Common
     /**
      * 自动创建编辑页面
      * @param string $id 主键值
-     * @author caiweiming <314013107@qq.com>
+     * @author thinkphp
      */
     public function edit($id = '')
     {
@@ -322,7 +322,7 @@ class Admin extends Common
      * 禁用、启用、删除都是调用这个内部方法
      * @param string $type 操作类型：enable,disable,delete
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function setStatus($type = '', $record = [])
@@ -376,7 +376,7 @@ class Admin extends Common
 
     /**
      * 模块设置
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function moduleConfig()

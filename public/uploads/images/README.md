@@ -1,4 +1,4 @@
-DolphinPHP
+thinkphp
 ===============
 
 # 图片目录

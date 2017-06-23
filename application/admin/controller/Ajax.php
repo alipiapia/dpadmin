@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -28,7 +28,7 @@ class Ajax extends Common
      * @param string $key 下拉选项的值
      * @param string $option 下拉选项的名称
      * @param string $pidkey 父级id字段名
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return \think\response\Json
      */
     public function getLevelData($table = '', $pid = 0, $key = 'id', $option = 'name', $pidkey = 'pid')
@@ -61,7 +61,7 @@ class Ajax extends Common
      * @param string $field 字段名
      * @param array $map 查询条件
      * @param string $options 选项，用于显示转换
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return \think\response\Json
      */
     public function getFilterList($table = '', $field = '', $map = [], $options = '')
@@ -120,7 +120,7 @@ class Ajax extends Common
     /**
      * 获取指定模块的菜单
      * @param string $module 模块名
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function getModuleMenus($module = '')
@@ -137,7 +137,7 @@ class Ajax extends Common
     /**
      * 设置配色方案
      * @param string $theme 配色名称
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     public function setTheme($theme = '') {
         $map['name'] = 'system_color';
@@ -154,7 +154,7 @@ class Ajax extends Common
      * @param string $module_id 模块id
      * @param string $module 模型名
      * @param string $controller 控制器名
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return string
      */
     public function getSidebarMenu($module_id = '', $module = '', $controller = '')

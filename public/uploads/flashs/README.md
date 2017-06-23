@@ -1,4 +1,4 @@
-DolphinPHP
+thinkphp
 ===============
 
 # flash目录

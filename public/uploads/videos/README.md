@@ -1,4 +1,4 @@
-DolphinPHP
+thinkphp
 ===============
 
 # 视频目录

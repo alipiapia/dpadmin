@@ -1,4 +1,4 @@
-DolphinPHP
+thinkphp
 ===============
 
 # 前台JavaScript目录

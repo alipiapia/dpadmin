@@ -1,4 +1,4 @@
-DolphinPHP
+thinkphp
 ===============
 
 # 文件目录

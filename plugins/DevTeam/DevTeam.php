@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -16,7 +16,7 @@ use app\common\controller\Plugin;
 /**
  * 系统环境信息插件
  * @package plugins\DevTeam
- * @author 蔡伟明 <314013107@qq.com>
+ * @author thinkphp
  */
 class DevTeam extends Plugin
 {
@@ -35,9 +35,9 @@ class DevTeam extends Plugin
         // 插件描述[选填]
         'description' => '在后台首页显示开发团队成员信息',
         // 插件作者[必填]
-        'author'      => '蔡伟明',
+        'author'      => '吕轻侯',
         // 作者主页[选填]
-        'author_url'  => 'http://www.caiweiming.com',
+        'author_url'  => 'http://www.thinkphp.cn',
         // 插件版本[必填],格式采用三段式：主版本号.次版本号.修订版本号
         'version'     => '1.0.0',
         // 是否有后台管理功能[选填]
@@ -53,7 +53,7 @@ class DevTeam extends Plugin
 
     /**
      * 后台首页钩子
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     public function adminIndex()
     {
@@ -65,7 +65,7 @@ class DevTeam extends Plugin
 
     /**
      * 安装方法
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return bool
      */
     public function install(){
@@ -74,7 +74,7 @@ class DevTeam extends Plugin
 
     /**
      * 卸载方法必
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return bool
      */
     public function uninstall(){

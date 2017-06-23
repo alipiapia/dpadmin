@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -27,7 +27,7 @@ class Module extends Model
 
     /**
      * 获取所有模块的名称和标题
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public static function getModule()
@@ -47,7 +47,7 @@ class Module extends Model
      * 获取所有模块信息
      * @param string $keyword 查找关键词
      * @param string $status 查找状态
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return array|bool
      */
     public function getAll($keyword = '', $status = '')
@@ -200,7 +200,7 @@ class Module extends Model
     /**
      * 从文件获取模块信息
      * @param string $name 模块名称
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return array|mixed
      */
     public static function getInfoFromFile($name = '')
@@ -218,7 +218,7 @@ class Module extends Model
     /**
      * 检查模块模块信息是否完整
      * @param string $info 模块模块信息
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return bool
      */
     private function checkInfo($info = '')
@@ -236,7 +236,7 @@ class Module extends Model
      * 获取模型配置信息
      * @param string $name 模型名
      * @param string $item 指定返回的模块配置项
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public static function getConfig($name = '', $item = '')
@@ -276,7 +276,7 @@ class Module extends Model
      * 获取模型配置信息
      * @param string $name 插件名.配置名
      * @param string $value 配置值
-     * @author caiweiming <314013107@qq.com>
+     * @author thinkphp
      * @return bool
      */
     public static function setConfig($name = '', $value = '')
@@ -326,7 +326,7 @@ class Module extends Model
     /**
      * 从文件获取模块菜单
      * @param string $name 模块名称
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return array|mixed
      */
     public static function getMenusFromFile($name = '')

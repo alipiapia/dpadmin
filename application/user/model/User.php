@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -45,7 +45,7 @@ class User extends Model
      * @param string $username 用户名
      * @param string $password 密码
      * @param bool $rememberme 记住登录
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return bool|mixed
      */
     public function login($username = '', $password = '', $rememberme = false)
@@ -107,7 +107,7 @@ class User extends Model
      * 自动登录
      * @param object $user 用户对象
      * @param bool $rememberme 是否记住登录，默认7天
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return bool|int
      */
     public function autoLogin($user, $rememberme = false)
@@ -150,7 +150,7 @@ class User extends Model
     /**
      * 数据签名认证
      * @param array $data 被认证的数据
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return string 签名
      */
     public function dataAuthSign($data = [])
@@ -171,7 +171,7 @@ class User extends Model
 
     /**
      * 判断是否登录
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return int 0或用户id
      */
     public function isLogin()

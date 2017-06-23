@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -25,7 +25,7 @@ class Menu extends Admin
     /**
      * 节点首页
      * @param string $group 分组
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function index($group = 'admin')
@@ -81,7 +81,7 @@ class Menu extends Admin
      * 新增节点
      * @param string $module 所属模块
      * @param string $pid 所属节点id
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function add($module = 'admin', $pid = '')
@@ -124,7 +124,7 @@ class Menu extends Admin
                 'text',
                 'url_value',
                 '节点链接',
-                "可留空，如果是模块链接，请填写<code>模块/控制器/操作</code>，如：<code>admin/menu/add</code>。如果是普通链接，则直接填写url地址，如：<code>http://www.dolphinphp.com</code>"
+                "可留空，如果是模块链接，请填写<code>模块/控制器/操作</code>，如：<code>admin/menu/add</code>。如果是普通链接，则直接填写url地址，如：<code>http://www.thinkphp.cn</code>"
             )
             ->addRadio('url_target', '打开方式', '', ['_self' => '当前窗口', '_blank' => '新窗口'], '_self')
             ->addIcon('icon', '图标', '导航图标')
@@ -136,7 +136,7 @@ class Menu extends Admin
     /**
      * 编辑节点
      * @param int $id 节点ID
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function edit($id = 0)
@@ -190,7 +190,7 @@ class Menu extends Admin
                 'text',
                 'url_value',
                 '节点链接',
-                "可留空，如果是模块链接，请填写<code>模块/控制器/操作</code>，如：<code>admin/menu/add</code>。如果是普通链接，则直接填写url地址，如：<code>http://www.dolphinphp.com</code>"
+                "可留空，如果是模块链接，请填写<code>模块/控制器/操作</code>，如：<code>admin/menu/add</code>。如果是普通链接，则直接填写url地址，如：<code>http://www.thinkphp.cn</code>"
             )
             ->addRadio('url_target', '打开方式', '', ['_self' => '当前窗口', '_blank' => '新窗口'], '_self')
             ->addIcon('icon', '图标', '导航图标')
@@ -203,7 +203,7 @@ class Menu extends Admin
     /**
      * 删除节点
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function delete($record = [])
@@ -233,7 +233,7 @@ class Menu extends Admin
 
     /**
      * 保存节点排序
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function save()
@@ -261,7 +261,7 @@ class Menu extends Admin
      * 递归解析节点
      * @param array $menus 节点数据
      * @param int $pid 上级节点id
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return array 解析成可以写入数据库的格式
      */
     private function parseMenu($menus = [], $pid = 0)
@@ -288,7 +288,7 @@ class Menu extends Admin
      * @param int $pid 父级id
      * @param int $max_level 最多返回多少层，0为不限制
      * @param int $curr_level 当前层数
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return string
      */
     private function getNestMenu($lists = [], $max_level = 0, $pid = 0, $curr_level = 1)
@@ -334,7 +334,7 @@ class Menu extends Admin
     /**
      * 启用节点
      * @param array $record 行为日志
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function enable($record = [])
@@ -348,7 +348,7 @@ class Menu extends Admin
     /**
      * 禁用节点
      * @param array $record 行为日志
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function disable($record = [])

@@ -1,6 +1,6 @@
 /*!
  *  Document   : table.js
- *  Author     : caiweiming <314013107@qq.com>
+ *  Author     : thinkphp
  *  Description: 表格构建器
  */
 jQuery(document).ready(function() {

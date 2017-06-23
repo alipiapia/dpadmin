@@ -1,6 +1,6 @@
 /*!
  *  Document   : aside.js
- *  Author     : caiweiming <314013107@qq.com>
+ *  Author     : thinkphp
  *  Description: 侧栏构建器
  */
 jQuery(document).ready(function() {

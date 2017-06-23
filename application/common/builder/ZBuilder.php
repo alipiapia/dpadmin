@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -17,13 +17,13 @@ use think\Exception;
 /**
  * 构建器
  * @package app\common\builder
- * @author 蔡伟明 <314013107@qq.com>
+ * @author thinkphp
  */
 class ZBuilder extends Common
 {
     /**
      * @var array 构建器数组
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     protected static $builder = [];
 
@@ -39,7 +39,7 @@ class ZBuilder extends Common
 
     /**
      * 初始化
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      */
     public function _initialize()
     {}
@@ -48,7 +48,7 @@ class ZBuilder extends Common
      * 创建各种builder的入口
      * @param string $type 构建器名称，'Form', 'Table', 'View' 或其他自定义构建器
      * @param string $action 动作
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return table\Builder|form\Builder|aside\Builder
      * @throws Exception
      */
@@ -81,7 +81,7 @@ class ZBuilder extends Common
      * @param array  $vars     模板输出变量
      * @param array  $replace  模板替换
      * @param array  $config   模板参数
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function fetch($template = '', $vars = [], $replace = [], $config = [])

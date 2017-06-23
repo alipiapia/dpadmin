@@ -6658,7 +6658,7 @@ _e(function (E, $) {
             }
 
             // 过滤图片后缀
-            // author：caiweiming <314013107@qq.com>
+            // author：thinkphp
             if (editor.config.imgExt) {
                 var imgExt = editor.config.imgExt.split(',');
                 var result = false;

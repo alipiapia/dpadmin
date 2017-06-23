@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -34,7 +34,7 @@ class Module extends Admin
      * 模块首页
      * @param string $group 分组
      * @param string $type 显示类型
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function index($group = 'local', $type = '')
@@ -91,7 +91,7 @@ class Module extends Admin
      * 安装模块
      * @param string $name 模块标识
      * @param int $confirm 是否确认
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function install($name = '', $confirm = 0)
@@ -217,7 +217,7 @@ class Module extends Admin
      * 卸载模块
      * @param string $name 模块名
      * @param int $confirm 是否确认
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed|void
      */
     public function uninstall($name = '', $confirm = 0)
@@ -297,7 +297,7 @@ class Module extends Admin
     /**
      * 导出模块
      * @param string $name 模块名
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed|void
      */
     public function export($name = '')
@@ -377,7 +377,7 @@ class Module extends Admin
      * 创建模块菜单文件
      * @param array $menus 菜单
      * @param string $name 模块名
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return int
      */
     private function buildMenuFile($menus = [], $name = '')
@@ -394,11 +394,11 @@ class Module extends Admin
         $content = <<<INFO
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -417,7 +417,7 @@ INFO;
      * 创建模块配置文件
      * @param array $info 模块配置信息
      * @param string $name 模块名
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return int
      */
     private function buildInfoFile($info = [], $name = '')
@@ -434,11 +434,11 @@ INFO;
         $content = <<<INFO
 <?php
 // +----------------------------------------------------------------------
-// | 海豚PHP框架 [ DolphinPHP ]
+// | 框架 [ thinkphp ]
 // +----------------------------------------------------------------------
-// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
+// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://dolphinphp.com
+// | 官方网站: http://thinkphp.cn
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -457,7 +457,7 @@ INFO;
      * 设置状态
      * @param string $type 类型：disable/enable
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed|void
      */
     public function setStatus($type = '', $record = [])
@@ -482,7 +482,7 @@ INFO;
     /**
      * 禁用模块
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function disable($record = [])
@@ -493,7 +493,7 @@ INFO;
     /**
      * 启用模块
      * @param array $record 行为日志内容
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return mixed
      */
     public function enable($record = [])
@@ -506,7 +506,7 @@ INFO;
      * @param array $menus 菜单
      * @param string $module 模型名称
      * @param int $pid 父级ID
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return bool
      */
     private function addMenus($menus = [], $module = '', $pid = 0)
@@ -539,7 +539,7 @@ INFO;
      * 检查依赖
      * @param string $type 类型：module/plugin
      * @param array $data 检查数据
-     * @author 蔡伟明 <314013107@qq.com>
+     * @author thinkphp
      * @return array
      */
     private function checkDependence($type = '', $data = [])
