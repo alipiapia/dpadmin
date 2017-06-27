@@ -11,36 +11,20 @@
 
 namespace app\index\controller;
 
-use app\common\controller\Common;
-
 /**
- * 前台公共控制器
+ * 前台购物车控制器
  * @package app\index\controller
  */
-class Home extends Common
+class Cart extends Home
 {
-    /**
-     * 初始化方法
-     * @author thinkphp
-     */
-    protected function _initialize()
-    {
-        // 系统开关
-        if (!config('web_site_status')) {
-            $this->error('站点已经关闭，请稍后访问~');
-        }
 
-        //是否为移动设备
+    //首页
+    public function index()
+    {
+        return '购物车';
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-
-        // 判断是否登录，并定义用户ID常量
-        defined('UID') or define('UID', is_signin());
-        
-        // 前台公共模板
-        $this->assign('_index_base_layout', config('index_base_layout'));
-
-        // pp(is_signin());
+        return $this->fetch();
     }
 }

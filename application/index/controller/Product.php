@@ -14,33 +14,32 @@ namespace app\index\controller;
 use app\common\controller\Common;
 
 /**
- * 前台公共控制器
+ * 前台商品控制器
  * @package app\index\controller
  */
-class Home extends Common
+class Product extends Common
 {
-    /**
-     * 初始化方法
-     * @author thinkphp
-     */
-    protected function _initialize()
-    {
-        // 系统开关
-        if (!config('web_site_status')) {
-            $this->error('站点已经关闭，请稍后访问~');
-        }
 
-        //是否为移动设备
+    //列表页
+    public function index()
+    {
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
+        return $this->fetch();
+    }
 
-        // 判断是否登录，并定义用户ID常量
-        defined('UID') or define('UID', is_signin());
-        
-        // 前台公共模板
-        $this->assign('_index_base_layout', config('index_base_layout'));
-
-        // pp(is_signin());
+    //详情
+    public function detail()
+    {
+        $pid = input('pid');
+        // $product_detail = Db::name('Product')->find($pid);
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        // return $this->fetch();
+        return view('product/detail',[
+                // 'data' => $product_detail
+            ]);
     }
 }

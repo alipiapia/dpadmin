@@ -9,28 +9,27 @@
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
-namespace app\index\controller;
+namespace app\admin\validate;
 
-use app\common\controller\Common;
+use think\Validate;
 
 /**
- * 前台首页控制器
- * @package app\index\controller
+ * 节点验证器
+ * @package app\admin\validate
+ * @author thinkphp
  */
-class Index extends Common
+class Menu extends Validate
 {
-    public function index()
-    {
-        // 默认跳转模块
-        if (config('home_default_module') != 'index') {
-            $this->redirect(config('home_default_module'). '/index/index');
-        }
+    //定义验证规则
+    protected $rule = [
+        'module|所属模块' => 'require',
+        'pid|所属节点'    => 'require',
+        'title|节点标题'  => 'require',
+    ];
 
-        //是否为移动设备
-        if(!is_mobile()){
-        	return "提示：请使用手机访问！";
-        }
-
-        return $this->fetch();
-    }
+    //定义验证提示
+    protected $message = [
+        'module.require' => '请选择所属模块',
+        'pid.require'    => '请选择所属节点',
+    ];
 }

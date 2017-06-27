@@ -9,28 +9,19 @@
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
-namespace app\index\controller;
+namespace app\admin\model;
 
-use app\common\controller\Common;
+use think\Model;
 
 /**
- * 前台首页控制器
- * @package app\index\controller
+ * 日志模型
+ * @package app\admin\model
  */
-class Index extends Common
+class Action extends Model
 {
-    public function index()
-    {
-        // 默认跳转模块
-        if (config('home_default_module') != 'index') {
-            $this->redirect(config('home_default_module'). '/index/index');
-        }
+    // 设置当前模型对应的完整数据表名称
+    protected $table = '__ADMIN_ACTION__';
 
-        //是否为移动设备
-        if(!is_mobile()){
-        	return "提示：请使用手机访问！";
-        }
-
-        return $this->fetch();
-    }
+    // 自动写入时间戳
+    protected $autoWriteTimestamp = true;
 }
