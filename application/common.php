@@ -1185,13 +1185,6 @@ if (!function_exists('pp')) {
      * @return boolean
      */
     function pp($arr){        
-        if(is_array($arr)){
-            echo "<pre>";
-            print_r($arr);
-            echo "</pre>";
-        }else{
-            echo $arr;
-        }
-        die;
+        var_dump($arr);die;
     }
 }

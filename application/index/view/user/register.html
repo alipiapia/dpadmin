@@ -40,39 +40,41 @@
     </a>
 </header>
 
+<form id="reg_form" action="{url('index/user/register')}" method="post">
 <div class="inputbox-o">
 	<div class="inputbox">
     	<div class="one-input inputbg1">
-        	<input type="text"  placeholder="请输入用户名" />
+        	<input type="text" name="username"  placeholder="请输入用户名" />
         </div>
         <div class="one-input inputbg2">
-        	<input type="text"  placeholder="请输入密码" />
+        	<input type="text" name="password"  placeholder="请输入密码" />
         </div>
         <div class="one-input inputbg5">
-        	<input type="text"  placeholder="请输入手机号码" />
+        	<input type="text" name="mobile"  placeholder="请输入手机号码" />
         </div>
         <div class="one-input inputbg5">
-        	<input type="text"  placeholder="请输入推荐人手机号码" />
+        	<input type="text" name="ref_mobile"  placeholder="请输入推荐人手机号码" />
         </div>
-<!--         <div class="one-input inputbg7">
-            <input type="text"  placeholder="请输入群内昵称" />
-        </div> -->
         <div class="one-input inputbg3">
-        	<input type="text" class=" input-yzm" placeholder="请输入验证码"  />
+        	<input type="text" name="captcha" class=" input-yzm" placeholder="请输入验证码"  />
             <div class="button-yzm">4578</div>
         </div>
     </div>
     <div class="steptext">&nbsp;</div>
-
 </div>
 <div class="page-box"><div class="button-tj">注册</div></div>
+</form>
 
 <script type="text/javascript">
-		$(function(){
-				$('.i-gametit').animate({'top':'0'});
-			})
-		
-		
+	$(function(){
+			$('.i-gametit').animate({'top':'0'});
+	});
+
+    $('.button-tj').click(function(){
+        // $('.hidebox-w').css('display', 'block');
+        $("#reg_form").submit();
+        // alert("pp");
+    });
 </script>
     </body>
 </html>
