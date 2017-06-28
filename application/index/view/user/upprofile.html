@@ -40,22 +40,17 @@
     </a>
 </header>
 
-<form id="find_pass_form" action="{url('index/user/findpassword')}" method="post">
+<form id="profile_form" action="{url('index/user/upprofile')}" method="post">
 <div class="inputbox-o">
     <div class="inputbox">
         <div class="one-input inputbg1">
-            <input type="text" name="username"  placeholder="请输入用户名" />
+            <input type="text" name=""  placeholder="请输入昵称" />
         </div>
-        <div class="one-input inputbg2">
-            <input type="text" name="findpass"  placeholder="请输入密码" />
-        </div>
-        <div class="one-input inputbg2-1">
-            <input type="text" name="re_findpass"  placeholder="请再次输入密码" />
-        </div>
-        <div class="one-input inputbg5">
-            <input type="text" name="mobile"  placeholder="请输入手机号码" />
+        <div class="one-input inputbg6">
+            <input type="text" name=""  placeholder="请输入邮箱" />
         </div>
     </div>
+
 </div>
 <div class="page-box"><div class="button-tj">提交</div></div>
 </form>
@@ -66,8 +61,8 @@
     });
 
     $('.button-tj').click(function(){
-        $("#find_pass_form").submit();
-    });
+        $("#profile_form").submit();
+    });     
 </script>
     </body>
 </html>

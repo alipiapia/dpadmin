@@ -13,27 +13,33 @@ namespace app\index\controller;
 // use app\index\model\User as UserModel;
 
 use think\Validate;
+
 /**
  * 前台用户控制器
  * @package app\index\controller
  */
+
 class User extends Home
 {
     public $user;
+
     public function _initialize(){
         parent::_initialize();
         $this->user = model('User');
         // pp(is_mobile());
 
-        if(is_signin()){
-            $this->redirect(url('index/index/index'));
-        }
+        // if(has_signin()){
+        //     $this->redirect(url('index/index/index'));
+        // }
     }
 
-    //首页
+    /**
+     * 首页
+     * @author pp
+     */
     public function index()
     {
-        pp($this->user->getValue('username'));
+        // pp($this->user->getValue('username'));
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
@@ -42,16 +48,29 @@ class User extends Home
         // $this->login();
     }
 
-    //登录
+    /**
+     * 登录
+     * @author pp
+     */
     public function login()
     {
+        // cookie(null);
+        // pp($_COOKIE);
+        // session(null);
+        // pp($_SESSION);
+        // pp(session('user_auth'));
+        // pp(has_signin());
+        // pp(cookie('signin_token'));
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
+        // if(has_signin()){
+        //     $this->redirect(url('index/index/index'));
+        // }
         if ($this->request->isPost()) {
             // 获取post数据
             $data = $this->request->post();
-            pp($data);
+            // pp($data);
             $rememberme = isset($data['remember-me']) ? true : false;
 
             // // 登录钩子
@@ -61,11 +80,11 @@ class User extends Home
             // }
 
             // 验证数据
-            $result = $this->validate($data, 'User.login');
-            if(true !== $result){
-                // 验证失败 输出错误信息
-                $this->error($result);
-            }
+            // $result = $this->validate($data, 'User.login');
+            // if(true !== $result){
+            //     // 验证失败 输出错误信息
+            //     $this->error($result);
+            // }
 
             // // 验证码
             // if (config('captcha_signin')) {
@@ -78,70 +97,170 @@ class User extends Home
             // }
 
             // 登录
-            $UserModel = new UserModel;
-            $uid = $UserModel->login($data['username'], $data['password'], $rememberme);
+            $uid = $this->user->login($data['username'], $data['password'], $rememberme);
             if ($uid) {
                 // 记录行为
                 // action_log('user_signin', 'admin_user', $uid, $uid);
                 $this->success('登录成功', url('index/ucenter/index'));
             } else {
-                $this->error($UserModel->getError());
+                $this->error($this->user->getError());
             }
         } else {
-            return is_signin() ? $this->redirect('index/ucenter/index') : $this->fetch();
+            // return is_signin() ? $this->redirect('index/ucenter/index') : $this->fetch();
+            if(has_signin()){
+                $this->redirect('index/ucenter/index');
+            }else{
+                return view('login', [
+                        'title' => '登录',
+                ]);                
+            }
         }
     }
 
     /**
      * 退出登录
-     * @author thinkphp
+     * @author pp
      */
-    public function logOut()
+    public function logout()
     {
         session(null);
-        cookie('uid', null);
+        cookie('id', null);
         cookie('signin_token', null);
 
-        return $this->redirect('index/user/login');
+        // return $this->redirect('index/user/login');
+        $this->success('退出成功', url('index/user/login'));
     }
 
-    //注册
+    /**
+     * 注册
+     * @author pp
+     */
     public function register()
     {
-        // if(!is_mobile()){
-        //     return "提示：请使用手机访问！";
-        // }
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
         if ($this->request->isPost()) {
             $data = $this->request->post();
             // pp($data);
 
             // // 验证码
             // if (config('captcha_signin')) {
-            //     $captcha = $this->request->post('captcha', '');
-            //     $captcha == '' && $this->error('请输入验证码');
-            //     if(!captcha_check($captcha, '', config('captcha'))){
-            //         //验证失败
-            //         $this->error('验证码错误或失效');
-            //     };
+                $captcha = $this->request->post('captcha', '');
+                $captcha == '' && $this->error('请输入验证码');
+                if(!captcha_check($captcha, '', config('captcha'))){
+                    //验证失败
+                    $this->error('验证码错误或失效');
+                };
             // }
+
+            // $this->validate($verify,[
+            //     'captcha|验证码'=>'require|captcha'
+            // ]);
 
             $res = $this->user->addData($data);
             if ($res) {
-                $this->success('注册成功', url('index/ucenter/index'));
+                // $this->login($data['username'], $data['password']);
+                $this->user->login($data['username'], $data['password']);
+                $this->success($res, url('index/ucenter/index'));
             } else {
-                $this->error('注册失败');
+                $this->error($res);
             }
         } else {
-            return is_signin() ? $this->redirect('index/ucenter/index') : $this->fetch();
+            // return is_signin() ? $this->redirect('index/ucenter/index') : $this->fetch();
+            if(has_signin()){
+                $this->redirect('index/ucenter/index');
+            }else{
+                return view('register', [
+                        'title' => '注册',
+                ]);                
+            }
         }
     }
 
-    //找回密码
-    public function findPassword()
+    /**
+     * 资料修改
+     * @author pp
+     */
+    public function upprofile()
     {
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        return $this->fetch();
+        // return $this->fetch('findpassword');
+        return view('upprofile', [
+                'title' => '资料修改',
+        ]);
+    }
+
+    /**
+     * 支付密码
+     * @author pp
+     */
+    public function paypass()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            //
+        }else{
+            // return $this->fetch();
+            return view('paypass', [
+                    'title' => '支付密码',
+            ]);
+        }
+    }
+
+    /**
+     * 登录密码
+     * @author pp
+     */
+    public function loginpass()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            $data = $this->request->post();
+            if(!$data['loginpass'] || !$data['new_loginpass'] || !$data['re_new_loginpass'])$this->error("密码不能为空");
+            if($data['new_loginpass'] != $data['re_new_loginpass'])$this->error("两次密码不一致");
+            $checkpass = $this->user->checkpass(UID, $data['loginpass']);
+            if($checkpass){
+                $upId = $this->user->upData(['password' => $data['loginpass']], ['id' => UID]);
+                if($upId){
+                    $this->success("修改成功", url('index/ucenter/index'));
+                }else{
+                    $this->error("修改失败");
+                }
+            }else{
+                $this->error("密码错误");
+            }
+            pp();
+        }else{
+            // return $this->fetch();
+            return view('loginpass', [
+                    'title' => '登录密码',
+            ]);
+        }
+    }
+
+    /**
+     * 找回密码
+     * @author pp
+     */
+    public function findpassword()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            //
+        }else{
+            // return $this->fetch();
+            return view('findpassword', [
+                    'title' => '找回密码',
+            ]);
+        }
     }
 }

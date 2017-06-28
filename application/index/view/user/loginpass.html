@@ -40,20 +40,17 @@
     </a>
 </header>
 
-<form id="find_pass_form" action="{url('index/user/findpassword')}" method="post">
+<form id="login_pass_form" action="{url('index/user/loginpass')}" method="post">
 <div class="inputbox-o">
     <div class="inputbox">
-        <div class="one-input inputbg1">
-            <input type="text" name="username"  placeholder="请输入用户名" />
+        <div class="one-input inputbg2">
+            <input type="text" name="loginpass"  placeholder="请输入原密码" />
         </div>
         <div class="one-input inputbg2">
-            <input type="text" name="findpass"  placeholder="请输入密码" />
+            <input type="text" name="new_loginpass"  placeholder="请输入新密码" />
         </div>
         <div class="one-input inputbg2-1">
-            <input type="text" name="re_findpass"  placeholder="请再次输入密码" />
-        </div>
-        <div class="one-input inputbg5">
-            <input type="text" name="mobile"  placeholder="请输入手机号码" />
+            <input type="text" name="re_new_loginpass"  placeholder="请再次输入新密码" />
         </div>
     </div>
 </div>
@@ -66,8 +63,8 @@
     });
 
     $('.button-tj').click(function(){
-        $("#find_pass_form").submit();
-    });
+        $("#login_pass_form").submit();
+    });    
 </script>
     </body>
 </html>

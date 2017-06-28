@@ -26,7 +26,10 @@ class Product extends Common
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        return $this->fetch();
+        // return $this->fetch();
+        return view('index', [
+                'title' => '商品列表',
+            ]);
     }
 
     //详情
@@ -38,7 +41,8 @@ class Product extends Common
             return "提示：请使用手机访问！";
         }
         // return $this->fetch();
-        return view('product/detail',[
+        return view('detail',[
+                'title' => '商品详情',
                 // 'data' => $product_detail
             ]);
     }

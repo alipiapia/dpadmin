@@ -1,10 +1,10 @@
 <?php
 // +----------------------------------------------------------------------
-// | 框架 [ thinkphp ]
+// | 海豚PHP框架 [ DolphinPHP ]
 // +----------------------------------------------------------------------
-// | 版权所有 2008~2017 thinkphp [ http://www.thinkphp.cn ]
+// | 版权所有 2016~2017 河源市卓锐科技有限公司 [ http://www.zrthink.com ]
 // +----------------------------------------------------------------------
-// | 官方网站: http://thinkphp.cn
+// | 官方网站: http://dolphinphp.com
 // +----------------------------------------------------------------------
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
@@ -15,7 +15,7 @@ use think\Db;
 if (!function_exists('is_signin')) {
     /**
      * 判断是否登录
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
     function is_signin()
@@ -28,7 +28,7 @@ if (!function_exists('get_file_path')) {
     /**
      * 获取附件路径
      * @param int $id 附件id
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return string
      */
     function get_file_path($id = 0)
@@ -45,7 +45,7 @@ if (!function_exists('get_thumb')) {
     /**
      * 获取图片缩略图路径
      * @param int $id 附件id
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return string
      */
     function get_thumb($id = 0)
@@ -62,7 +62,7 @@ if (!function_exists('get_avatar')) {
     /**
      * 获取用户头像路径
      * @param int $uid 用户id
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @alter 小乌 <82950492@qq.com>
      * @return string
      */
@@ -82,7 +82,7 @@ if (!function_exists('get_file_name')) {
     /**
      * 根据附件id获取文件名
      * @param string $id 附件id
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return string
      */
     function get_file_name($id = '')
@@ -100,7 +100,7 @@ if (!function_exists('minify')) {
      * 合并输出js代码或css代码
      * @param string $type 类型：group-分组，file-单个文件，base-基础目录
      * @param string $files 文件名或分组名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      */
     function minify($type = '', $files = '')
     {
@@ -128,7 +128,7 @@ if (!function_exists('ck_js')) {
      * @param string $callback 回调
      * @param string $file_path 文件路径
      * @param string $error_msg 错误信息
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return string
      */
     function ck_js($callback = '', $file_path = '', $error_msg = '')
@@ -162,7 +162,7 @@ if (!function_exists('parse_array')) {
     /**
      * 将一维数组解析成键值相同的数组
      * @param array $arr 一维数组
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return array
      */
     function parse_array($arr) {
@@ -178,7 +178,7 @@ if (!function_exists('parse_config')) {
     /**
      * 解析配置，返回配置值
      * @param array $configs 配置
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return array
      */
     function parse_config($configs = []) {
@@ -240,7 +240,7 @@ if (!function_exists('set_config_value')) {
      * 设置配置的值，并返回配置好的数组
      * @param array $configs 配置
      * @param array $values 配置值
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return array
      */
     function set_config_value($configs = [], $values = []) {
@@ -304,7 +304,7 @@ if (!function_exists('hook')) {
      * @param mixed  $params 传入参数
      * @param mixed  $extra  额外参数
      * @param bool   $once   只获取一个有效返回值
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @alter 小乌 <82950492@qq.com>
      */
     function hook($name = '', $params = null, $extra = null, $once = false) {
@@ -317,7 +317,7 @@ if (!function_exists('module_config')) {
      * 显示当前模块的参数配置页面，或获取参数值，或设置参数值
      * @param string $name
      * @param string $value
-     * @author thinkphp
+     * @author caiweiming <314013107@qq.com>
      * @return mixed
      */
     function module_config($name = '', $value = '')
@@ -344,7 +344,7 @@ if (!function_exists('plugin_menage')) {
     /**
      * 显示插件的管理页面
      * @param string $name 插件名
-     * @author thinkphp
+     * @author caiweiming <314013107@qq.com>
      * @return mixed
      */
     function plugin_menage($name = '')
@@ -358,7 +358,7 @@ if (!function_exists('plugin_config')) {
      * 获取或设置某个插件配置参数
      * @param string $name 插件名.配置名
      * @param string $value 设置值
-     * @author thinkphp
+     * @author caiweiming <314013107@qq.com>
      * @return mixed
      */
     function plugin_config($name = '', $value = '')
@@ -381,7 +381,7 @@ if (!function_exists('get_plugin_class')) {
     /**
      * 获取插件类名
      * @param  string $name 插件名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return string
      */
     function get_plugin_class($name)
@@ -454,7 +454,7 @@ if (!function_exists('format_moment')) {
      * 使用momentjs的时间格式来格式化时间戳
      * @param null $time 时间戳
      * @param string $format momentjs的时间格式
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return false|string
      */
     function format_moment($time = null, $format='YYYY-MM-DD HH:mm') {
@@ -526,7 +526,7 @@ if (!function_exists('format_linkage')) {
     /**
      * 格式化联动数据
      * @param array $data 数据
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return array
      */
     function format_linkage($data = [])
@@ -547,7 +547,7 @@ if (!function_exists('get_auth_node')) {
      * 获取用户授权节点
      * @param int $uid 用户id
      * @param string $group 权限分组，可以以点分开模型名称和分组名称，如user.group
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return array|bool
      */
     function get_auth_node($uid = 0, $group = '')
@@ -562,7 +562,7 @@ if (!function_exists('check_auth_node')) {
      * @param int $uid 用户id
      * @param string $group $group 权限分组，可以以点分开模型名称和分组名称，如user.group
      * @param int $node 需要检查的节点id
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
      */
     function check_auth_node($uid = 0, $group = '', $node = 0)
@@ -577,7 +577,7 @@ if (!function_exists('get_level_data')) {
      * @param string $table 表名
      * @param  integer $pid 父级ID
      * @param  string $pid_field 父级ID的字段名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return false|PDOStatement|string|\think\Collection
      */
     function get_level_data($table = '', $pid = 0, $pid_field = 'pid')
@@ -603,7 +603,7 @@ if (!function_exists('get_level_pid')) {
      * @param int $id 主键值
      * @param string $id_field 主键名
      * @param string $pid_field pid字段名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
     function get_level_pid($table = '', $id = 1, $id_field = 'id', $pid_field = 'pid')
@@ -621,7 +621,7 @@ if (!function_exists('get_level_key_data')) {
      * @param string $name_field name字段名
      * @param string $pid_field pid字段名
      * @param int $level 级别
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return array
      */
     function get_level_key_data($table = '', $id = '', $id_field = 'id', $name_field = 'name', $pid_field = 'pid', $level = 1)
@@ -649,7 +649,7 @@ if (!function_exists('plugin_action_exists')) {
      * @param string $name 插件名
      * @param string $controller 控制器
      * @param string $action 动作
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
      */
     function plugin_action_exists($name = '', $controller = '', $action = '')
@@ -665,7 +665,7 @@ if (!function_exists('plugin_model_exists')) {
     /**
      * 检查插件模型是否存在
      * @param string $name 插件名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
      */
     function plugin_model_exists($name = '')
@@ -678,7 +678,7 @@ if (!function_exists('plugin_validate_exists')) {
     /**
      * 检查插件验证器是否存在
      * @param string $name 插件名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
      */
     function plugin_validate_exists($name = '')
@@ -691,7 +691,7 @@ if (!function_exists('get_plugin_model')) {
     /**
      * 获取插件模型实例
      * @param  string $name 插件名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return object
      */
     function get_plugin_model($name)
@@ -709,7 +709,7 @@ if (!function_exists('plugin_action')) {
      * @param string $controller 控制器
      * @param string $action 动作
      * @param mixed $params 参数
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
     function plugin_action($name = '', $controller = '', $action = '', $params = [])
@@ -731,7 +731,7 @@ if (!function_exists('get_plugin_validate')) {
     /**
      * 获取插件验证类实例
      * @param string $name 插件名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
      */
     function get_plugin_validate($name = '')
@@ -747,7 +747,7 @@ if (!function_exists('plugin_url')) {
      * @param string $url 链接：插件名称/控制器/操作
      * @param array $param 参数
      * @param string $module 模块名，admin需要登录验证，index不需要登录验证
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return string
      */
     function plugin_url($url = '', $param = [], $module = 'admin')
@@ -777,7 +777,7 @@ if (!function_exists('public_url')) {
      * 生成插件操作链接(不需要登陆验证)
      * @param string $url 链接：插件名称/控制器/操作
      * @param array $param 参数
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return string
      */
     function public_url($url = '', $param = [])
@@ -791,7 +791,7 @@ if (!function_exists('clear_js')) {
     /**
      * 过滤js内容
      * @param string $str 要过滤的字符串
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed|string
      */
     function clear_js($str = '')
@@ -856,7 +856,7 @@ if (!function_exists('action_log')) {
      * @param null $user_id 执行行为的用户id
      * @param string $details 详情
      * @author huajie <banhuajie@163.com>
-     * @alter thinkphp
+     * @alter 蔡伟明 <314013107@qq.com>
      * @return bool|string
      */
     function action_log($action = null, $model = null, $record_id = '', $user_id = null, $details = '')
@@ -952,7 +952,7 @@ if (!function_exists('parse_action')) {
      * @param string $action 行为id或者name
      * @param int $self 替换规则里的变量为执行用户的id
      * @author huajie <banhuajie@163.com>
-     * @alter thinkphp
+     * @alter 蔡伟明 <314013107@qq.com>
      * @return boolean|array: false解析出错 ， 成功返回规则数组
      */
     function parse_action($action = null, $self){
@@ -1003,7 +1003,7 @@ if (!function_exists('execute_action')) {
      * @param int $action_id 行为id
      * @param array $user_id 执行的用户id
      * @author huajie <banhuajie@163.com>
-     * @alter thinkphp
+     * @alter 蔡伟明 <314013107@qq.com>
      * @return boolean false 失败 ， true 成功
      */
     function execute_action($rules = false, $action_id = null, $user_id = null){
@@ -1039,7 +1039,7 @@ if (!function_exists('get_location')) {
      * @param string $id 节点id，如果没有指定，则取当前节点id
      * @param bool $del_last_url 是否删除最后一个节点的url地址
      * @param bool $check 检查节点是否存在，不存在则抛出错误
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return mixed
      */
     function get_location($id = '', $del_last_url = false, $check = true)
@@ -1053,7 +1053,7 @@ if (!function_exists('packet_exists')) {
     /**
      * 查询数据包是否存在，即是否已经安装
      * @param string $name 数据包名
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return bool
      */
     function packet_exists($name = '')
@@ -1071,7 +1071,7 @@ if (!function_exists('load_assets')) {
      * 加载静态资源
      * @param string $assets 资源名称
      * @param string $type 资源类型
-     * @author thinkphp
+     * @author 蔡伟明 <314013107@qq.com>
      * @return string
      */
     function load_assets($assets = '', $type = 'css')
@@ -1138,53 +1138,5 @@ if (!function_exists('admin_url')) {
         $url = url($url, $vars, $suffix, $domain);
         $url = preg_replace('/^\/index.php/', '/admin.php', $url);
         return $url;
-    }
-}
-
-if (!function_exists('is_mobile')) {
-    /**
-     * 检查是否为移动设备
-     * @author pp
-     * @return boolean
-     */
-    function is_mobile()
-    {
-        // 如果有HTTP_X_WAP_PROFILE则一定是移动设备
-        if (isset ($_SERVER['HTTP_X_WAP_PROFILE'])){
-            return true;
-        } 
-        // 如果via信息含有wap则一定是移动设备,部分服务商会屏蔽该信息
-        if (isset ($_SERVER['HTTP_VIA'])){ 
-            // 找不到为flase,否则为true
-            return stristr($_SERVER['HTTP_VIA'], "wap") ? true : false;
-        } 
-        // 脑残法，判断手机发送的客户端标志,兼容性有待提高
-        if (isset ($_SERVER['HTTP_USER_AGENT'])){
-            $clientkeywords = ['nokia','sony','ericsson','mot','samsung','htc','sgh','lg','sharp','sie-','philips','panasonic','alcatel','lenovo','iphone','ipod','blackberry','meizu','android','netfront','symbian','ucweb','windowsce','palm','operamini','operamobi','openwave','nexusone','cldc','midp','wap','mobile']; 
-            // 从HTTP_USER_AGENT中查找手机浏览器的关键字
-            if (preg_match("/(" . implode('|', $clientkeywords) . ")/i", strtolower($_SERVER['HTTP_USER_AGENT']))){
-                return true;
-            } 
-        } 
-        // 协议法，因为有可能不准确，放到最后判断
-        if (isset ($_SERVER['HTTP_ACCEPT'])){ 
-            // 如果只支持wml并且不支持html那一定是移动设备
-            // 如果支持wml和html但是wml在html之前则是移动设备
-            if ((strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') !== false) && (strpos($_SERVER['HTTP_ACCEPT'], 'text/html') === false || (strpos($_SERVER['HTTP_ACCEPT'], 'vnd.wap.wml') < strpos($_SERVER['HTTP_ACCEPT'], 'text/html')))){
-                return true;
-            } 
-        } 
-        return false;
-    }
-}
-
-if (!function_exists('pp')) {
-    /**
-     * 断点打印测试
-     * @author pp
-     * @return boolean
-     */
-    function pp($arr){        
-        var_dump($arr);die;
     }
 }

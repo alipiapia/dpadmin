@@ -36,11 +36,11 @@ class Home extends Common
         }
 
         // 判断是否登录，并定义用户ID常量
-        defined('UID') or define('UID', is_signin());
+        defined('UID') or define('UID', has_signin());
         
         // 前台公共模板
         $this->assign('_index_base_layout', config('index_base_layout'));
 
-        // pp(is_signin());
+        // pp(has_signin());
     }
 }

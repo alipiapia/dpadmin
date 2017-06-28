@@ -4,7 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale =1, maximum-scale =1, user-scalable = no" />
         <meta name="format-detection" content="telephone=no"/>
-        <title>注册页</title>
+        <title>{$title}</title>
         <link type="text/css" href="__HOME_CSS__/lib.css"  rel="stylesheet"/>
         <link type="text/css" href="__HOME_CSS__/style.css"  rel="stylesheet"/>
        
@@ -27,7 +27,7 @@
     	
     </div>
 </div>
-<header class="toptit">注册
+<header class="toptit">{$title}
     <a href="JavaScript:history.go(-1)">
         <div class="go-back">
             <img src="__HOME_IMG__/arrow-l.png" />
@@ -57,12 +57,14 @@
         </div>
         <div class="one-input inputbg3">
         	<input type="text" name="captcha" class=" input-yzm" placeholder="请输入验证码"  />
-            <div class="button-yzm">4578</div>
+            <!-- <div class="button-yzm">1111</div> -->
+            <!-- <div class="button-yzm">{:captcha_img()}</div> -->
+            <div class="button-yzm"><img src="{:captcha_src()}" onclick="this.src='{:captcha_src()}?x='+Math.random();" /></div>
         </div>
     </div>
     <div class="steptext">&nbsp;</div>
 </div>
-<div class="page-box"><div class="button-tj">注册</div></div>
+<div class="page-box"><div class="button-tj">提交</div></div>
 </form>
 
 <script type="text/javascript">

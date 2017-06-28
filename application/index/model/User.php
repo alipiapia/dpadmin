@@ -22,12 +22,6 @@ use think\Validate;
  */
 class User extends Model
 {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     // 设置当前模型对应的完整数据表名称
     protected $table = '__USER__';
 
@@ -65,18 +59,36 @@ class User extends Model
      * @return array|false|\PDOStatement|string|Model
      */
     public function getOneData($where, $field = "*"){
-        $lists = $this->where($where)->field($field)->find();
-        return $lists;
+        return $this->where($where)->field($field)->find();
+    }
+
+    /**查询一条数据
+     * @param $where
+     * @param string $field
+     * @return array
+     */
+    public function getOneDarry($where, $field="*"){
+        $returndata = [];
+        $data = $this->where($where)->field($field)->find();
+        if(!empty($data)){
+          $returndata = $data->toArray();
+        }
+        return $returndata;
     }
 
     public function addData($data){
+        $data['username'] = trim($data['username']);
+        $data['password'] = trim($data['password']);
+
         //定义验证规则
         $rule = [
             'username|用户名' => 'require|alphaNum|unique:User',
             'password|密码'  => 'require|length:6,20',
-            'ref_mobile|推荐人手机号'      => 'require',
+            // 'mobile|手机号'      => 'require',
+            'mobile|手机号'   => 'require|regex:^1\d{10}|unique:User',
+            // 'ref_mobile|推荐人手机号'      => 'require',
+            'ref_mobile|推荐人手机号'   => 'require|regex:^1\d{10}',
             // 'email|邮箱'     => 'email|unique:User',
-            'mobile|手机号'   => 'regex:^1\d{10}|unique:User',
         ];
 
         //定义验证提示
@@ -87,16 +99,35 @@ class User extends Model
             // 'email.unique'     => '该邮箱已存在',
             'password.require' => '密码不能为空',
             'password.length'  => '密码长度6-20位',
+            'mobile.require' => '密码不能为空',
             'mobile.regex'     => '手机号不正确',
+            'ref_mobile.require' => '推荐人手机号不能为空',
+            'ref_mobile.regex'     => '推荐人手机号不正确',
         ];
         
         $result = $this->allowField(true)->validate($rule,$msg)->save($data);
 
         if(false === $result){
-            return false;
+            return $this->getError();
         }else{
-            return '添加成功';
+            return '注册成功';
         }
+    }
+
+    public function upData($data, $where){
+        // $data = array_merge($data, $where);
+        // return $data;
+        // return $this->data($data,true)->isUpdate(true)->save();
+        // return db('ArticleOrder')->where($where)->save($data);
+        return $this->allowField(true)->save($data,$where);
+    }
+
+    //密码验证
+    public function checkpass($uid, $password){
+        $password = trim($password);
+        $userInfo = $this->getOneDarry(['id' => $uid]);
+        $check = Hash::check((string)$password, $userInfo['password']);
+        return $check ? 1 : 0;
     }
 
     public function register($data){
@@ -149,24 +180,27 @@ class User extends Model
             $map['username'] = $username;
         }
 
-        $map['status'] = 1;
+        // $map['status'] = 1;
 
         // 查找用户
         $user = $this::get($map);
+        // $userArr = db('user')->where($map)->find();
+        $userArr = $this->getOneDarry($map);
+        // pp($userArr);
         if (!$user) {
             $this->error = '用户不存在或被禁用！';
         } else {
-            if (!Hash::check((string)$password, $user->password)) {
+            if (!Hash::check((string)$password, $userArr['password'])) {
                 $this->error = '密码错误！';
             } else {
-                $uid = $user->id;
+                $id = $userArr['id'];
 
                 // 更新登录信息
                 $user->last_login_time = request()->time();
                 $user->last_login_ip   = get_client_ip(1);
                 if ($user->save()) {
                     // 自动登录
-                    return $this->autoLogin($this::get($uid), $rememberme);
+                    return $this->autoLogin($this::get($id), $rememberme);
                 } else {
                     // 更新登录信息失败
                     $this->error = '登录信息更新失败，请重新登录！';
@@ -186,21 +220,24 @@ class User extends Model
      */
     public function autoLogin($user, $rememberme = false)
     {
+        // pp($user);
         // 记录登录SESSION和COOKIES
         $auth = array(
-            'uid'             => $user->id,
-            'ref_user_id'     => $user->ref_user_id,
-            'avatar'          => $user->avatar,
+            'id'             => $user->id,
             'username'        => $user->username,
-            'nickname'        => $user->nickname,
+            'mobile'     => $user->mobile,
+            'ref_mobile'     => $user->ref_mobile,
             'last_login_time' => $user->last_login_time,
             'last_login_ip'   => get_client_ip(1),
         );
         session('user_auth', $auth);
+        session('user_auth_sign', $this->dataAuthSign($auth));
 
         // 记住登录
         if ($rememberme) {
-            cookie('uid', $user->id, 24 * 3600 * 7);
+            $signin_token = $user->username.$user->id.$user->last_login_time;
+            cookie('id', $user->id, 24 * 3600 * 7);
+            cookie('signin_token', $this->dataAuthSign($signin_token), 24 * 3600 * 7);
         }
 
         return $user->id;
@@ -238,8 +275,8 @@ class User extends Model
         $user = session('user_auth');
         if (empty($user)) {
             // 判断是否记住登录
-            if (cookie('?uid') && cookie('?signin_token')) {
-                $user = $this::get(cookie('uid'));
+            if (cookie('?id') && cookie('?signin_token')) {
+                $user = $this::get(cookie('id'));
                 if ($user) {
                     $signin_token = $this->dataAuthSign($user->username.$user->id.$user->last_login_time);
                     if (cookie('signin_token') == $signin_token) {
@@ -251,7 +288,7 @@ class User extends Model
             };
             return 0;
         }else{
-            return session('user_auth_sign') == $this->dataAuthSign($user) ? $user['uid'] : 0;
+            return session('user_auth_sign') == $this->dataAuthSign($user) ? $user['id'] : 0;
         }
     }
 }

@@ -15,13 +15,23 @@ namespace app\index\controller;
  * 前台个人中心控制器
  * @package app\index\controller
  */
+
 class Ucenter extends Home
 {
+        
+    protected $user;
+
     protected function _initialize(){
         parent::_initialize();
-        // pp(is_mobile());
+        $this->user = controller('index/User', 'model');
+        // pp(has_signin());
+        // pp(session('user_auth'));
+        // cookie(null);
+        // pp($_COOKIE);
+        // session(null);
+        // pp($_SESSION);
 
-        if(!is_signin()){
+        if(!has_signin()){
             $this->redirect(url('index/user/login'));
         }
     }
@@ -29,10 +39,20 @@ class Ucenter extends Home
     //首页
     public function index()
     {
-        return '个人中心';
+        // return '个人中心';
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        return $this->fetch();
+
+        //获取用户信息
+        $sessionUser =session('user_auth');
+        $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
+        // pp($userInfo);
+
+        // return $this->fetch();
+        return view('index', [
+                'title' => '会员中心',
+                'user' => $userInfo,
+            ]);
     }
 }

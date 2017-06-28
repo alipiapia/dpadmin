@@ -21,10 +21,14 @@ class Cart extends Home
     //首页
     public function index()
     {
-        return '购物车';
+        // return '购物车';
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        return $this->fetch();
+        // return $this->fetch();
+        return view('index', [
+                'title' => '购物车',
+                // 'user' => $userInfo,
+            ]);
     }
 }

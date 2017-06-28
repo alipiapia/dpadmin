@@ -42,10 +42,10 @@
 <!-- END Error Content -->
 
 <!-- Error Footer -->
-<div class="content pulldown text-muted text-center">
+<!-- <div class="content pulldown text-muted text-center">
     thinkPHP，让开发更简单！<br>
     由 <a class="link-effect" href="http://www.thinkphp.cn">thinkphp</a> 强力驱动 <a class="link-effect" href="http://www.thinkphp.cn">thinkphp</a> 倾情奉献
-</div>
+</div> -->
 <!-- END Error Footer -->
 
 <script type="text/javascript">
