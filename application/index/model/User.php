@@ -130,31 +130,6 @@ class User extends Model
         return $check ? 1 : 0;
     }
 
-    public function register($data){
-        //定义验证规则
-        $rule = [
-            'username|用户名' => 'require|alphaNum|unique:User',
-            'password|密码'  => 'require|length:6,20',
-            'ref_mobile|推荐人手机号'      => 'require',
-            // 'email|邮箱'     => 'email|unique:User',
-            'mobile|手机号'   => 'regex:^1\d{10}|unique:User',
-        ];
-
-        //定义验证提示
-        $msg = [
-            'username.require' => '请输入用户名',
-            // 'email.require'    => '邮箱不能为空',
-            // 'email.email'      => '邮箱格式不正确',
-            // 'email.unique'     => '该邮箱已存在',
-            'password.require' => '密码不能为空',
-            'password.length'  => '密码长度6-20位',
-            'mobile.regex'     => '手机号不正确',
-        ];
-        $validate = new Validate($rule, $msg);
-        $result = $validate->check($data);
-        return $result;
-    }
-
     /**
      * 用户登录
      * @param string $username 用户名

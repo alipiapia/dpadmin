@@ -25,6 +25,10 @@ class Home extends Common
      */
     protected function _initialize()
     {
+        // cookie(null);
+        // pp($_COOKIE);
+        // session(null);
+        // pp($_SESSION);
         // 系统开关
         if (!config('web_site_status')) {
             $this->error('站点已经关闭，请稍后访问~');

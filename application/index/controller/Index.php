@@ -21,6 +21,10 @@ class Index extends Common
 {
     public function index()
     {
+        // cookie(null);
+        // pp($_COOKIE);
+        // session(null);
+        // pp($_SESSION);
         // 默认跳转模块
         if (config('home_default_module') != 'index') {
             $this->redirect(config('home_default_module'). '/index/index');

@@ -223,18 +223,21 @@ class User extends Home
         }
         if(request()->isPost()){
             $data = $this->request->post();
+            // $result = $this->validate($data['loginpass'], 'User');
+            // pp($result);
             if(!$data['loginpass'] || !$data['new_loginpass'] || !$data['re_new_loginpass'])$this->error("密码不能为空");
-            if($data['new_loginpass'] != $data['re_new_loginpass'])$this->error("两次密码不一致");
+            if($data['new_loginpass'] !== $data['re_new_loginpass'])$this->error("两次新密码不一致");
+            if($data['loginpass'] == $data['new_loginpass'])$this->error("新密码不能和原密码相同");
             $checkpass = $this->user->checkpass(UID, $data['loginpass']);
             if($checkpass){
-                $upId = $this->user->upData(['password' => $data['loginpass']], ['id' => UID]);
+                $upId = $this->user->upData(['password' => $data['new_loginpass']], ['id' => UID]);
                 if($upId){
                     $this->success("修改成功", url('index/ucenter/index'));
                 }else{
                     $this->error("修改失败");
                 }
             }else{
-                $this->error("密码错误");
+                $this->error("原密码错误");
             }
             pp();
         }else{

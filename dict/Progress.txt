@@ -1,0 +1,106 @@
+
+【用户/会员】模块【周期：一周（0626-0630）】
+	1，用户基础信息管理；
+		a，建立用户/会员表@dp_user
+			CREATE TABLE `dp_user` (
+			`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+			`username` varchar(32) NOT NULL COMMENT '用户名',
+			`nickname` varchar(32) NOT NULL DEFAULT '' COMMENT '昵称',
+			`password` varchar(96) NOT NULL DEFAULT '' COMMENT '登录密码',
+			`paypass` varchar(96) NOT NULL DEFAULT '' COMMENT '支付密码',
+			`email` varchar(64) NOT NULL DEFAULT '' COMMENT '邮箱地址',
+			`mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机号码',
+			`ref_mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '推荐人手机号码',
+			`balance` decimal(11,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '余额',
+			`score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '积分',
+			`signup_ip` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '注册ip',
+			`create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
+			`update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+			`last_login_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后一次登录时间',
+			`last_login_ip` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '登录ip',
+			`status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态:0启用, 1禁用',
+			PRIMARY KEY (`id`)
+			) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户/会员表';
+		b,用户注册;【完の结】
+		c，用户登录;【完の结】
+		d,用户资料修改（昵称、邮箱等）；
+		e,登录密码、支付密码修改；
+		f,收货地址；
+			建立收货地址表@dp_user_address
+			CREATE TABLE `dp_user_address` (
+			`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+			`uid` int(11) unsigned NOT NULL DEFAULT '' COMMENT '用户id',
+			`name` varchar(1000) NOT NULL DEFAULT '' COMMENT '地址',
+			`postcode` varchar(10) NOT NULL DEFAULT '' COMMENT '邮编',
+			`is_defaut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为默认地址：0否 1是',
+			`create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
+			`update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+			`status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '状态:0启用, 1禁用',
+			PRIMARY KEY (`id`)
+			) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户收货地址表';
+		
+	2,账户变动；
+		a,建立用户资金变动表@dp_user_account;
+			CREATE TABLE `dp_user_account` (
+			`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+			`put_id` int(11) unsigned NOT NULL DEFAULT '' COMMENT '发起方用户id',
+			`get_id` int(11) unsigned NOT NULL DEFAULT '' COMMENT '接收方用户id',
+			`count` decimal(11,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '变动余额',
+			`type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '变动类型：0充值 1返利 2提成',
+			`title` varchar(255) NOT NULL DEFAULT '' COMMENT '变动说明',
+			`create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
+			`update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
+			PRIMARY KEY (`id`)
+			) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户资金变动表';
+			
+	3，分销管理【后台】；
+		a,建表@dp_admin_distribution;
+			
+	4，权限管理【后台】；
+		a,用户授权；
+		b,角色管理；
+		
+	5,后台用户增删查改【后台】；
+
+【商品】模块【周期：四天（0701-0709）】
+	1,商品管理；
+		a,建表@admin_product
+			id/商品id
+			product_name/商品名称
+			origin_price/商品进价
+			price/销售价格
+			agent_price/代理价格
+			is_recommended/是否热销
+			is_group/是否团购
+			待续...
+			
+	2,后台商品增删查改；
+
+【订单】模块【周期：四天（0701-0709）】
+	1，订单管理；
+		a,建表@admin_order
+			id/订单id
+			product_id/商品id
+			product_price/商品单价
+			product_count/商品数量
+			order_amount/订单总价
+			shipping_amount/快递费用
+			put_user_id/发货人
+			get_user_id/收货人
+			order_status/订单状态(0未发货1已发货未签收2已签收未评价3已评价)
+			get_user_address/收货地址join收货地址表@admin_user_address
+			pay_status/支付状态(0未支付1支付中2支付失败3已支付)
+			pay_type/支付类型(wxpay/alipay)
+			
+	2,后台订单增删查改；
+
+【购物车】模块
+	1，建表@admin_cart;
+	2,购物车增删查改；
+
+【其它】
+	1，客户留言@admin_custom_message;
+	2，
+
+【后期测试修复】【周期：一周左右】
+	
