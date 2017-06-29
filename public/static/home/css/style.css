@@ -63,7 +63,7 @@ a img{ border:0;}
 .inputbox-o{ width:100%; overflow:hidden; margin-top:10px;}
 .inputbox{ width:100%; overflow:hidden; background:#fff; padding:0 10px;	}
 .one-input{ width:100%; overflow:hidden; height:50px; border-bottom:1px solid #dcdcdc; padding:5px;  box-sizing:border-box; color:#333;}
-.one-input input[type="text"]{ width:auto; overflow:hidden; box-shadow:none; border:0; line-height:20px; color:#999; text-indent:24px; font-size:1.1em; color:#000; padding:0; margin:10px 0;}
+.one-input input{ width:auto; overflow:hidden; box-shadow:none; border:0; line-height:20px; color:#999; text-indent:24px; font-size:1.1em; color:#000; padding:0; margin:10px 0;}
 .none-borderbottom{ border-bottom:0;}
 .inputbg1{ background:url(../img/icon01.png) no-repeat left  center; background-size:24px 24px;}
 .inputbg2{ background:url(../img/icon02.png) no-repeat left  center; background-size:24px 24px;}

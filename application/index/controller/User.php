@@ -187,10 +187,26 @@ class User extends Home
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        // return $this->fetch('findpassword');
-        return view('upprofile', [
-                'title' => '资料修改',
-        ]);
+        $userInfo = $this->user->getOneDarry(['id' => UID]);
+        if(request()->isPost()){
+            $data = request()->post();
+            // pp($data);
+            if(!$data['nickname'])$this->error("昵称不能为空");
+            if(!$data['email'])$this->error("邮箱不能为空");
+
+            $upId = $this->user->upData(['nickname' => $data['nickname'], 'email' => $data['email']], ['id' => UID]);
+            if($upId){
+                $this->success("修改成功", url('index/ucenter/index'));
+            }else{
+                $this->error("修改失败");
+            }
+        }else{
+            // return $this->fetch('findpassword');
+            return view('upprofile', [
+                    'title' => '资料修改',
+                    'user' => $userInfo,
+            ]);            
+        }
     }
 
     /**
@@ -202,12 +218,37 @@ class User extends Home
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
+        $origin_paypass = $this->user->getValue(['id' => UID], 'paypass');//原密码
         if(request()->isPost()){
-            //
+            $data = $this->request->post();
+            
+            if(isset($data['paypass'])){
+                if(!$data['paypass'] || !$data['new_paypass'] || !$data['re_new_paypass'])$this->error("密码不能为空");
+                if($data['new_paypass'] != $data['re_new_paypass'])$this->error("两次新密码不一致");
+                if($data['paypass'] == $data['new_paypass'])$this->error("新密码不能和原密码相同");
+                $checkpass = $this->user->checkPass(UID, 'paypass', $data['paypass']);
+                if($checkpass){
+                    goto end;
+                }else{
+                    $this->error("原密码错误");
+                }                
+            }else{
+                if(!$data['new_paypass'] || !$data['re_new_paypass'])$this->error("密码不能为空");
+                if($data['new_paypass'] != $data['re_new_paypass'])$this->error("两次新密码不一致");
+                goto end;
+            }
+            end:
+            $upId = $this->user->upData(['paypass' => $data['new_paypass']], ['id' => UID]);
+            if($upId){
+                $this->success("修改成功", url('index/ucenter/index'));
+            }else{
+                $this->error("修改失败");
+            }
         }else{
             // return $this->fetch();
             return view('paypass', [
                     'title' => '支付密码',
+                    'origin_paypass' => $origin_paypass,
             ]);
         }
     }
@@ -228,7 +269,7 @@ class User extends Home
             if(!$data['loginpass'] || !$data['new_loginpass'] || !$data['re_new_loginpass'])$this->error("密码不能为空");
             if($data['new_loginpass'] !== $data['re_new_loginpass'])$this->error("两次新密码不一致");
             if($data['loginpass'] == $data['new_loginpass'])$this->error("新密码不能和原密码相同");
-            $checkpass = $this->user->checkpass(UID, $data['loginpass']);
+            $checkpass = $this->user->checkPass(UID, 'password', $data['loginpass']);
             if($checkpass){
                 $upId = $this->user->upData(['password' => $data['new_loginpass']], ['id' => UID]);
                 if($upId){
@@ -239,7 +280,6 @@ class User extends Home
             }else{
                 $this->error("原密码错误");
             }
-            pp();
         }else{
             // return $this->fetch();
             return view('loginpass', [
@@ -263,6 +303,25 @@ class User extends Home
             // return $this->fetch();
             return view('findpassword', [
                     'title' => '找回密码',
+            ]);
+        }
+    }
+
+    /**
+     * 收货地址
+     * @author pp
+     */
+    public function address()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            //
+        }else{
+            // return $this->fetch();
+            return view('address', [
+                    'title' => '收货地址',
             ]);
         }
     }

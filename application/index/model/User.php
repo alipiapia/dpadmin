@@ -34,6 +34,12 @@ class User extends Model
         return Hash::make((string)$value);
     }
 
+    // 对支付密码进行加密
+    public function setPaypassAttr($value)
+    {
+        return Hash::make((string)$value);
+    }
+
     // 获取注册ip
     public function setSignupIpAttr()
     {
@@ -123,10 +129,14 @@ class User extends Model
     }
 
     //密码验证
-    public function checkpass($uid, $password){
-        $password = trim($password);
+    public function checkPass($uid, $pass, $word){
+        $word = trim($word);
         $userInfo = $this->getOneDarry(['id' => $uid]);
-        $check = Hash::check((string)$password, $userInfo['password']);
+        // if(isset($userInfo["'". $pass . "'"])){
+            $check = Hash::check((string)$word, $userInfo[$pass]);
+        // }else{
+        //     $check = 1;
+        // }
         return $check ? 1 : 0;
     }
 

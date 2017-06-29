@@ -26,7 +26,7 @@ return [
     // 模块描述[选填]
     'description' => '门户模块',
     // 开发者[必填]
-    'author'      => 'thinkphp',
+    'author'      => 'pp',
     // 开发者网址[选填]
     'author_url'  => 'http://www.thinkphp.cn',
     // 版本[必填],格式采用三段式：主版本号.次版本号.修订版本号

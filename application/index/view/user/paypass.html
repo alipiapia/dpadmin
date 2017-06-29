@@ -43,14 +43,16 @@
 <form id="pay_pass_form" action="{url('index/user/paypass')}" method="post">
 <div class="inputbox-o">
     <div class="inputbox">
+        {notempty name="origin_paypass"}
         <div class="one-input inputbg2">
-            <input type="text" name="paypass"  placeholder="请输入原密码" />
+            <input type="password" name="paypass"  placeholder="请输入原密码" />
         </div>
+        {/notempty}
         <div class="one-input inputbg2">
-            <input type="text" name="new_paypass"  placeholder="请输入新密码" />
+            <input type="password" name="new_paypass"  placeholder="请输入新密码" />
         </div>
         <div class="one-input inputbg2-1">
-            <input type="text" name="re_new_paypass"  placeholder="请再次输入新密码" />
+            <input type="password" name="re_new_paypass"  placeholder="请再次输入新密码" />
         </div>
     </div>
 </div>
