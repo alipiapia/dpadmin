@@ -27,42 +27,33 @@
         
     </div>
 </div>
-<header class="toptit">{$title}
-    <a href="JavaScript:history.go(-1)">
-        <div class="go-back">
-            <img src="__HOME_IMG__/arrow-l.png" />
-        </div>
-    </a>
-    <a href="{:url('index/index/index')}">
-        <div class="go-home">
-            <img src="__HOME_IMG__/home.png" />
-        </div>
-    </a>
-</header>
 
-<form id="profile_form" action="{url('index/user/upprofile')}" method="post">
-<div class="inputbox-o">
-    <div class="inputbox">
-        <div class="one-input inputbg1">
-            <input type="text" name="nickname" value="{$user.nickname}" placeholder="请输入昵称" />
-        </div>
-        <div class="one-input inputbg4">
-            <input type="text" name="email" value="{$user.email}" placeholder="请输入邮箱" />
-        </div>
-    </div>
-
+<div class="topsearch">
+    {$title}
 </div>
-<div class="page-box"><div class="button-tj">提交</div></div>
-</form>
+
+<div>
+    
+</div>
+
+
+<footer>
+<div class="space1"></div>
+<div class="bottom-o">
+    <ul class="bottom">
+        <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
+        <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
+        <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
+        <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
+    </ul>
+ </div>
 
 <script type="text/javascript">
-    $(function(){
-        $('.i-gametit').animate({'top':'0'});
-    });
-
-    $('.button-tj').click(function(){
-        $("#profile_form").submit();
-    });     
+        $(function(){
+                $('.i-gametit').animate({'top':'0'});
+            })
+        
+        
 </script>
     </body>
 </html>

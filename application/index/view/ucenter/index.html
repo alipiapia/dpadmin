@@ -14,59 +14,81 @@
         <script type="text/javascript" src="__HOME_JS__/jquery.touchSlider.js"></script>
 
         <script type="text/javascript" src="__HOME_JS__/jquery.flexslider-min.js"></script>
-
-        
     </head>
     <body>
 
-<!--隐藏浮层-->
-<div class="hidebox-w" style="display:none;">
-    <div class="hidebox">
-        <div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-        提示文字信息
-        
-    </div>
-</div>
-
-<div class="topsearch">
-    {$title}
-    <a href="{:url('index/index/index')}">
-        <div class="go-home">
-            <img src="__HOME_IMG__/home.png" />
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+            <div class="hidebox">
+                <div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+                提示文字信息  
+            </div>
         </div>
-    </a>
-</div>
 
-<div>
-    <span>欢迎回来,{$user.username}!</span>
-    <ul>
-        <li>当前余额:{$user.balance}元</li>
-        <li><a href="JavaScript:history.go(-1)">返回</a></li>
-        <li><a href="{:url('index/user/address')}">收货地址</a></li>
-        <li><a href="{:url('index/user/upprofile')}">资料修改</a></li>
-        <li><a href="{:url('index/user/paypass')}">支付密码</a></li>
-        <li><a href="{:url('index/user/loginpass')}">登录密码</a></li>
-        <!-- <li><a href="{:url('index/user/findpassword')}">找回密码</a></li> -->
-        <li><a href="{:url('index/user/logout')}">退出</a></li>
-    </ul>
-</div>
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
+                </div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
 
+        <div class="u-ad">
+            <img src="__HOME_IMG__/u-ad.jpg" />
+        </div>
 
-<footer>
-<div class="space1"></div>
-<div class="bottom-o">
-    <ul class="bottom">
-        <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
-        <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
-        <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
-        <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
-    </ul>
- </div>
+        <ul class="u-info">
+            <li>当前余额：<span>{$user.balance}</span></li>
+            <li>会员编号：<span>{$user.id}</span></li>
+        </ul>
 
-<script type="text/javascript">
-        $(function(){
-                $('.i-gametit').animate({'top':'0'});
-            });
-</script>
+        <ul class="u-buyinfo">
+            <li><a href="{:url('index/order/index')}">待付款(<span>1</span>)</a></li>
+            <li><a href="{:url('index/order/index')}">待发货(<span>3</span>)</a></li>
+            <li><a href="{:url('index/order/index')}">已完成(<span>5</span>)</a></li>
+            <li><a href="{:url('index/order/index')}">已删除(<span>9</span>)</a></li>
+        </ul>
+
+        <div class="u-list-o">
+            <a href="{:url('index/cart/index')}"><div class="u-list"><img src="__HOME_IMG__/u-icon01.png" />我的购物车(2)</div></a>
+            <a href="{:url('index/order/index')}"><div class="u-list"><img src="__HOME_IMG__/u-icon02.png" />我的订单</div></a>
+            <a href="{:url('index/user/address')}"><div class="u-list"><img src="__HOME_IMG__/u-icon03.png" />收货地址</div></a>
+            <a href="{:url('index/bill/index')}"><div class="u-list"><img src="__HOME_IMG__/u-icon04.png" />资金明细</div></a>
+            <a href="{:url('index/user/paypass')}"><div class="u-list"><img src="__HOME_IMG__/u-icon05.png" />支付密码</div></a>
+            <a href="{:url('index/user/loginpass')}"><div class="u-list"><img src="__HOME_IMG__/u-icon07.png" />登录密码</div></a>
+            <a href="{:url('index/user/profile')}"><div class="u-list"><img src="__HOME_IMG__/u-icon06.png" />资料修改</div></a>
+            <a href="{:url('index/commission/index')}"><div class="u-list"><img src="__HOME_IMG__/u-icon08.png" />我的提成</div></a>
+            <a href="{:url('index/user/logout')}"><div class="u-list"><img src="__HOME_IMG__/u-icon09.png" />退出系统</div></a>
+        </div>
+
+        <footer>
+        <div class="space1"></div>
+        <div class="bottom-o">
+            <ul class="bottom">
+                <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
+                <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
+                <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
+                <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
+            </ul>
+         </div>
+         </footer>
+
+        <script type="text/javascript">
+                $(function(){
+                    $('#home_slider').flexslider({
+                        animation : 'slide',                           
+                    });
+                });
+
+                $(function(){
+                    $('.i-gametit').animate({'top':'0'});
+                });
+        </script>
     </body>
 </html>

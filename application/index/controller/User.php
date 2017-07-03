@@ -118,20 +118,6 @@ class User extends Home
     }
 
     /**
-     * 退出登录
-     * @author pp
-     */
-    public function logout()
-    {
-        session(null);
-        cookie('id', null);
-        cookie('signin_token', null);
-
-        // return $this->redirect('index/user/login');
-        $this->success('退出成功', url('index/user/login'));
-    }
-
-    /**
      * 注册
      * @author pp
      */
@@ -179,33 +165,57 @@ class User extends Home
     }
 
     /**
-     * 资料修改
+     * 订单
      * @author pp
      */
-    public function upprofile()
+    public function order()
     {
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        $userInfo = $this->user->getOneDarry(['id' => UID]);
         if(request()->isPost()){
-            $data = request()->post();
-            // pp($data);
-            if(!$data['nickname'])$this->error("昵称不能为空");
-            if(!$data['email'])$this->error("邮箱不能为空");
-
-            $upId = $this->user->upData(['nickname' => $data['nickname'], 'email' => $data['email']], ['id' => UID]);
-            if($upId){
-                $this->success("修改成功", url('index/ucenter/index'));
-            }else{
-                $this->error("修改失败");
-            }
+            //
         }else{
-            // return $this->fetch('findpassword');
-            return view('upprofile', [
-                    'title' => '资料修改',
-                    'user' => $userInfo,
-            ]);            
+            return view('order', [
+                    'title' => '个人中心-我的订单',
+            ]);
+        }
+    }
+
+    /**
+     * 收货地址
+     * @author pp
+     */
+    public function address()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            //
+        }else{
+            // return $this->fetch();
+            return view('address', [
+                    'title' => '个人中心-收货地址',
+            ]);
+        }
+    }
+
+    /**
+     * 资金明细
+     * @author pp
+     */
+    public function bill()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            //
+        }else{
+            return view('bill', [
+                    'title' => '个人中心-资金明细',
+            ]);
         }
     }
 
@@ -247,7 +257,7 @@ class User extends Home
         }else{
             // return $this->fetch();
             return view('paypass', [
-                    'title' => '支付密码',
+                    'title' => '个人中心-支付密码',
                     'origin_paypass' => $origin_paypass,
             ]);
         }
@@ -283,9 +293,72 @@ class User extends Home
         }else{
             // return $this->fetch();
             return view('loginpass', [
-                    'title' => '登录密码',
+                    'title' => '个人中心-登录密码',
             ]);
         }
+    }
+
+    /**
+     * 资料修改
+     * @author pp
+     */
+    public function profile()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        $userInfo = $this->user->getOneDarry(['id' => UID]);
+        if(request()->isPost()){
+            $data = request()->post();
+            // pp($data);
+            if(!$data['nickname'])$this->error("昵称不能为空");
+            if(!$data['email'])$this->error("邮箱不能为空");
+
+            $upId = $this->user->upData(['nickname' => $data['nickname'], 'email' => $data['email']], ['id' => UID]);
+            if($upId){
+                $this->success("修改成功", url('index/ucenter/index'));
+            }else{
+                $this->error("修改失败");
+            }
+        }else{
+            // return $this->fetch('findpassword');
+            return view('profile', [
+                    'title' => '个人中心-资料修改',
+                    'user' => $userInfo,
+            ]);            
+        }
+    }
+
+    /**
+     * 提成
+     * @author pp
+     */
+    public function commission()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            //
+        }else{
+            return view('commission', [
+                    'title' => '个人中心-我的提成',
+            ]);
+        }
+    }
+
+    /**
+     * 退出登录
+     * @author pp
+     */
+    public function logout()
+    {
+        session(null);
+        cookie('id', null);
+        cookie('signin_token', null);
+
+        // return $this->redirect('index/user/login');
+        $this->success('退出成功', url('index/user/login'));
     }
 
     /**
@@ -303,25 +376,6 @@ class User extends Home
             // return $this->fetch();
             return view('findpassword', [
                     'title' => '找回密码',
-            ]);
-        }
-    }
-
-    /**
-     * 收货地址
-     * @author pp
-     */
-    public function address()
-    {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-        if(request()->isPost()){
-            //
-        }else{
-            // return $this->fetch();
-            return view('address', [
-                    'title' => '收货地址',
             ]);
         }
     }

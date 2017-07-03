@@ -37,4 +37,15 @@ class Index extends Common
 
         return $this->fetch();
     }
+
+    /**
+     * 未登录跳转
+     * @author pp
+     */
+    public function loginpatch()
+    {
+        return view('loginpatch', [
+                'title' => '登录提示',
+            ]);
+    }
 }

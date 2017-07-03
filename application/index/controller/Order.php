@@ -12,11 +12,11 @@
 namespace app\index\controller;
 
 /**
- * 前台个人中心控制器
+ * 前台订单控制器
  * @package app\index\controller
  */
 
-class Ucenter extends Home
+class Order extends Home
 {
         
     protected $user;
@@ -32,8 +32,8 @@ class Ucenter extends Home
         // pp($_SESSION);
 
         if(!has_signin()){
-            $this->redirect(url('index/index/loginpatch'));
-            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
+            // $this->redirect(url('index/user/login'));
+            $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
         }
     }
 
@@ -52,8 +52,26 @@ class Ucenter extends Home
 
         // return $this->fetch();
         return view('index', [
-                'title' => '个人中心',
+                'title' => '个人中心-我的订单',
                 'user' => $userInfo,
             ]);
+    }
+
+    /**
+     * 订单详情
+     * @author pp
+     */
+    public function detail()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            //
+        }else{
+            return view('detail', [
+                    'title' => '个人中心-订单详情',
+            ]);
+        }
     }
 }

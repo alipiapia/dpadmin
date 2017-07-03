@@ -40,32 +40,24 @@
         </a>
     </header>
 
-    <form id="pay_pass_form" action="{url('index/user/paypass')}" method="post">
+    <form id="profile_form" action="{url('index/user/profile')}" method="post">
         <div class="probox">
-            {notempty name="origin_paypass"}
-            <div class="address-edit">
-                <div class="address-edit-l">
-                    原始密码：
+            <div class="inputbox">
+                <div class="address-edit">
+                    <div class="address-edit-l">
+                        昵称：
+                    </div>
+                    <div class="address-edit-l">
+                    <input type="text" name="nickname" value="{$user.nickname}" placeholder="请输入昵称" />
+                    </div>
                 </div>
-                <div class="address-edit-r">
-                    <input type="password" name="paypass"  placeholder="请输入原密码" />
-                </div>
-            </div>
-            {/notempty}
-            <div class="address-edit">
-                <div class="address-edit-l">
-                    新密码：
-                </div>
-                <div class="address-edit-l">
-                    <input type="password" name="new_paypass"  placeholder="请输入新密码" />
-                </div>
-            </div>
-            <div class="address-edit">
-                <div class="address-edit-l">
-                    确认密码：
-                </div>
-                <div class="address-edit-l">
-                    <input type="password" name="re_new_paypass"  placeholder="请再次输入新密码" />
+                <div class="address-edit">
+                    <div class="address-edit-l">
+                        邮箱：
+                    </div>
+                    <div class="address-edit-l">
+                    <input type="text" name="email" value="{$user.email}" placeholder="请输入邮箱" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -73,20 +65,14 @@
         <div class="space1"></div>
     </form>
 
-
     <script type="text/javascript">
-        $('#home_slider').flexslider({
-            animation : 'slide',
-           
-        });
-
         $(function(){
             $('.i-gametit').animate({'top':'0'});
         });
 
         $('.button-tj').click(function(){
-            $("#pay_pass_form").submit();
-        });
+            $("#profile_form").submit();
+        });     
     </script>
     </body>
 </html>

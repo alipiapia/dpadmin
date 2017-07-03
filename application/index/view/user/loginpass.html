@@ -19,52 +19,71 @@
     </head>
     <body>
 
-<!--隐藏浮层-->
-<div class="hidebox-w" style="display:none;">
-    <div class="hidebox">
-        <div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-        提示文字信息
-        
-    </div>
-</div>
-<header class="toptit">{$title}
-    <a href="JavaScript:history.go(-1)">
-        <div class="go-back">
-            <img src="__HOME_IMG__/arrow-l.png" />
-        </div>
-    </a>
-    <a href="{:url('index/index/index')}">
-        <div class="go-home">
-            <img src="__HOME_IMG__/home.png" />
-        </div>
-    </a>
-</header>
-
-<form id="login_pass_form" action="{url('index/user/loginpass')}" method="post">
-<div class="inputbox-o">
-    <div class="inputbox">
-        <div class="one-input inputbg2">
-            <input type="password" name="loginpass"  placeholder="请输入原密码" />
-        </div>
-        <div class="one-input inputbg2">
-            <input type="password" name="new_loginpass"  placeholder="请输入新密码" />
-        </div>
-        <div class="one-input inputbg2-1">
-            <input type="password" name="re_new_loginpass"  placeholder="请再次输入新密码" />
+    <!--隐藏浮层-->
+    <div class="hidebox-w" style="display:none;">
+        <div class="hidebox">
+            <div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+            提示文字信息
+            
         </div>
     </div>
-</div>
-<div class="page-box"><div class="button-tj">提交</div></div>
-</form>
+    <header class="toptit">{$title}
+        <a href="JavaScript:history.go(-1)">
+            <div class="go-back">
+                <img src="__HOME_IMG__/arrow-l.png" />
+            </div>
+        </a>
+        <a href="{:url('index/index/index')}">
+            <div class="go-home">
+                <img src="__HOME_IMG__/home.png" />
+            </div>
+        </a>
+    </header>
 
-<script type="text/javascript">
-    $(function(){
-        $('.i-gametit').animate({'top':'0'});
-    });
+    <form id="login_pass_form" action="{url('index/user/loginpass')}" method="post">
+        <div class="probox">
+            <div class="address-edit">
+                <div class="address-edit-l">
+                    原始密码：
+                </div>
+                <div class="address-edit-r">
+                    <input type="password" name="loginpass"  placeholder="请输入原密码" />
+                </div>
+            </div>
+            <div class="address-edit">
+                <div class="address-edit-l">
+                    新密码：
+                </div>
+                <div class="address-edit-l">
+                    <input type="password" name="new_loginpass"  placeholder="请输入新密码" />
+                </div>
+            </div>
+            <div class="address-edit">
+                <div class="address-edit-l">
+                    确认密码：
+                </div>
+                <div class="address-edit-l">
+                    <input type="password" name="re_new_loginpass"  placeholder="请再次输入新密码" />
+                </div>
+            </div>
+        </div>
+        <div class="page-box"><div class="button-tj">确认修改</div></div>
+        <div class="space1"></div>
+    </form>
 
-    $('.button-tj').click(function(){
-        $("#login_pass_form").submit();
-    });    
-</script>
+    <script type="text/javascript">
+        $('#home_slider').flexslider({
+            animation : 'slide',
+           
+        });
+
+        $(function(){
+            $('.i-gametit').animate({'top':'0'});
+        });
+
+        $('.button-tj').click(function(){
+            $("#login_pass_form").submit();
+        });    
+    </script>
     </body>
 </html>
