@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50547
 File Encoding         : 65001
 
-Date: 2017-06-30 16:38:51
+Date: 2017-07-04 16:35:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -177,7 +177,7 @@ INSERT INTO `dp_admin_config` VALUES ('15', 'upload_image_ext', '允许上传的
 INSERT INTO `dp_admin_config` VALUES ('16', 'list_rows', '分页数量', 'system', 'number', '20', '', '每页的记录数', '', '', '', '', '', '2', '', '', '', '', '1475242066', '1476074507', '101', '1');
 INSERT INTO `dp_admin_config` VALUES ('17', 'system_color', '后台配色方案', 'system', 'radio', 'default', 'default:Default\r\namethyst:Amethyst\r\ncity:City\r\nflat:Flat\r\nmodern:Modern\r\nsmooth:Smooth', '', '', '', '', '', '', '2', '', '', '', '', '1475250066', '1477316689', '102', '1');
 INSERT INTO `dp_admin_config` VALUES ('18', 'develop_mode', '开发模式', 'develop', 'radio', '1', '0:关闭\r\n1:开启', '', '', '', '', '', '', '2', '', '', '', '', '1476864205', '1476864231', '100', '1');
-INSERT INTO `dp_admin_config` VALUES ('19', 'app_trace', '显示页面Trace', 'develop', 'radio', '1', '0:否\r\n1:是', '', '', '', '', '', '', '2', '', '', '', '', '1476866355', '1476866355', '100', '1');
+INSERT INTO `dp_admin_config` VALUES ('19', 'app_trace', '显示页面Trace', 'develop', 'radio', '0', '0:否\r\n1:是', '', '', '', '', '', '', '2', '', '', '', '', '1476866355', '1476866355', '100', '1');
 INSERT INTO `dp_admin_config` VALUES ('21', 'data_backup_path', '数据库备份根路径', 'database', 'text', './data/', '', '路径必须以 / 结尾', '', '', '', '', '', '2', '', '', '', '', '1477017745', '1477018467', '100', '1');
 INSERT INTO `dp_admin_config` VALUES ('22', 'data_backup_part_size', '数据库备份卷大小', 'database', 'text', '20971520', '', '该值用于限制压缩后的分卷最大长度。单位：B；建议设置20M', '', '', '', '', '', '2', '', '', '', '', '1477017886', '1477017886', '100', '1');
 INSERT INTO `dp_admin_config` VALUES ('23', 'data_backup_compress', '数据库备份文件是否启用压缩', 'database', 'radio', '1', '0:否\r\n1:是', '压缩备份文件需要PHP环境支持 <code>gzopen</code>, <code>gzwrite</code>函数', '', '', '', '', '', '2', '', '', '', '', '1477017978', '1477018172', '100', '1');
@@ -261,7 +261,7 @@ CREATE TABLE `dp_admin_log` (
   KEY `action_ip_ix` (`action_ip`),
   KEY `action_id_ix` (`action_id`),
   KEY `user_id_ix` (`user_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=81 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表';
+) ENGINE=MyISAM AUTO_INCREMENT=103 DEFAULT CHARSET=utf8 ROW_FORMAT=FIXED COMMENT='行为日志表';
 
 -- ----------------------------
 -- Records of dp_admin_log
@@ -346,6 +346,28 @@ INSERT INTO `dp_admin_log` VALUES ('77', '30', '1', '2130706433', 'admin_menu', 
 INSERT INTO `dp_admin_log` VALUES ('78', '30', '1', '2130706433', 'admin_menu', '524', '超级管理员 添加了节点：所属模块(admin),所属节点ID(501),节点标题(快速编辑),节点链接(admin/order/quickedit)', '1', '1498807086');
 INSERT INTO `dp_admin_log` VALUES ('79', '30', '1', '2130706433', 'admin_menu', '525', '超级管理员 添加了节点：所属模块(admin),所属节点ID(516),节点标题(分销管理),节点链接(admin/distribution/index)', '1', '1498807446');
 INSERT INTO `dp_admin_log` VALUES ('80', '8', '1', '2130706433', 'admin_role', '2', '超级管理员 编辑了角色：普通管理员', '1', '1498809948');
+INSERT INTO `dp_admin_log` VALUES ('81', '16', '1', '2130706433', 'admin_config', '19', '超级管理员 编辑了配置：字段(status)，原值(1)，新值：(false)', '1', '1499146274');
+INSERT INTO `dp_admin_log` VALUES ('82', '16', '1', '2130706433', 'admin_config', '19', '超级管理员 编辑了配置：字段(status)，原值(0)，新值：(true)', '1', '1499146280');
+INSERT INTO `dp_admin_log` VALUES ('83', '16', '1', '2130706433', 'admin_config', '19', '超级管理员 编辑了配置：字段(status)，原值(1)，新值：(false)', '1', '1499146313');
+INSERT INTO `dp_admin_log` VALUES ('84', '16', '1', '2130706433', 'admin_config', '19', '超级管理员 编辑了配置：字段(status)，原值(0)，新值：(true)', '1', '1499146322');
+INSERT INTO `dp_admin_log` VALUES ('85', '42', '1', '2130706433', 'admin_config', '0', '超级管理员 更新了系统设置：分组(develop)', '1', '1499147210');
+INSERT INTO `dp_admin_log` VALUES ('86', '42', '1', '2130706433', 'admin_config', '0', '超级管理员 更新了系统设置：分组(develop)', '1', '1499147234');
+INSERT INTO `dp_admin_log` VALUES ('87', '42', '1', '2130706433', 'admin_config', '0', '超级管理员 更新了系统设置：分组(develop)', '1', '1499151413');
+INSERT INTO `dp_admin_log` VALUES ('88', '42', '1', '2130706433', 'admin_config', '0', '超级管理员 更新了系统设置：分组(develop)', '1', '1499151446');
+INSERT INTO `dp_admin_log` VALUES ('89', '42', '1', '2130706433', 'admin_config', '0', '超级管理员 更新了系统设置：分组(develop)', '1', '1499151520');
+INSERT INTO `dp_admin_log` VALUES ('90', '30', '1', '2130706433', 'admin_menu', '526', '超级管理员 添加了节点：所属模块(admin),所属节点ID(517),节点标题(商品分类),节点链接(admin/product/category)', '1', '1499151946');
+INSERT INTO `dp_admin_log` VALUES ('91', '30', '1', '2130706433', 'admin_menu', '527', '超级管理员 添加了节点：所属模块(admin),所属节点ID(526),节点标题(新增),节点链接(admin/category/add)', '1', '1499152146');
+INSERT INTO `dp_admin_log` VALUES ('92', '31', '1', '2130706433', 'admin_menu', '526', '超级管理员 编辑了节点：节点ID(526)', '1', '1499152174');
+INSERT INTO `dp_admin_log` VALUES ('93', '30', '1', '2130706433', 'admin_menu', '528', '超级管理员 添加了节点：所属模块(admin),所属节点ID(526),节点标题(编辑),节点链接(admin/category/edit)', '1', '1499152231');
+INSERT INTO `dp_admin_log` VALUES ('94', '30', '1', '2130706433', 'admin_menu', '529', '超级管理员 添加了节点：所属模块(admin),所属节点ID(526),节点标题(删除),节点链接(admin/category/delete)', '1', '1499152273');
+INSERT INTO `dp_admin_log` VALUES ('95', '30', '1', '2130706433', 'admin_menu', '530', '超级管理员 添加了节点：所属模块(admin),所属节点ID(526),节点标题(保存),节点链接(admin/category/save)', '1', '1499152305');
+INSERT INTO `dp_admin_log` VALUES ('96', '30', '1', '2130706433', 'admin_menu', '531', '超级管理员 添加了节点：所属模块(admin),所属节点ID(526),节点标题(快速编辑),节点链接(admin/category/quickedit)', '1', '1499152358');
+INSERT INTO `dp_admin_log` VALUES ('97', '30', '1', '2130706433', 'admin_menu', '532', '超级管理员 添加了节点：所属模块(admin),所属节点ID(517),节点标题(商品规格),节点链接(admin/specification/index)', '1', '1499152744');
+INSERT INTO `dp_admin_log` VALUES ('98', '30', '1', '2130706433', 'admin_menu', '533', '超级管理员 添加了节点：所属模块(admin),所属节点ID(532),节点标题(新增),节点链接(admin/specification/add)', '1', '1499152810');
+INSERT INTO `dp_admin_log` VALUES ('99', '30', '1', '2130706433', 'admin_menu', '534', '超级管理员 添加了节点：所属模块(admin),所属节点ID(532),节点标题(编辑),节点链接(admin/specification/edit)', '1', '1499152845');
+INSERT INTO `dp_admin_log` VALUES ('100', '30', '1', '2130706433', 'admin_menu', '535', '超级管理员 添加了节点：所属模块(admin),所属节点ID(532),节点标题(删除),节点链接(admin/specification/delete)', '1', '1499152869');
+INSERT INTO `dp_admin_log` VALUES ('101', '30', '1', '2130706433', 'admin_menu', '536', '超级管理员 添加了节点：所属模块(admin),所属节点ID(532),节点标题(保存),节点链接(admin/specification/save)', '1', '1499152899');
+INSERT INTO `dp_admin_log` VALUES ('102', '30', '1', '2130706433', 'admin_menu', '537', '超级管理员 添加了节点：所属模块(admin),所属节点ID(532),节点标题(快速编辑),节点链接(admin/specification/quickedit)', '1', '1499152925');
 
 -- ----------------------------
 -- Table structure for dp_admin_menu
@@ -367,7 +389,7 @@ CREATE TABLE `dp_admin_menu` (
   `system_menu` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '是否为系统菜单，系统菜单不可删除',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=526 DEFAULT CHARSET=utf8 COMMENT='后台菜单表';
+) ENGINE=MyISAM AUTO_INCREMENT=538 DEFAULT CHARSET=utf8 COMMENT='后台菜单表';
 
 -- ----------------------------
 -- Records of dp_admin_menu
@@ -490,6 +512,18 @@ INSERT INTO `dp_admin_menu` VALUES ('522', '501', 'admin', '删除', '', 'module
 INSERT INTO `dp_admin_menu` VALUES ('523', '501', 'admin', '保存', '', 'module', 'admin/order/save', '_self', '0', '1498807051', '1498807051', '100', '0', '1');
 INSERT INTO `dp_admin_menu` VALUES ('524', '501', 'admin', '快速编辑', '', 'module', 'admin/order/quickedit', '_self', '0', '1498807086', '1498807086', '100', '0', '1');
 INSERT INTO `dp_admin_menu` VALUES ('525', '516', 'admin', '分销管理', 'fa fa-fw fa-sitemap', 'module', 'admin/distribution/index', '_self', '0', '1498807446', '1498807446', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('526', '517', 'admin', '商品分类', 'fa fa-fw fa-th', 'module', 'admin/category/index', '_self', '0', '1499151946', '1499152174', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('527', '526', 'admin', '新增', '', 'module', 'admin/category/add', '_self', '0', '1499152146', '1499152146', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('528', '526', 'admin', '编辑', '', 'module', 'admin/category/edit', '_self', '0', '1499152231', '1499152231', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('529', '526', 'admin', '删除', '', 'module', 'admin/category/delete', '_self', '0', '1499152273', '1499152273', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('530', '526', 'admin', '保存', '', 'module', 'admin/category/save', '_self', '0', '1499152305', '1499152305', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('531', '526', 'admin', '快速编辑', '', 'module', 'admin/category/quickedit', '_self', '0', '1499152358', '1499152358', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('532', '517', 'admin', '商品规格', 'fa fa-fw fa-stack-exchange', 'module', 'admin/specification/index', '_self', '0', '1499152744', '1499152744', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('533', '532', 'admin', '新增', '', 'module', 'admin/specification/add', '_self', '0', '1499152810', '1499152810', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('534', '532', 'admin', '编辑', '', 'module', 'admin/specification/edit', '_self', '0', '1499152845', '1499152845', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('535', '532', 'admin', '删除', '', 'module', 'admin/specification/delete', '_self', '0', '1499152869', '1499152869', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('536', '532', 'admin', '保存', '', 'module', 'admin/specification/save', '_self', '0', '1499152899', '1499152899', '100', '0', '1');
+INSERT INTO `dp_admin_menu` VALUES ('537', '532', 'admin', '快速编辑', '', 'module', 'admin/specification/quickedit', '_self', '0', '1499152925', '1499152925', '100', '0', '1');
 
 -- ----------------------------
 -- Table structure for dp_admin_module
@@ -513,7 +547,7 @@ CREATE TABLE `dp_admin_module` (
   `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
   `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='模块表';
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COMMENT='模块表';
 
 -- ----------------------------
 -- Records of dp_admin_module
@@ -627,7 +661,7 @@ CREATE TABLE `dp_admin_user` (
 -- ----------------------------
 -- Records of dp_admin_user
 -- ----------------------------
-INSERT INTO `dp_admin_user` VALUES ('1', 'admin', '超级管理员', '$2y$10$XYO0G./2.zPgYqsCPxf7b.bstQz3eluHHTiP13MKi0WUKNH6SNbMq', '', '0', '18888888888', '0', '1', '0.00', '0', '1', '0', '0', '1476065410', '1498809871', '1498809871', '2130706433', '100', '1');
+INSERT INTO `dp_admin_user` VALUES ('1', 'admin', '超级管理员', '$2y$10$XYO0G./2.zPgYqsCPxf7b.bstQz3eluHHTiP13MKi0WUKNH6SNbMq', '', '0', '18888888888', '0', '1', '0.00', '0', '1', '0', '0', '1476065410', '1499131465', '1499131464', '2130706433', '100', '1');
 INSERT INTO `dp_admin_user` VALUES ('2', 'user001', '张三', '$2y$10$8AKuaOmWBwj14WWawy0W0euVvbqWAMV.8AFRq1Vf2Jem0SJyXz0p6', 'user001@gmail.com', '0', '15924909999', '0', '2', '0.00', '0', '2', '0', '0', '1498198746', '1498810016', '1498810016', '2130706433', '100', '1');
 
 -- ----------------------------
@@ -658,4 +692,4 @@ CREATE TABLE `dp_user` (
 -- ----------------------------
 -- Records of dp_user
 -- ----------------------------
-INSERT INTO `dp_user` VALUES ('1', 'pp001', 'alipiapia', '$2y$10$hca465wKC38uyF4bJ3bD2.cH2C.2faLSF.sKMX1YBc81AV7i04lDC', '$2y$10$n8lvK5Ryz14xgcDaciEPVOuWCwxr1cQQu2kY0NMlqcqwAP5L4JBgK', 'pp@qq.com', '15924900001', '15924900000', '0.00', '0', '0', '1498706855', '1498785638', '1498785637', '2130706433', '100', '0');
+INSERT INTO `dp_user` VALUES ('1', 'pp001', 'alipiapia', '$2y$10$hca465wKC38uyF4bJ3bD2.cH2C.2faLSF.sKMX1YBc81AV7i04lDC', '$2y$10$n8lvK5Ryz14xgcDaciEPVOuWCwxr1cQQu2kY0NMlqcqwAP5L4JBgK', 'pp@qq.com', '15924900001', '15924900000', '0.00', '0', '0', '1498706855', '1499131496', '1499131496', '2130706433', '100', '0');

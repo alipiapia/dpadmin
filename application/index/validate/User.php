@@ -9,7 +9,7 @@
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
-namespace app\user\validate;
+namespace app\index\validate;
 
 use think\Validate;
 
