@@ -13,13 +13,13 @@ namespace app\admin\controller;
 
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
-use app\index\model\User as UserModel;
+use app\index\model\Product as ProductModel;
 use util\Tree;
 use think\Db;
 
 /**
  * 商品控制器
- * @package app\user\admin
+ * @package app\admin\controller
  */
 class Product extends Admin
 {
@@ -35,25 +35,24 @@ class Product extends Admin
         $map = $this->getMap();
 
         // 数据列表
-        $data_list = UserModel::where($map)->order('sort,id desc')->paginate();
+        $data_list = ProductModel::where($map)->order('sort,id desc')->paginate();
 
         // 分页数据
         $page = $data_list->render();
 
         // 使用ZBuilder快速创建数据表格
         return ZBuilder::make('table')
-            ->setPageTitle('用户管理') // 设置页面标题
-            ->setTableName('User') // 设置数据表名
-            ->setSearch(['id' => 'ID', 'username' => '用户名', 'mobile' => '手机号', 'email' => '邮箱']) // 设置搜索参数
+            ->setPageTitle('商品管理') // 设置页面标题
+            ->setTableName('Product') // 设置数据表名
+            ->setSearch(['id' => 'ID', 'name' => '商品名称']) // 设置搜索参数
             ->addColumns([ // 批量添加列
                 ['id', 'ID'],
-                ['username', '用户名'],
-                ['nickname', '昵称'],
-                ['email', '邮箱'],
-                ['mobile', '手机号'],
-                ['balance', '余额'],
-                ['score', '积分'],
-                ['create_time', '创建时间', 'datetime'],
+                ['name', '名称', 'text.edit'],
+                ['picture', '封面', 'picture'],
+                ['cate', '分类', 'text.edit'],
+                ['brand', '品牌', 'text.edit'],
+                ['spec', '规格', 'text.edit'],
+                ['created_at', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
@@ -75,13 +74,13 @@ class Product extends Admin
         if ($this->request->isPost()) {
             $data = $this->request->post();
             // 验证
-            $result = $this->validate($data, 'User');
+            $result = $this->validate($data, 'Product');
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 
-            if ($user = UserModel::create($data)) {
+            if ($product = ProductModel::create($data)) {
                 // 记录行为
-                action_log('user_add', 'admin_user', $user['id'], UID);
+                action_log('product_add', 'product', $product['id'], UID);
                 return $this->success('新增成功', url('index'));
             } else {
                 return $this->error('新增失败');
@@ -90,13 +89,21 @@ class Product extends Admin
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
-            ->setPageTitle('新增') // 设置页面标题
+            ->setPageTitle('新增商品') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
-                ['text', 'username', '用户名', '必填，可由英文字母、数字组成'],
-                ['text', 'nickname', '昵称', '可以是中文'],
-                ['text', 'email', '邮箱', ''],
-                ['password', 'password', '密码', '必填，6-20位'],
-                ['text', 'mobile', '手机号'],
+                ['text', 'name', '商品名称', '必填'],
+                ['text', 'cate', '分类'],
+                ['text', 'brand', '品牌'],
+                ['text', 'spec', '规格'],
+                ['image', 'picture', '商品封面'],
+                ['images', 'pictures', '商品图片', '详情多图'],
+                ['textarea', 'desc', '详情'],
+                ['text', 'market_price', '市场价'],
+                ['text', 'cost_price', '成本价'],
+                ['text', 'price', '销售价'],
+                ['text', 'promotion_price', '代理价'],
+                ['text', 'stock', '商品库存'],
+                ['text', 'group_days', '团购天数'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
             ->fetch();
@@ -117,18 +124,13 @@ class Product extends Admin
             $data = $this->request->post();
 
             // 验证
-            $result = $this->validate($data, 'User.update');
+            $result = $this->validate($data, 'Product.update');
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 
-            // 如果没有填写密码，则不更新密码
-            if ($data['password'] == '') {
-                unset($data['password']);
-            }
-
-            if ($user = UserModel::update($data)) {
+            if ($product = ProductModel::update($data)) {
                 // 记录行为
-                action_log('user_edit', 'admin_user', $user['id'], UID, get_nickname($user['id']));
+                action_log('product_edit', 'product', $product['id'], UID, get_nickname($product['id']));
                 return $this->success('编辑成功', cookie('__forward__'));
             } else {
                 return $this->error('编辑失败');
@@ -136,18 +138,26 @@ class Product extends Admin
         }
 
         // 获取数据
-        $info = UserModel::where('id', $id)->field('password', true)->find();
+        $info = ProductModel::where('id', $id)->find();
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
             ->setPageTitle('编辑') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
                 ['hidden', 'id'],
-                ['static', 'username', '用户名', '不可更改'],
-                ['text', 'nickname', '昵称', '可以是中文'],
-                ['text', 'email', '邮箱', ''],
-                ['password', 'password', '密码', '必填，6-20位'],
-                ['text', 'mobile', '手机号'],
+                ['text', 'name', '商品名称', '必填'],
+                ['text', 'cate', '分类'],
+                ['text', 'brand', '品牌'],
+                ['text', 'spec', '规格'],
+                ['image', 'picture', '商品封面'],
+                ['images', 'pictures', '商品图片', '详情多图'],
+                ['textarea', 'desc', '详情'],
+                ['text', 'market_price', '市场价'],
+                ['text', 'cost_price', '成本价'],
+                ['text', 'price', '销售价'],
+                ['text', 'promotion_price', '代理价'],
+                ['text', 'stock', '商品库存'],
+                ['text', 'group_days', '团购天数'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])
             ->setFormData($info) // 设置表单数据
@@ -202,7 +212,7 @@ class Product extends Admin
         // }
         $uid_delete = is_array($ids) ? '' : $ids;
         $ids        = array_map('get_nickname', (array)$ids);
-        return parent::setStatus($type, ['user_'.$type, 'admin_user', $uid_delete, UID, implode('、', $ids)]);
+        return parent::setStatus($type, ['product_'.$type, 'product', $uid_delete, UID, implode('、', $ids)]);
     }
 
     /**
@@ -217,8 +227,8 @@ class Product extends Admin
         // $id      == UID && $this->error('禁止操作当前账号');
         $field   = input('post.name', '');
         $value   = input('post.value', '');
-        $config  = UserModel::where('id', $id)->value($field);
+        $config  = ProductModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['user_edit', 'admin_user', $id, UID, $details]);
+        return parent::quickEdit(['product_edit', 'product', $id, UID, $details]);
     }
 }

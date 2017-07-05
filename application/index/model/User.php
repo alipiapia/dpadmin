@@ -14,7 +14,6 @@ namespace app\index\model;
 use think\Model;
 use think\helper\Hash;
 use think\Db;
-use think\Validate;
 
 /**
  * 后台用户模型
@@ -88,7 +87,7 @@ class User extends Model
 
         //定义验证规则
         $rule = [
-            'username|用户名' => 'require|alphaNum|unique:User',
+            'username|用户名' => 'require|chsDash|unique:User',
             'password|密码'  => 'require|length:6,20',
             // 'mobile|手机号'      => 'require',
             'mobile|手机号'   => 'require|regex:^1\d{10}|unique:User',
@@ -100,13 +99,16 @@ class User extends Model
         //定义验证提示
         $msg = [
             'username.require' => '请输入用户名',
+            'username.chsDash' => '请输入有效字符',
+            'username.unique'     => '该用户名已存在',
             // 'email.require'    => '邮箱不能为空',
             // 'email.email'      => '邮箱格式不正确',
             // 'email.unique'     => '该邮箱已存在',
             'password.require' => '密码不能为空',
             'password.length'  => '密码长度6-20位',
-            'mobile.require' => '密码不能为空',
+            'mobile.require' => '手机号不能为空',
             'mobile.regex'     => '手机号不正确',
+            'mobile.unique'     => '该手机号已存在',
             'ref_mobile.require' => '推荐人手机号不能为空',
             'ref_mobile.regex'     => '推荐人手机号不正确',
         ];

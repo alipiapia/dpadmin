@@ -53,7 +53,7 @@ class User extends Admin
                 ['mobile', '手机号'],
                 ['balance', '余额'],
                 ['score', '积分'],
-                ['create_time', '创建时间', 'datetime'],
+                ['created_at', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
@@ -81,7 +81,7 @@ class User extends Admin
 
             if ($user = UserModel::create($data)) {
                 // 记录行为
-                action_log('user_add', 'admin_user', $user['id'], UID);
+                action_log('user_add', 'user', $user['id'], UID);
                 return $this->success('新增成功', url('index'));
             } else {
                 return $this->error('新增失败');
@@ -94,9 +94,10 @@ class User extends Admin
             ->addFormItems([ // 批量添加表单项
                 ['text', 'username', '用户名', '必填，可由英文字母、数字组成'],
                 ['text', 'nickname', '昵称', '可以是中文'],
-                ['text', 'email', '邮箱', ''],
                 ['password', 'password', '密码', '必填，6-20位'],
+                ['text', 'email', '邮箱', ''],
                 ['text', 'mobile', '手机号'],
+                ['text', 'ref_mobile', '推荐人手机号'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
             ->fetch();
@@ -128,7 +129,7 @@ class User extends Admin
 
             if ($user = UserModel::update($data)) {
                 // 记录行为
-                action_log('user_edit', 'admin_user', $user['id'], UID, get_nickname($user['id']));
+                // action_log('user_edit', 'user', $user['id'], UID, get_nickname($user['id']));
                 return $this->success('编辑成功', cookie('__forward__'));
             } else {
                 return $this->error('编辑失败');
@@ -145,9 +146,10 @@ class User extends Admin
                 ['hidden', 'id'],
                 ['static', 'username', '用户名', '不可更改'],
                 ['text', 'nickname', '昵称', '可以是中文'],
-                ['text', 'email', '邮箱', ''],
                 ['password', 'password', '密码', '必填，6-20位'],
+                ['text', 'email', '邮箱', ''],
                 ['text', 'mobile', '手机号'],
+                ['text', 'ref_mobile', '推荐人手机号'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])
             ->setFormData($info) // 设置表单数据
@@ -202,7 +204,7 @@ class User extends Admin
         // }
         $uid_delete = is_array($ids) ? '' : $ids;
         $ids        = array_map('get_nickname', (array)$ids);
-        return parent::setStatus($type, ['user_'.$type, 'admin_user', $uid_delete, UID, implode('、', $ids)]);
+        return parent::setStatus($type, ['user_'.$type, 'user', $uid_delete, UID, implode('、', $ids)]);
     }
 
     /**
@@ -219,6 +221,6 @@ class User extends Admin
         $value   = input('post.value', '');
         $config  = UserModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['user_edit', 'admin_user', $id, UID, $details]);
+        return parent::quickEdit(['user_edit', 'user', $id, UID, $details]);
     }
 }

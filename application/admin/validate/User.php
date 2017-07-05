@@ -9,13 +9,13 @@
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
-namespace app\index\validate;
+namespace app\admin\validate;
 
 use think\Validate;
 
 /**
  * 用户验证器
- * @package app\index\validate
+ * @package app\admin\validate
  * @author pp
  */
 class User extends Validate
@@ -49,7 +49,7 @@ class User extends Validate
     //定义验证场景
     protected $scene = [
         //更新password
-        'update'  =>  ['password' => 'require|length:6,20', 'mobile' => 'require|regex:^1\d{10}|unique:User', 'ref_mobile' => 'require|regex:^1\d{10}'],
+        'update'  =>  ['password' => 'length:6,20', 'mobile' => 'require|regex:^1\d{10}|unique:User', 'ref_mobile' => 'require|regex:^1\d{10}'],
         //登录
         'login'  =>  ['username' => 'require', 'password' => 'require|length:6,20'],
         //注册
