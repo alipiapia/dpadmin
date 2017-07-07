@@ -13,15 +13,15 @@ namespace app\admin\controller;
 
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
-use app\common\model\User as UserModel;
+use app\common\model\Spec as SpecModel;
 use util\Tree;
 use think\Db;
 
 /**
- * 用户默认控制器
+ * 规格控制器
  * @package app\admin\controller
  */
-class User extends Admin
+class Spec extends Admin
 {
     /**
      * 用户首页
@@ -35,24 +35,21 @@ class User extends Admin
         $map = $this->getMap();
 
         // 数据列表
-        $data_list = UserModel::where($map)->order('sort,id desc')->paginate();
+        $data_list = SpecModel::where($map)->order('sort,id desc')->paginate();
 
         // 分页数据
         $page = $data_list->render();
 
         // 使用ZBuilder快速创建数据表格
         return ZBuilder::make('table')
-            ->setPageTitle('用户管理') // 设置页面标题
-            ->setTableName('User') // 设置数据表名
-            ->setSearch(['id' => 'ID', 'username' => '用户名', 'mobile' => '手机号', 'email' => '邮箱']) // 设置搜索参数
+            ->setPageTitle('规格管理') // 设置页面标题
+            ->setTableName('Spec') // 设置数据表名
+            ->setSearch(['id' => 'ID', 'name' => '规格名称']) // 设置搜索参数
             ->addColumns([ // 批量添加列
                 ['id', 'ID'],
-                ['username', '用户名'],
-                ['nickname', '昵称', 'text.edit'],
-                ['email', '邮箱'],
-                ['mobile', '手机号'],
-                ['balance', '余额'],
-                ['score', '积分'],
+                ['name', '名称', 'text.edit'],
+                ['desc', '描述', 'text.edit'],
+                ['picture', '图片', 'picture'],
                 ['created_at', '创建时间'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
@@ -75,13 +72,13 @@ class User extends Admin
         if ($this->request->isPost()) {
             $data = $this->request->post();
             // 验证
-            $result = $this->validate($data, 'User');
+            $result = $this->validate($data, 'Spec');
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 
-            if ($user = UserModel::create($data)) {
+            if ($spec = SpecModel::create($data)) {
                 // 记录行为
-                action_log('user_add', 'user', $user['id'], UID);
+                action_log('spec_add', 'spec', $spec['id'], UID);
                 return $this->success('新增成功', url('index'));
             } else {
                 return $this->error('新增失败');
@@ -90,14 +87,11 @@ class User extends Admin
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
-            ->setPageTitle('新增') // 设置页面标题
+            ->setPageTitle('新增规格') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
-                ['text', 'username', '用户名', '必填，可由英文字母、数字组成'],
-                ['text', 'nickname', '昵称', '可以是中文'],
-                ['password', 'password', '密码', '必填，6-20位'],
-                ['text', 'email', '邮箱', ''],
-                ['text', 'mobile', '手机号'],
-                ['text', 'ref_mobile', '推荐人手机号'],
+                ['text', 'name', '规格名称', '必填'],
+                ['text', 'desc', '描述'],
+                ['image', 'picture', '规格图片'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
             ->fetch();
@@ -118,18 +112,13 @@ class User extends Admin
             $data = $this->request->post();
 
             // 验证
-            $result = $this->validate($data, 'User.update');
+            $result = $this->validate($data, 'Spec');
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 
-            // 如果没有填写密码，则不更新密码
-            if ($data['password'] == '') {
-                unset($data['password']);
-            }
-
-            if ($user = UserModel::update($data)) {
+            if ($spec = SpecModel::update($data)) {
                 // 记录行为
-                // action_log('user_edit', 'user', $user['id'], UID, get_nickname($user['id']));
+                action_log('spec_edit', 'spec', $spec['id'], UID, get_nickname($spec['id']));
                 return $this->success('编辑成功', cookie('__forward__'));
             } else {
                 return $this->error('编辑失败');
@@ -137,19 +126,16 @@ class User extends Admin
         }
 
         // 获取数据
-        $info = UserModel::where('id', $id)->field('password', true)->find();
+        $info = SpecModel::where('id', $id)->find();
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
             ->setPageTitle('编辑') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
                 ['hidden', 'id'],
-                ['static', 'username', '用户名', '不可更改'],
-                ['text', 'nickname', '昵称', '可以是中文'],
-                ['password', 'password', '密码', '必填，6-20位'],
-                ['text', 'email', '邮箱', ''],
-                ['text', 'mobile', '手机号'],
-                ['text', 'ref_mobile', '推荐人手机号'],
+                ['text', 'name', '规格名称', '必填'],
+                ['text', 'desc', '描述'],
+                ['image', 'picture', '规格图片'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])
             ->setFormData($info) // 设置表单数据
@@ -204,7 +190,7 @@ class User extends Admin
         // }
         $uid_delete = is_array($ids) ? '' : $ids;
         $ids        = array_map('get_nickname', (array)$ids);
-        return parent::setStatus($type, ['user_'.$type, 'user', $uid_delete, UID, implode('、', $ids)]);
+        return parent::setStatus($type, ['spec_'.$type, 'spec', $uid_delete, UID, implode('、', $ids)]);
     }
 
     /**
@@ -219,8 +205,8 @@ class User extends Admin
         // $id      == UID && $this->error('禁止操作当前账号');
         $field   = input('post.name', '');
         $value   = input('post.value', '');
-        $config  = UserModel::where('id', $id)->value($field);
+        $config  = SpecModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['user_edit', 'user', $id, UID, $details]);
+        return parent::quickEdit(['spec_edit', 'spec', $id, UID, $details]);
     }
 }

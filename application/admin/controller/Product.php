@@ -13,7 +13,7 @@ namespace app\admin\controller;
 
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
-use app\index\model\Product as ProductModel;
+use app\common\model\Product as ProductModel;
 use util\Tree;
 use think\Db;
 
@@ -52,7 +52,7 @@ class Product extends Admin
                 ['cate', '分类', 'text.edit'],
                 ['brand', '品牌', 'text.edit'],
                 ['spec', '规格', 'text.edit'],
-                ['created_at', '创建时间', 'datetime'],
+                ['created_at', '创建时间'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
@@ -124,7 +124,7 @@ class Product extends Admin
             $data = $this->request->post();
 
             // 验证
-            $result = $this->validate($data, 'Product.update');
+            $result = $this->validate($data, 'Product');
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 

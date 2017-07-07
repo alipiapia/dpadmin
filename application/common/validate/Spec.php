@@ -9,16 +9,16 @@
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
-namespace app\admin\validate;
+namespace app\common\validate;
 
 use think\Validate;
 
 /**
- * 商品验证器
- * @package app\admin\validate
+ * 规格验证器
+ * @package app\common\validate
  * @author pp
  */
-class Product extends Validate
+class Spec extends Validate
 {
     //定义验证规则
     protected $rule = [

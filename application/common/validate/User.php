@@ -9,13 +9,13 @@
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
-namespace app\admin\validate;
+namespace app\common\validate;
 
 use think\Validate;
 
 /**
  * 用户验证器
- * @package app\admin\validate
+ * @package app\common\validate
  * @author pp
  */
 class User extends Validate

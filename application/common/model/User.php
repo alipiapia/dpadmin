@@ -9,7 +9,7 @@
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
-namespace app\index\model;
+namespace app\common\model;
 
 use think\Model;
 use think\helper\Hash;
@@ -17,7 +17,7 @@ use think\Db;
 
 /**
  * 后台用户模型
- * @package app\admin\model
+ * @package app\common\model
  */
 class User extends Model
 {

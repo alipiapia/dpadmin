@@ -23,7 +23,7 @@ class Ucenter extends Home
 
     protected function _initialize(){
         parent::_initialize();
-        $this->user = controller('index/User', 'model');
+        $this->user = controller('common/User', 'model');
         // pp(has_signin());
         // pp(session('user_auth'));
         // cookie(null);

@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-// use app\index\model\User as UserModel;
+// use app\common\model\User as UserModel;
 
 use think\Validate;
 
@@ -25,7 +25,7 @@ class User extends Home
 
     public function _initialize(){
         parent::_initialize();
-        $this->user = model('User');
+        $this->user = controller('common/User', 'model');
         // pp(is_mobile());
 
         // if(has_signin()){

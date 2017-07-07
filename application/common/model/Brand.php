@@ -9,20 +9,20 @@
 // | 开源协议 ( http://www.apache.org/licenses/LICENSE-2.0 )
 // +----------------------------------------------------------------------
 
-namespace app\index\model;
+namespace app\common\model;
 
 use think\Model;
 use think\helper\Hash;
 use think\Db;
 
 /**
- * 商品模型
- * @package app\admin\model
+ * 品牌模型
+ * @package app\common\model
  */
-class Product extends Model
+class Brand extends Model
 {
     // 设置当前模型对应的完整数据表名称
-    protected $table = '__PRODUCT__';
+    protected $table = '__BRAND__';
 
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
