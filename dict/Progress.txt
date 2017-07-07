@@ -4,28 +4,25 @@
 		a，建立用户/会员表@dp_user
 			DROP TABLE IF EXISTS `dp_user`;
 			CREATE TABLE `dp_user` (
-			`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-			`username` varchar(32) NOT NULL COMMENT '用户名',
-			`nickname` varchar(32) NOT NULL DEFAULT '' COMMENT '昵称',
-			`password` varchar(96) NOT NULL DEFAULT '' COMMENT '登录密码',
-			`paypass` varchar(96) NOT NULL DEFAULT '' COMMENT '支付密码',
-			`email` varchar(64) NOT NULL DEFAULT '' COMMENT '邮箱地址',
-			`mobile` int(11) NOT NULL DEFAULT '' COMMENT '手机号码',
-			`ref_mobile` int(11) NOT NULL DEFAULT '' COMMENT '推荐人手机号码',
-			`group_mobile` int(11) NOT NULL DEFAULT '' COMMENT '团队手机号码',
-			`balance` decimal(11,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '余额',
-			`score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '积分',
-			`signup_ip` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '注册ip',
-			`create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '注册时间',
-			`update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
-			`last_login_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后一次登录时间',
-			`last_login_ip` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '登录ip',
-			`sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
-			`status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			`created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			`updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			`deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
-			PRIMARY KEY (`id`)
+				`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+				`username` varchar(32) NOT NULL COMMENT '用户名',
+				`nickname` varchar(32) NOT NULL DEFAULT '' COMMENT '昵称',
+				`password` varchar(96) NOT NULL DEFAULT '' COMMENT '登录密码',
+				`paypass` varchar(96) NOT NULL DEFAULT '' COMMENT '支付密码',
+				`email` varchar(64) NOT NULL DEFAULT '' COMMENT '邮箱地址',
+				`mobile` varchar(11) NOT NULL COMMENT '手机号码',
+				`ref_mobile` varchar(11) NOT NULL COMMENT '推荐人手机号码',
+				`group_mobile` varchar(11) NOT NULL COMMENT '团队手机号码',
+				`balance` decimal(11,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '余额',
+				`score` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '积分',
+				`signup_ip` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '注册ip',
+				`last_login_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '最后一次登录时间',
+				`last_login_ip` bigint(20) unsigned NOT NULL DEFAULT '0' COMMENT '登录ip',
+				`sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
+				`status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
+				`create_time` int(11) NOT NULL COMMENT '添加时间',
+				`update_time` int(11) NOT NULL COMMENT '编辑时间',
+				PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户/会员表';
 			
 			DROP TABLE IF EXISTS `dp_user_recharge`;
@@ -34,12 +31,9 @@
 			  `recharge_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '支付金额',
 			  `uid` varchar(255) NOT NULL COMMENT '用户uid',
 			  `out_trade_no` varchar(255) NOT NULL DEFAULT '' COMMENT '支付流水号',
-			  `create_time` varchar(255) NOT NULL DEFAULT '0' COMMENT '创建时间',
 			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '是否支付：0no，1yes',
-			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='会员充值余额记录';
 			
@@ -56,12 +50,9 @@
 			`name` varchar(1000) NOT NULL DEFAULT '' COMMENT '地址',
 			`postcode` varchar(10) NOT NULL DEFAULT '' COMMENT '邮编',
 			`is_defaut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为默认地址：0否 1是',
-			`create_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '添加时间',
-			`update_time` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '更新时间',
 			`status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			`created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			`updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			`deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			`create_time` int(11) NOT NULL COMMENT '添加时间',
+			`update_time` int(11) NOT NULL COMMENT '编辑时间',
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户收货地址表';
 			
@@ -80,9 +71,8 @@
 			  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '地址别名',
 			  `is_default` int(11) NOT NULL DEFAULT '0' COMMENT '默认收货地址',
 			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`id`),
 			  KEY `IDX_member_express_address_uid` (`uid`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='会员收货地址管理';
@@ -97,9 +87,8 @@
 			`count` decimal(11,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '变动余额',
 			`type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '变动类型：0充值 1返利 2提成',
 			`title` varchar(255) NOT NULL DEFAULT '' COMMENT '变动说明',
-			`created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			`updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			`deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			`create_time` int(11) NOT NULL COMMENT '添加时间',
+			`update_time` int(11) NOT NULL COMMENT '编辑时间',
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户资金变动表';
 			
@@ -114,9 +103,8 @@
 			  `from_type` smallint(6) NOT NULL DEFAULT '0' COMMENT '产生方式1.商城订单2.订单退还3.兑换4.充值5.签到6.分享7.注册8.提现9提现退还',
 			  `data_id` int(11) NOT NULL DEFAULT '0' COMMENT '相关表的数据ID',
 			  `text` varchar(255) NOT NULL DEFAULT '' COMMENT '数据相关内容描述文本',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='会员流水账表';
 	3，分销管理【后台】；
@@ -144,7 +132,6 @@
 			  `spec` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '商品规格',
 			  `picture` int(11) NOT NULL DEFAULT '0' COMMENT '商品主图',
 			  `pictures` varchar(1000) DEFAULT NULL COMMENT '商品图片序列',
-			  `type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '实物或虚拟商品标志 0虚拟商品 1实物商品2 F码商品',
 			  `market_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '市场价',
 			  `cost_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品进价/成本价',
 			  `price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '销售价格',
@@ -162,9 +149,8 @@
 			  `shipping_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '运费 0为免运费',
 			  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
 			  `status` tinyint(3) NOT NULL DEFAULT '1' COMMENT '商品状态 0下架，1正常，10违规（禁售）',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='商品表';
 			
@@ -175,11 +161,9 @@
 			  `name` varchar(255) NOT NULL COMMENT '品牌名称',
 			  `desc` text NOT NULL COMMENT '详情',
 			  `picture` int(11) NOT NULL DEFAULT '0' COMMENT '图片',
-			  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
 			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='商品品牌表';
 			
@@ -190,11 +174,9 @@
 			  `name` varchar(255) NOT NULL DEFAULT '' '分类名称',
 			  `desc` text NOT NULL COMMENT '详情',
 			  `picture` int(11) NOT NULL DEFAULT '0' COMMENT '图片',
-			  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
 			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='商品分类表';
 
@@ -203,12 +185,11 @@
 			CREATE TABLE `dp_spec` (
 			  `id` int(11) NOT NULL AUTO_INCREMENT,
 			  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '规格名称',
+			  `desc` text NOT NULL COMMENT '详情',
 			  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品id',
-			  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
 			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='商品规格表';
 			
@@ -229,6 +210,28 @@
 			get_user_address/收货地址join收货地址表@admin_user_address
 			pay_status/支付状态(0未支付1支付中2支付失败3已支付)
 			pay_type/支付类型(wxpay/alipay)
+			
+			
+			DROP TABLE IF EXISTS `dp_order`;
+			CREATE TABLE `dp_order` (
+			    `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id',
+				`order_sn` varchar(255) NOT NULL DEFAULT '0' COMMENT '订单号',
+				`product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品id',
+				`product_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品价格',
+				`product_count` int(11) NOT NULL DEFAULT '0' COMMENT '商品数量',
+				`order_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '订单总价',
+				`shipping_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '运费',
+				`seller` int(11) NOT NULL DEFAULT '0' COMMENT '发货人',
+				`buyer` int(11) NOT NULL DEFAULT '0' COMMENT '收货人',
+				`buyer_address` int(11) NOT NULL DEFAULT '0' COMMENT '收货地址',
+				`pay_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '支付状态(0未支付1支付中2已支付3支付失败)',
+				`pay_type` varchar(20) DEFAULT '0' COMMENT '支付类型(1wxpay 2alipay)',
+				`order_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '订单状态(0待付款1待发货2已发货/待确认收货3已签收/待评价4已评价5申请退款6退款成功)',
+				`create_time` int(11) NOT NULL COMMENT '添加时间',
+				`update_time` int(11) NOT NULL COMMENT '编辑时间',
+				PRIMARY KEY (`id`),
+				UNIQUE KEY `order_sn` (`order_sn`)
+			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='订单表';
 			
 			DROP TABLE IF EXISTS `dp_order`;
 			CREATE TABLE `dp_order` (
@@ -280,14 +283,11 @@
 			  `shipping_status` tinyint(4) NOT NULL COMMENT '订单配送状态',
 			  `review_status` tinyint(4) NOT NULL COMMENT '订单评价状态',
 			  `feedback_status` tinyint(4) NOT NULL COMMENT '订单维权状态',
-			  `create_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '订单创建时间',
-			  `finish_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '订单完成时间',
 			  `is_evaluate` smallint(6) NOT NULL DEFAULT '0' COMMENT '是否评价 0为未评价 1为已评价 2为已追评',
 			  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
 			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
@@ -326,9 +326,8 @@
 			  `memo` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
 			  `is_evaluate` smallint(6) NOT NULL DEFAULT '0' COMMENT '是否评价 0为未评价 1为已评价 2为已追评',
 			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '添加时间',
-			  `updated_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '编辑时间',
-			  `deleted_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '软删除时间',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
 			  PRIMARY KEY (`order_product_id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='订单商品表';
 

@@ -14,6 +14,9 @@ namespace app\admin\controller;
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
 use app\common\model\Product as ProductModel;
+use app\common\model\Cate as CateModel;
+use app\common\model\Brand as BrandModel;
+use app\common\model\Spec as SpecModel;
 use util\Tree;
 use think\Db;
 
@@ -40,22 +43,30 @@ class Product extends Admin
         // 分页数据
         $page = $data_list->render();
 
+        $cate = (new CateModel())->getColumn('', 'id,name');//分类
+        $brand = (new BrandModel())->getColumn('', 'id,name');//品牌
+        $spec = (new SpecModel())->getColumn('', 'id,name');//规格
+        // pp($cate);
+
         // 使用ZBuilder快速创建数据表格
         return ZBuilder::make('table')
             ->setPageTitle('商品管理') // 设置页面标题
             ->setTableName('Product') // 设置数据表名
             ->setSearch(['id' => 'ID', 'name' => '商品名称']) // 设置搜索参数
+            ->addOrder('id,name,create_time') // 添加排序
+            ->addFilter('name,cate,brand,spec') // 添加筛选
             ->addColumns([ // 批量添加列
                 ['id', 'ID'],
                 ['name', '名称', 'text.edit'],
                 ['picture', '封面', 'picture'],
-                ['cate', '分类', 'text.edit'],
-                ['brand', '品牌', 'text.edit'],
-                ['spec', '规格', 'text.edit'],
-                ['created_at', '创建时间'],
+                ['cate', '分类', 'select', $cate],
+                ['brand', '品牌', 'select', $brand],
+                ['spec', '规格', 'select', $spec],
+                ['create_time', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
+            ->addTimeFilter('created_at')
             ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
             ->addRightButtons('edit,delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
@@ -87,14 +98,19 @@ class Product extends Admin
             }
         }
 
+
+        $cate = (new CateModel())->getColumn('', 'id,name');//分类
+        $brand = (new BrandModel())->getColumn('', 'id,name');//品牌
+        $spec = (new SpecModel())->getColumn('', 'id,name');//规格
+
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
             ->setPageTitle('新增商品') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
                 ['text', 'name', '商品名称', '必填'],
-                ['text', 'cate', '分类'],
-                ['text', 'brand', '品牌'],
-                ['text', 'spec', '规格'],
+                ['select', 'cate', '分类', '', $cate],
+                ['select', 'brand', '品牌', '', $brand],
+                ['select', 'spec', '规格', '', $spec],
                 ['image', 'picture', '商品封面'],
                 ['images', 'pictures', '商品图片', '详情多图'],
                 ['textarea', 'desc', '详情'],
@@ -137,6 +153,11 @@ class Product extends Admin
             }
         }
 
+
+        $cate = (new CateModel())->getColumn('', 'id,name');//分类
+        $brand = (new BrandModel())->getColumn('', 'id,name');//品牌
+        $spec = (new SpecModel())->getColumn('', 'id,name');//规格
+
         // 获取数据
         $info = ProductModel::where('id', $id)->find();
 
@@ -146,9 +167,9 @@ class Product extends Admin
             ->addFormItems([ // 批量添加表单项
                 ['hidden', 'id'],
                 ['text', 'name', '商品名称', '必填'],
-                ['text', 'cate', '分类'],
-                ['text', 'brand', '品牌'],
-                ['text', 'spec', '规格'],
+                ['select', 'cate', '分类', '', $cate],
+                ['select', 'brand', '品牌', '', $brand],
+                ['select', 'spec', '规格', '', $spec],
                 ['image', 'picture', '商品封面'],
                 ['images', 'pictures', '商品图片', '详情多图'],
                 ['textarea', 'desc', '详情'],

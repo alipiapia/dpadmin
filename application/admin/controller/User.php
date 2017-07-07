@@ -48,7 +48,7 @@ class User extends Admin
             ->addColumns([ // 批量添加列
                 ['id', 'ID'],
                 ['username', '用户名'],
-                ['nickname', '昵称', 'text.edit'],
+                ['nickname', '昵称'],
                 ['email', '邮箱'],
                 ['mobile', '手机号'],
                 ['balance', '余额'],
@@ -57,8 +57,9 @@ class User extends Admin
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
-            ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
-            ->addRightButtons('edit,delete') // 批量添加右侧按钮
+            ->addTimeFilter('created_at')
+            ->addTopButtons('enable,disable,delete') // 批量添加顶部按钮
+            ->addRightButtons('delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
             ->setPages($page) // 设置分页数据
             ->fetch(); // 渲染页面
@@ -145,13 +146,14 @@ class User extends Admin
             ->addFormItems([ // 批量添加表单项
                 ['hidden', 'id'],
                 ['static', 'username', '用户名', '不可更改'],
-                ['text', 'nickname', '昵称', '可以是中文'],
-                ['password', 'password', '密码', '必填，6-20位'],
-                ['text', 'email', '邮箱', ''],
-                ['text', 'mobile', '手机号'],
-                ['text', 'ref_mobile', '推荐人手机号'],
-                ['radio', 'status', '状态', '', ['禁用', '启用']]
+                ['static', 'nickname', '昵称', '可以是中文'],
+                // ['password', 'password', '密码', '必填，6-20位'],
+                ['static', 'email', '邮箱', ''],
+                ['static', 'mobile', '手机号'],
+                ['static', 'ref_mobile', '推荐人手机号'],
+                ['static', 'status', '状态', '', ['禁用', '启用']]
             ])
+            ->hideBtn('submit')
             ->setFormData($info) // 设置表单数据
             ->fetch();
     }

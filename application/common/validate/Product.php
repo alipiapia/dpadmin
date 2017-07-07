@@ -36,7 +36,7 @@ class Product extends Validate
 
     //定义验证提示
     protected $message = [
-        'stock.min' => '数量不能低于1',
+        //
     ];
 
     //定义验证场景

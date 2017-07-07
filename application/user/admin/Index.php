@@ -42,7 +42,7 @@ class Index extends Admin
 
         // 分页数据
         $page = $data_list->render();
-
+pp( RoleModel::getTree(null, false));
         // 授权按钮
         $btn_access = [
             'title' => '授权',

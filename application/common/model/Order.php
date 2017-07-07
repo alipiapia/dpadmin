@@ -16,13 +16,13 @@ use think\helper\Hash;
 use think\Db;
 
 /**
- * 分类模型
+ * 订单模型
  * @package app\common\model
  */
-class Cate extends Model
+class Order extends Model
 {
     // 设置当前模型对应的完整数据表名称
-    protected $table = '__CATE__';
+    protected $table = '__ORDER__';
 
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
@@ -46,7 +46,7 @@ class Cate extends Model
         return time();
     }
 
-    public function getValue($where, $field="name"){
+    public function getValue($where, $field="order_sn"){
         return $this->where($where)->value($field);
     }
 

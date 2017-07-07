@@ -13,18 +13,18 @@ namespace app\admin\controller;
 
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
-use app\index\model\User as UserModel;
+use app\common\model\Order as OrderModel;
 use util\Tree;
 use think\Db;
 
 /**
  * 订单控制器
- * @package app\user\admin
+ * @package app\order\admin
  */
 class Order extends Admin
 {
     /**
-     * 用户首页
+     * 订单首页
      * @return mixed
      */
     public function index()
@@ -35,28 +35,33 @@ class Order extends Admin
         $map = $this->getMap();
 
         // 数据列表
-        $data_list = UserModel::where($map)->order('sort,id desc')->paginate();
+        $data_list = OrderModel::where($map)->order('create_time desc')->paginate();
 
         // 分页数据
         $page = $data_list->render();
 
         // 使用ZBuilder快速创建数据表格
         return ZBuilder::make('table')
-            ->setPageTitle('用户管理') // 设置页面标题
-            ->setTableName('User') // 设置数据表名
-            ->setSearch(['id' => 'ID', 'username' => '用户名', 'mobile' => '手机号', 'email' => '邮箱']) // 设置搜索参数
+            ->setPageTitle('订单管理') // 设置页面标题
+            ->setTableName('Order') // 设置数据表名
+            ->setSearch(['order_sn' => '订单号']) // 设置搜索参数
+            ->addOrder('id,order_sn') // 添加排序
+            ->addFilter('id,order_sn') // 添加筛选
             ->addColumns([ // 批量添加列
-                ['id', 'ID'],
-                ['username', '用户名'],
-                ['nickname', '昵称'],
-                ['email', '邮箱'],
-                ['mobile', '手机号'],
-                ['balance', '余额'],
-                ['score', '积分'],
-                ['create_time', '创建时间', 'datetime'],
-                ['status', '状态', 'switch'],
+                ['order_sn' , '订单号'],
+                ['product_id', '商品'],
+                ['order_price', '订单金额'],
+                ['shipping_fee', '运费', 'text.edit'],
+                ['buyer', '收货人'],
+                ['buyer_address', '收货地址'],
+                ['pay_status', '支付状态', 'status', '', ['待支付', '支付中', '已支付', '支付失败']],
+                ['pay_type', '支付类型', 'status', '', ['微信', '支付宝']],
+                ['create_time', '下单时间', 'datetime'],
+                ['order_status', '订单状态', 'status', '', ['待付款', '待发货', '已发货', '已签收', '已评价', '申请退款', '退款成功']],
                 ['right_button', '操作', 'btn']
             ])
+            // ->addValidate('Order', 'order_sn')
+            ->addTimeFilter('create_time')
             ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
             ->addRightButtons('edit,delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
@@ -75,13 +80,13 @@ class Order extends Admin
         if ($this->request->isPost()) {
             $data = $this->request->post();
             // 验证
-            $result = $this->validate($data, 'User');
+            $result = $this->validate($data, 'Order');
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 
-            if ($user = UserModel::create($data)) {
+            if ($order = OrderModel::create($data)) {
                 // 记录行为
-                action_log('user_add', 'admin_user', $user['id'], UID);
+                action_log('order_add', 'admin_order', $order['id'], UID);
                 return $this->success('新增成功', url('index'));
             } else {
                 return $this->error('新增失败');
@@ -92,11 +97,12 @@ class Order extends Admin
         return ZBuilder::make('form')
             ->setPageTitle('新增') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
-                ['text', 'username', '用户名', '必填，可由英文字母、数字组成'],
-                ['text', 'nickname', '昵称', '可以是中文'],
-                ['text', 'email', '邮箱', ''],
-                ['password', 'password', '密码', '必填，6-20位'],
-                ['text', 'mobile', '手机号'],
+                ['text', 'order_sn', '订单号'],
+                ['text', 'product_id', '商品'],
+                ['text', 'order_price', '订单金额'],
+                ['text', 'shipping_fee', '运费'],
+                ['text', 'buyer', '收货人'],
+                ['text', 'buyer_address', '收货地址'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
             ->fetch();
@@ -104,7 +110,7 @@ class Order extends Admin
 
     /**
      * 编辑
-     * @param null $id 用户id
+     * @param null $id 订单id
      * @author thinkphp
      * @return mixed
      */
@@ -117,7 +123,7 @@ class Order extends Admin
             $data = $this->request->post();
 
             // 验证
-            $result = $this->validate($data, 'User.update');
+            $result = $this->validate($data, 'Order.update');
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 
@@ -126,9 +132,9 @@ class Order extends Admin
                 unset($data['password']);
             }
 
-            if ($user = UserModel::update($data)) {
+            if ($order = OrderModel::update($data)) {
                 // 记录行为
-                action_log('user_edit', 'admin_user', $user['id'], UID, get_nickname($user['id']));
+                action_log('order_edit', 'admin_order', $order['id'], UID, get_nickname($order['id']));
                 return $this->success('编辑成功', cookie('__forward__'));
             } else {
                 return $this->error('编辑失败');
@@ -136,18 +142,19 @@ class Order extends Admin
         }
 
         // 获取数据
-        $info = UserModel::where('id', $id)->field('password', true)->find();
+        $info = OrderModel::where('id', $id)->field('password', true)->find();
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
             ->setPageTitle('编辑') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
                 ['hidden', 'id'],
-                ['static', 'username', '用户名', '不可更改'],
-                ['text', 'nickname', '昵称', '可以是中文'],
-                ['text', 'email', '邮箱', ''],
-                ['password', 'password', '密码', '必填，6-20位'],
-                ['text', 'mobile', '手机号'],
+                ['static', 'order_sn', '订单号'],
+                ['static', 'product_id', '商品'],
+                ['text', 'order_price', '订单金额'],
+                ['text', 'shipping_fee', '运费'],
+                ['text', 'buyer', '收货人'],
+                ['text', 'buyer_address', '收货地址'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])
             ->setFormData($info) // 设置表单数据
@@ -155,7 +162,7 @@ class Order extends Admin
     }
 
     /**
-     * 删除用户
+     * 删除订单
      * @param array $record 行为日志
      * @author thinkphp
      * @return mixed
@@ -166,7 +173,7 @@ class Order extends Admin
     }
 
     /**
-     * 启用用户
+     * 启用订单
      * @param array $record 行为日志
      * @author thinkphp
      * @return mixed
@@ -177,7 +184,7 @@ class Order extends Admin
     }
 
     /**
-     * 禁用用户
+     * 禁用订单
      * @param array $record 行为日志
      * @author thinkphp
      * @return mixed
@@ -188,7 +195,7 @@ class Order extends Admin
     }
 
     /**
-     * 设置用户状态：删除、禁用、启用
+     * 设置订单状态：删除、禁用、启用
      * @param string $type 类型：delete/enable/disable
      * @param array $record
      * @author thinkphp
@@ -202,7 +209,7 @@ class Order extends Admin
         // }
         $uid_delete = is_array($ids) ? '' : $ids;
         $ids        = array_map('get_nickname', (array)$ids);
-        return parent::setStatus($type, ['user_'.$type, 'admin_user', $uid_delete, UID, implode('、', $ids)]);
+        return parent::setStatus($type, ['order_'.$type, 'admin_order', $uid_delete, UID, implode('、', $ids)]);
     }
 
     /**
@@ -217,8 +224,8 @@ class Order extends Admin
         // $id      == UID && $this->error('禁止操作当前账号');
         $field   = input('post.name', '');
         $value   = input('post.value', '');
-        $config  = UserModel::where('id', $id)->value($field);
+        $config  = OrderModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
-        return parent::quickEdit(['user_edit', 'admin_user', $id, UID, $details]);
+        return parent::quickEdit(['order_edit', 'admin_order', $id, UID, $details]);
     }
 }

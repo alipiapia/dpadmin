@@ -14,28 +14,33 @@ namespace app\common\validate;
 use think\Validate;
 
 /**
- * 规格验证器
+ * 订单验证器
  * @package app\common\validate
  * @author pp
  */
-class Spec extends Validate
+class Order extends Validate
 {
     //定义验证规则
     protected $rule = [
-        'name|规格名称' => 'require|chsDash',
-        'desc|详情' => 'require',
+        'order_sn|订单号' => 'require|unique:Order',
+        'product_id|商品' => 'require',
+        'order_price|订单金额' => 'require',
+        'shipping_fee|运费' => 'require|float',
+        'buyer|收货人' => 'require',
+        'buyer_address|收货地址' => 'require',
     ];
 
     //定义验证提示
     protected $message = [
-        //
+        'order_sn.unique'     => '该订单号已存在',
     ];
 
     //定义验证场景
     protected $scene = [
+        'order_sn' => ['order_sn'],
         //添加
-        'add'  =>  ['name' => 'require', 'desc' => 'require'],
+        'add'  =>  ['order_sn' => 'require', 'desc' => 'require'],
         //更新
-        'update'  =>  ['name' => 'require', 'desc' => 'require'],
+        'update'  =>  ['order_sn' => 'require', 'desc' => 'require'],
     ];
 }

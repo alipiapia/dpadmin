@@ -35,7 +35,7 @@ class Spec extends Admin
         $map = $this->getMap();
 
         // 数据列表
-        $data_list = SpecModel::where($map)->order('sort,id desc')->paginate();
+        $data_list = SpecModel::where($map)->order('id desc')->paginate();
 
         // 分页数据
         $page = $data_list->render();
@@ -49,11 +49,11 @@ class Spec extends Admin
                 ['id', 'ID'],
                 ['name', '名称', 'text.edit'],
                 ['desc', '描述', 'text.edit'],
-                ['picture', '图片', 'picture'],
-                ['created_at', '创建时间'],
+                ['create_time', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
+            ->addTimeFilter('create_time')
             ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
             ->addRightButtons('edit,delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
@@ -91,7 +91,6 @@ class Spec extends Admin
             ->addFormItems([ // 批量添加表单项
                 ['text', 'name', '规格名称', '必填'],
                 ['text', 'desc', '描述'],
-                ['image', 'picture', '规格图片'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
             ->fetch();
@@ -135,7 +134,6 @@ class Spec extends Admin
                 ['hidden', 'id'],
                 ['text', 'name', '规格名称', '必填'],
                 ['text', 'desc', '描述'],
-                ['image', 'picture', '规格图片'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])
             ->setFormData($info) // 设置表单数据

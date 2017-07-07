@@ -35,7 +35,7 @@ class Brand extends Admin
         $map = $this->getMap();
 
         // 数据列表
-        $data_list = BrandModel::where($map)->order('sort,id desc')->paginate();
+        $data_list = BrandModel::where($map)->order('id desc')->paginate();
 
         // 分页数据
         $page = $data_list->render();
@@ -50,10 +50,11 @@ class Brand extends Admin
                 ['name', '名称', 'text.edit'],
                 ['desc', '描述', 'text.edit'],
                 ['picture', '图片', 'picture'],
-                ['created_at', '创建时间'],
+                ['create_time', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
+            ->addTimeFilter('create_time')
             ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
             ->addRightButtons('edit,delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据

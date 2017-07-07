@@ -10,7 +10,7 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-// use app\common\model\User as UserModel;
+use app\common\model\User as UserModel;
 
 use think\Validate;
 
@@ -128,9 +128,15 @@ class User extends Home
         }
         if ($this->request->isPost()) {
             $data = $this->request->post();
-            // pp($data);
 
-            // // 验证码
+            // 验证数据
+            $result = $this->validate($data, 'User.register');
+            if(true !== $result){
+                // 验证失败 输出错误信息
+                $this->error($result);
+            }
+
+            // 验证码
             // if (config('captcha_signin')) {
                 $captcha = $this->request->post('captcha', '');
                 $captcha == '' && $this->error('请输入验证码');
@@ -144,11 +150,12 @@ class User extends Home
             //     'captcha|验证码'=>'require|captcha'
             // ]);
 
-            $res = $this->user->addData($data);
+            // $res = $this->user->addData($data);
+            $res = UserModel::create($data);
             if ($res) {
                 // $this->login($data['username'], $data['password']);
                 $this->user->login($data['username'], $data['password']);
-                $this->success($res, url('index/ucenter/index'));
+                $this->success('注册成功，自动登录中...', url('index/ucenter/index'));
             } else {
                 $this->error($res);
             }

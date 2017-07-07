@@ -27,6 +27,25 @@ class User extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
+    protected $deleteTime = 'deleted_at';
+    protected $insert = ['created_at'];
+    protected $update = ['updated_at'];
+
+    public function setUpdatedAtAttr()
+    {
+        return time();
+    }
+
+    public function setCreatedAtAttr()
+    {
+        return time();
+    }
+
+    public function setDeletedAtAttr()
+    {
+        return time();
+    }
+
     // 对密码进行加密
     public function setPasswordAttr($value)
     {
@@ -94,6 +113,7 @@ class User extends Model
             // 'ref_mobile|推荐人手机号'      => 'require',
             'ref_mobile|推荐人手机号'   => 'require|regex:^1\d{10}',
             // 'email|邮箱'     => 'email|unique:User',
+            'group_mobile|团队手机号'   => 'require|regex:^1\d{10}',
         ];
 
         //定义验证提示
@@ -111,6 +131,8 @@ class User extends Model
             'mobile.unique'     => '该手机号已存在',
             'ref_mobile.require' => '推荐人手机号不能为空',
             'ref_mobile.regex'     => '推荐人手机号不正确',
+            'group_mobile.require' => '团队手机号不能为空',
+            'group_mobile.regex'     => '团队手机号不正确',
         ];
         
         $result = $this->allowField(true)->validate($rule,$msg)->save($data);
