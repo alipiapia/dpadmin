@@ -53,11 +53,11 @@ class User extends Admin
                 ['mobile', '手机号'],
                 ['balance', '余额'],
                 ['score', '积分'],
-                ['created_at', '创建时间'],
+                ['create_time', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
-            ->addTimeFilter('created_at')
+            ->addTimeFilter('create_time')
             ->addTopButtons('enable,disable,delete') // 批量添加顶部按钮
             ->addRightButtons('delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
