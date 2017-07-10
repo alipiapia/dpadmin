@@ -33,37 +33,22 @@
 	<div class="block_home_slider">
     <div id="home_slider" class="flexslider">
         <ul class="slides">
+            {volist name="pictures" id="pic"}
             <li>
                 <div class="slide">
-                    <img src="__HOME_IMG__/cs02.jpg" alt="" />
+                    <img src="{$pic.id|get_file_path}" alt="{$pic.name}" />
                    
                 </div>
-            </li>
-            
-            <li>
-                <div class="slide">
-                    <img src="__HOME_IMG__/cs03.jpg" alt="" />
-                    
-                </div>
-            </li>
-            <li>
-                <div class="slide">
-                    <img src="__HOME_IMG__/cs04.jpg" alt="" />
-                    
-                </div>
-            </li>
-            
-            
+            </li>          
+            {/volist}
         </ul>
     </div>
-    
-    
 </div>
 </div>
 
 <div class="prod-infobox">
-	<div class="prod-protit">超新鲜水果特价便宜卖超新鲜水果水果特价便宜卖超新鲜水果特价便宜卖超新鲜水果特价便宜卖</div>
-    <div class="proprice">￥<span>18.60</span></div>
+	<div class="prod-protit">{$product.name}</div>
+    <div class="proprice">￥<span>{$product.price}</span></div>
     <div class="protimezi">距团购结束时间</div>
     <div class="protime">
         <div class="protime-num">1</div>
@@ -78,8 +63,9 @@
     <div class="pro-else">
     	<div class="else-l">规格：</div>
         <div class="else-r">
-        	<div class="gg">200g每份</div><div class="gg">200g每份</div><div class="gg">200g每份</div>
-            
+            {volist name="spec" id="s"}
+        	<div class="gg">{$s.name}</div>
+            {/volist}
         </div>
     </div>
     <div class="pro-else">
@@ -87,7 +73,7 @@
         <div class="else-r">
         	<ul class="buynum">
             	<li>-</li>
-                <li>0</li>
+                <li>1</li>
                 <li>+</li>
             </ul>
         </div>
@@ -98,9 +84,9 @@
 	<div class="colorline"></div>商品详情
 </div>
 <div class="prodetail">
-	商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情商品详情
+	{$product.desc}
     <br />
-    <Img src="__HOME_IMG__/cs02.jpg" />
+    <Img src="{$product.picture|get_file_path}" />
 </div>
 
 <div class="fix-buybtn">立即购买</div>

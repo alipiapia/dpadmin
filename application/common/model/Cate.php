@@ -27,21 +27,15 @@ class Cate extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
-    protected $deleteTime = 'deleted_at';
-    protected $insert = ['created_at'];
-    protected $update = ['updated_at'];
+    protected $insert = ['create_time'];
+    protected $update = ['update_time'];
 
-    public function setUpdatedAtAttr()
+    public function setUpdateTimeAttr()
     {
         return time();
     }
 
-    public function setCreatedAtAttr()
-    {
-        return time();
-    }
-
-    public function setDeletedAtAttr()
+    public function setCreateTimeAttr()
     {
         return time();
     }

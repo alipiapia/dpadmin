@@ -27,23 +27,17 @@ class Brand extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
-    protected $deleteTime = 'deleted_at';
-    protected $insert = ['created_at'];
-    protected $update = ['updated_at'];
+    protected $insert = ['create_time'];
+    protected $update = ['update_time'];
 
-    public function setUpdatedAtAttr()
+    public function setUpdateTimeAttr()
     {
-        return date("Y-m-d H:i:s",time());
+        return time();
     }
 
-    public function setCreatedAtAttr()
+    public function setCreateTimeAttr()
     {
-        return date("Y-m-d H:i:s",time());
-    }
-
-    public function setDeletedAtAttr()
-    {
-        return date("Y-m-d H:i:s",time());
+        return time();
     }
 
     public function getValue($where, $field="name"){

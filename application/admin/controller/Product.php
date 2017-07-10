@@ -61,7 +61,7 @@ class Product extends Admin
                 ['picture', '封面', 'picture'],
                 ['cate', '分类', 'select', $cate],
                 ['brand', '品牌', 'select', $brand],
-                ['spec', '规格', 'select', $spec],
+                // ['spec', '规格', 'select', $spec],
                 ['create_time', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
@@ -84,6 +84,10 @@ class Product extends Admin
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
+            // $data['spec'] = implode(',', $data['spec']);
+            $data['spec'] = input('post.spec/a');
+            // pp($data);
+            
             // 验证
             $result = $this->validate($data, 'Product');
             // 验证失败 输出错误信息
@@ -91,7 +95,7 @@ class Product extends Admin
 
             if ($product = ProductModel::create($data)) {
                 // 记录行为
-                action_log('product_add', 'product', $product['id'], UID);
+                // action_log('product_add', 'product', $product['id'], UID);
                 return $this->success('新增成功', url('index'));
             } else {
                 return $this->error('新增失败');
@@ -110,7 +114,7 @@ class Product extends Admin
                 ['text', 'name', '商品名称', '必填'],
                 ['select', 'cate', '分类', '', $cate],
                 ['select', 'brand', '品牌', '', $brand],
-                ['select', 'spec', '规格', '', $spec],
+                ['select', 'spec', '规格', '', $spec, '', 'multiple'],
                 ['image', 'picture', '商品封面'],
                 ['images', 'pictures', '商品图片', '详情多图'],
                 ['textarea', 'desc', '详情'],
@@ -138,6 +142,9 @@ class Product extends Admin
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
+            $data['spec'] = input('post.spec/a');
+            // $data['spec'] = implode(',', $data['spec']);
+            // pp($data);
 
             // 验证
             $result = $this->validate($data, 'Product');
@@ -146,7 +153,7 @@ class Product extends Admin
 
             if ($product = ProductModel::update($data)) {
                 // 记录行为
-                action_log('product_edit', 'product', $product['id'], UID, get_nickname($product['id']));
+                // action_log('product_edit', 'product', $product['id'], UID, get_nickname($product['id']));
                 return $this->success('编辑成功', cookie('__forward__'));
             } else {
                 return $this->error('编辑失败');
@@ -169,7 +176,7 @@ class Product extends Admin
                 ['text', 'name', '商品名称', '必填'],
                 ['select', 'cate', '分类', '', $cate],
                 ['select', 'brand', '品牌', '', $brand],
-                ['select', 'spec', '规格', '', $spec],
+                ['select', 'spec', '规格', '', $spec, '', 'multiple'],
                 ['image', 'picture', '商品封面'],
                 ['images', 'pictures', '商品图片', '详情多图'],
                 ['textarea', 'desc', '详情'],
@@ -181,7 +188,9 @@ class Product extends Admin
                 ['text', 'group_days', '团购天数'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])
+            // ->addSelect('spec', '规格', '提示', $spec, '', 'multiple')
             ->setFormData($info) // 设置表单数据
+            // ->submitConfirm()
             ->fetch();
     }
 

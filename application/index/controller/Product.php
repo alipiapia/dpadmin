@@ -12,6 +12,9 @@
 namespace app\index\controller;
 
 use app\common\controller\Common;
+use app\common\model\Product as ProductModel;
+use app\common\model\Spec as SpecModel;
+use app\common\model\AdminAttachment as AdminAttachmentModel;
 
 /**
  * 前台商品控制器
@@ -19,6 +22,14 @@ use app\common\controller\Common;
  */
 class Product extends Common
 {
+    /**
+     * 初始化方法
+     * @author thinkphp
+     */
+    // protected function _initialize()
+    // {
+    //     parent::_initialize();
+    // }
 
     //列表页
     public function index()
@@ -26,24 +37,39 @@ class Product extends Common
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
+
+        $map = $this->getMap();
+        $productList = (new ProductModel)->getColumn($map);
+        // pp($map);
+
         // return $this->fetch();
         return view('index', [
                 'title' => '商品列表',
+                'product' => $productList,
+                'keyword' => input('keyword'),
             ]);
     }
 
     //详情
     public function detail()
     {
-        $pid = input('pid');
-        // $product_detail = Db::name('Product')->find($pid);
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
+
+        $pid = input('pid');
+        // $productDetail = Db::name('Product')->find($pid);
+        $productDetail = (new ProductModel)->getOneDarry(['id' => $pid]);
+        $pictures = (new AdminAttachmentModel)->getColumn(['id' => ['in', explode(',', $productDetail['pictures'])]], 'id,name,path');
+        $spec = (new SpecModel)->getColumn(['id' => ['in', explode(',', $productDetail['spec'])]]);
+        // pp($productDetail);
+
         // return $this->fetch();
         return view('detail',[
                 'title' => '商品详情',
-                // 'data' => $product_detail
+                'product' => $productDetail,
+                'pictures' => $pictures,
+                'spec' => $spec,
             ]);
     }
 }

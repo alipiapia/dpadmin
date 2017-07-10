@@ -54,10 +54,10 @@ class Order extends Admin
                 ['shipping_fee', '运费', 'text.edit'],
                 ['buyer', '收货人'],
                 ['buyer_address', '收货地址'],
-                ['pay_status', '支付状态', 'status', '', ['待支付', '支付中', '已支付', '支付失败']],
-                ['pay_type', '支付类型', 'status', '', ['微信', '支付宝']],
+                ['pay_status', '支付状态', 'status', '', config('order.pay_status')],
+                ['pay_type', '支付类型', 'status', '', config('order.pay_type')],
                 ['create_time', '下单时间', 'datetime'],
-                ['order_status', '订单状态', 'status', '', ['待付款', '待发货', '已发货', '已签收', '已评价', '申请退款', '退款成功']],
+                ['order_status', '订单状态', 'status', '', config('order.order_status')],
                 ['right_button', '操作', 'btn']
             ])
             // ->addValidate('Order', 'order_sn')

@@ -10,8 +10,10 @@
 // +----------------------------------------------------------------------
 
 namespace app\index\controller;
-
+// use think\Controller;
 use app\common\controller\Common;
+use app\common\model\Product as ProductModel;
+use app\common\model\Cate as CateModel;
 
 /**
  * 前台首页控制器
@@ -35,7 +37,18 @@ class Index extends Common
         	return "提示：请使用手机访问！";
         }
 
-        return $this->fetch();
+        $map = $this->getMap();
+        $productList = (new ProductModel)->getColumn($map);//商品
+        $cateList = (new CateModel)->getColumn('', 'id,name,picture');//分类
+        // pp($cateList);
+
+        // return $this->fetch();
+        return view('index', [
+                'title' => '首页',
+                'keyword' => input('keyword'),
+                'product' => $productList,
+                'cate' => $cateList,
+            ]);
     }
 
     /**

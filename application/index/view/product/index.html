@@ -29,7 +29,7 @@
 </div>
 
 <div class="topsearch">
-    <input type="text" placeholder="请输入搜索关键字" />
+    <input type="text" id="keyword" name="keyword" onkeydown="keyDown(event)" value="{$keyword}" placeholder="请输入搜索关键字" />
     <a href="{:url('index/ucenter/index')}">
         <img src="__HOME_IMG__/icon09.png" />
     </a>
@@ -40,13 +40,14 @@
 </div>
 
 <div class="probox">
-	<a href="{:url('index/product/detail')}">
+    {volist name="product" id="p"}
+    <a href="{:url('index/product/detail', ['pid' => $p['id']])}">
 	<div class="oneprobox">
     	<div class="proimg">
-        	<img src="__HOME_IMG__/cs02.jpg" />
+            <img src="{$p.picture|get_file_path}" />
         </div>
         <div class="proimg-r">
-        	<div class="protit">商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页</div>
+        	<div class="protit">{$p.name}</div>
             <div class="protimezi">距团购结束时间</div>
             <div class="protime">
             	<div class="protime-num">1</div>
@@ -58,76 +59,11 @@
                 <div class="protime-num">24</div>
                 <div class="protime-zi">秒</div>
             </div>
-            <div class="proprice">￥<span>18.60</span><div class="buybtn">立即购买</div></div>
+            <div class="proprice">￥<span>{$p.price}</span><div class="buybtn">立即购买</div></div>
         </div>
     </div>
     </a>
-    <a href="{:url('index/product/detail')}">
-	<div class="oneprobox">
-    	<div class="proimg">
-        	<img src="__HOME_IMG__/cs03.jpg" />
-        </div>
-        <div class="proimg-r">
-        	<div class="protit">超新鲜水果特价便宜卖</div>
-            <div class="protimezi">距团购结束时间</div>
-            <div class="protime">
-            	<div class="protime-num">1</div>
-                <div class="protime-zi">天</div>
-                <div class="protime-num">6</div>
-                <div class="protime-zi">时</div>
-                <div class="protime-num">23</div>
-                <div class="protime-zi">分</div>
-                <div class="protime-num">24</div>
-                <div class="protime-zi">秒</div>
-            </div>
-            <div class="proprice">￥<span>18.60</span><div class="buybtn">立即购买</div></div>
-        </div>
-    </div>
-    </a>
-    <a href="{:url('index/product/detail')}">
-	<div class="oneprobox">
-    	<div class="proimg">
-        	<img src="__HOME_IMG__/cs04.jpg" />
-        </div>
-        <div class="proimg-r">
-        	<div class="protit">超新鲜水果特价便宜卖</div>
-            <div class="protimezi">距团购结束时间</div>
-            <div class="protime">
-            	<div class="protime-num">1</div>
-                <div class="protime-zi">天</div>
-                <div class="protime-num">6</div>
-                <div class="protime-zi">时</div>
-                <div class="protime-num">23</div>
-                <div class="protime-zi">分</div>
-                <div class="protime-num">24</div>
-                <div class="protime-zi">秒</div>
-            </div>
-            <div class="proprice">￥<span>18.60</span><div class="buybtn">立即购买</div></div>
-        </div>
-    </div>
-    </a>
-    <a href="{:url('index/product/detail')}">
-	<div class="oneprobox">
-    	<div class="proimg">
-        	<img src="__HOME_IMG__/cs01.jpg" />
-        </div>
-        <div class="proimg-r">
-        	<div class="protit">超新鲜水果特价便宜卖</div>
-            <div class="protimezi">距团购结束时间</div>
-            <div class="protime">
-            	<div class="protime-num">1</div>
-                <div class="protime-zi">天</div>
-                <div class="protime-num">6</div>
-                <div class="protime-zi">时</div>
-                <div class="protime-num">23</div>
-                <div class="protime-zi">分</div>
-                <div class="protime-num">24</div>
-                <div class="protime-zi">秒</div>
-            </div>
-            <div class="proprice">￥<span>18.60</span><div class="buybtn">立即购买</div></div>
-        </div>
-    </div>
-    </a>
+    {/volist}
 </div>
 
 <footer>
@@ -143,8 +79,17 @@
 
 <script type="text/javascript">
 		$(function(){
-				$('.i-gametit').animate({'top':'0'});
-			})
+			$('.i-gametit').animate({'top':'0'});
+		});
+
+        function keyDown(e) {
+            var ev= window.event||e;
+            if (ev.keyCode == 13) {
+                var keyword = $("#keyword").val();
+                // alert(keyword);return false;
+                location.href = 'index?search_field=name&keyword=' + keyword;
+            }
+         }
 		
 		
 </script>

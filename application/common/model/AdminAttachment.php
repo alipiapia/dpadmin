@@ -16,13 +16,13 @@ use think\helper\Hash;
 use think\Db;
 
 /**
- * 商品模型
+ * 附件模型
  * @package app\common\model
  */
-class Product extends Model
+class AdminAttachment extends Model
 {
     // 设置当前模型对应的完整数据表名称
-    protected $table = '__PRODUCT__';
+    protected $table = '__ADMIN_ATTACHMENT__';
 
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
