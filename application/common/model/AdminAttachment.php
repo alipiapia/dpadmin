@@ -32,12 +32,12 @@ class AdminAttachment extends Model
 
     public function setUpdateTimeAttr()
     {
-        return time();
+        return date("Y-m-d H:i:s", time());
     }
 
     public function setCreateTimeAttr()
     {
-        return time();
+        return date("Y-m-d H:i:s", time());
     }
 
     public function getValue($where, $field="name"){
