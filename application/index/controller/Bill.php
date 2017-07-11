@@ -38,7 +38,7 @@ class Bill extends Home
     }
 
     //首页
-    public function index()
+    public function ulist()
     {
         // return '个人中心';
         if(!is_mobile()){
@@ -51,7 +51,7 @@ class Bill extends Home
         // pp($userInfo);
 
         // return $this->fetch();
-        return view('index', [
+        return view('ulist', [
                 'title' => '个人中心-资金明细',
                 'user' => $userInfo,
             ]);
@@ -61,7 +61,7 @@ class Bill extends Home
      * 资金明细
      * @author pp
      */
-    public function detail()
+    public function udetail()
     {
         if(!is_mobile()){
             return "提示：请使用手机访问！";
@@ -69,7 +69,7 @@ class Bill extends Home
         if(request()->isPost()){
             //
         }else{
-            return view('detail', [
+            return view('udetail', [
                     'title' => '个人中心-资金明细',
             ]);
         }

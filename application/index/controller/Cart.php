@@ -17,6 +17,17 @@ namespace app\index\controller;
  */
 class Cart extends Home
 {
+        
+    protected $user;
+
+    protected function _initialize(){
+        parent::_initialize();
+        $this->user = controller('common/User', 'model');
+
+        if(!has_signin()){
+            $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
+        }
+    }
 
     //首页
     public function index()
@@ -30,5 +41,42 @@ class Cart extends Home
                 'title' => '购物车',
                 // 'user' => $userInfo,
             ]);
+    }
+
+    //我的购物车
+    public function ulist()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+
+        //获取用户信息
+        $sessionUser =session('user_auth');
+        $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
+        // pp($userInfo);
+
+        // return $this->fetch();
+        return view('ulist', [
+                'title' => '我的购物车',
+                'user' => $userInfo,
+            ]);
+    }
+
+    /**
+     * 购物车详情
+     * @author pp
+     */
+    public function udetail()
+    {
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        if(request()->isPost()){
+            //
+        }else{
+            return view('udetail', [
+                    'title' => '购物车详情',
+            ]);
+        }
     }
 }

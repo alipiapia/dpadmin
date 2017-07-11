@@ -172,61 +172,6 @@ class User extends Home
     }
 
     /**
-     * 订单
-     * @author pp
-     */
-    public function order()
-    {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-        if(request()->isPost()){
-            //
-        }else{
-            return view('order', [
-                    'title' => '个人中心-我的订单',
-            ]);
-        }
-    }
-
-    /**
-     * 收货地址
-     * @author pp
-     */
-    public function address()
-    {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-        if(request()->isPost()){
-            //
-        }else{
-            // return $this->fetch();
-            return view('address', [
-                    'title' => '个人中心-收货地址',
-            ]);
-        }
-    }
-
-    /**
-     * 资金明细
-     * @author pp
-     */
-    public function bill()
-    {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-        if(request()->isPost()){
-            //
-        }else{
-            return view('bill', [
-                    'title' => '个人中心-资金明细',
-            ]);
-        }
-    }
-
-    /**
      * 支付密码
      * @author pp
      */
@@ -333,24 +278,6 @@ class User extends Home
                     'title' => '个人中心-资料修改',
                     'user' => $userInfo,
             ]);            
-        }
-    }
-
-    /**
-     * 提成
-     * @author pp
-     */
-    public function commission()
-    {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-        if(request()->isPost()){
-            //
-        }else{
-            return view('commission', [
-                    'title' => '个人中心-我的提成',
-            ]);
         }
     }
 

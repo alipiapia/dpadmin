@@ -53,8 +53,14 @@
 
     <script type="text/javascript">
             $(function(){
-                    $('.i-gametit').animate({'top':'0'});
-                });
+                $('.i-gametit').animate({'top':'0'});
+            });
+
+            $('input').keydown(function(e){
+                if(e.keyCode == 13){
+                    $("form").submit();                    
+                }
+            });
     </script>
     </body>
 </html>

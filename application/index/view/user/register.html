@@ -80,6 +80,12 @@
             $("#reg_form").submit();
             // alert("pp");
         });
+
+        $('input').keydown(function(e){
+            if(e.keyCode == 13){
+                $("form").submit();                    
+            }
+        });
     </script>
     </body>
 </html>

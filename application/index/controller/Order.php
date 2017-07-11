@@ -11,6 +11,9 @@
 
 namespace app\index\controller;
 
+use app\common\model\Product as ProductModel;
+use app\common\model\UserAddress as UserAddressModel;
+
 /**
  * 前台订单控制器
  * @package app\index\controller
@@ -20,48 +23,69 @@ class Order extends Home
 {
         
     protected $user;
+    protected $userInfo;
+    protected $product;
+    protected $userAddress;
 
     protected function _initialize(){
         parent::_initialize();
         $this->user = controller('common/User', 'model');
-        // pp(has_signin());
-        // pp(session('user_auth'));
-        // cookie(null);
-        // pp($_COOKIE);
-        // session(null);
-        // pp($_SESSION);
+        $this->userInfo = session('user_auth');
+        $this->product = new ProductModel;
+        $this->userAddress = new UserAddressModel;
 
         if(!has_signin()){
-            // $this->redirect(url('index/user/login'));
             $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
         }
     }
 
-    //首页
-    public function index()
+    /**
+     * 生成订单
+     * @author pp
+     */
+    public function buildOrder()
     {
-        // return '个人中心';
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        $orderInfo['product'] = $this->product->getColumn('');//商品
+        $orderInfo['address'] = $this->userAddress->getColumn(['uid' => $this->userInfo['id']]);//收货地址
+        // pp($orderInfo);
+
+        if(request()->isPost()){
+            //
+        }else{
+            return view('buildorder', [
+                    'title' => '确认订单',
+                    'order' => $orderInfo,
+            ]);
+        }
+    }
+
+    //个人中心-我的订单
+    public function ulist()
+    {
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
 
         //获取用户信息
-        $sessionUser =session('user_auth');
+        $sessionUser = session('user_auth');
         $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
         // pp($userInfo);
 
         // return $this->fetch();
-        return view('index', [
+        return view('ulist', [
                 'title' => '个人中心-我的订单',
                 'user' => $userInfo,
             ]);
     }
 
     /**
-     * 订单详情
+     * 个人中心-订单详情
      * @author pp
      */
-    public function detail()
+    public function udetail()
     {
         if(!is_mobile()){
             return "提示：请使用手机访问！";
@@ -69,7 +93,7 @@ class Order extends Home
         if(request()->isPost()){
             //
         }else{
-            return view('detail', [
+            return view('udetail', [
                     'title' => '个人中心-订单详情',
             ]);
         }

@@ -46,8 +46,10 @@
 			DROP TABLE IF EXISTS `dp_user_address`;
 			CREATE TABLE `dp_user_address` (
 			`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-			`uid` int(11) unsigned NOT NULL DEFAULT '' COMMENT '用户id',
-			`name` varchar(1000) NOT NULL DEFAULT '' COMMENT '地址',
+			`uid` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '用户id',
+			`username` varchar(64) NOT NULL DEFAULT '' COMMENT '收货人',
+			`mobile` varchar(11) NOT NULL COMMENT '手机号码',
+			`address` varchar(1000) NOT NULL DEFAULT '' COMMENT '详细地址',
 			`postcode` varchar(10) NOT NULL DEFAULT '' COMMENT '邮编',
 			`is_defaut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为默认地址：0否 1是',
 			`status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
@@ -224,6 +226,7 @@
 				`seller` int(11) NOT NULL DEFAULT '0' COMMENT '发货人',
 				`buyer` int(11) NOT NULL DEFAULT '0' COMMENT '收货人',
 				`buyer_address` int(11) NOT NULL DEFAULT '0' COMMENT '收货地址',
+				`order_note` varchar(255) DEFAULT '' COMMENT '备注',
 				`pay_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '支付状态(0未支付1支付中2已支付3支付失败)',
 				`pay_type` varchar(20) DEFAULT '0' COMMENT '支付类型(1wxpay 2alipay)',
 				`order_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '订单状态(0待付款1待发货2已发货/待确认收货3已签收/待评价4已评价5申请退款6退款成功)',

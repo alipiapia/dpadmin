@@ -19,102 +19,116 @@
     </head>
     <body>
 
-<!--隐藏浮层-->
-<div class="hidebox-w" style="display:none;">
-	<div class="hidebox">
-    	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-    	提示文字信息
-    	
-    </div>
-</div>
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+        	<div class="hidebox">
+            	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+            	提示文字信息            	
+            </div>
+        </div>
 
 
-<div class="index_banner">
-	<div class="block_home_slider">
-    <div id="home_slider" class="flexslider">
-        <ul class="slides">
-            {volist name="pictures" id="pic"}
-            <li>
-                <div class="slide">
-                    <img src="{$pic.id|get_file_path}" alt="{$pic.name}" />
-                   
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
                 </div>
-            </li>          
-            {/volist}
-        </ul>
-    </div>
-</div>
-</div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
 
-<div class="prod-infobox">
-	<div class="prod-protit">{$product.name}</div>
-    <div class="proprice">￥<span>{$product.price}</span></div>
-    <div class="protimezi">距团购结束时间</div>
-    <div class="protime">
-        <div class="protime-num">1</div>
-        <div class="protime-zi">天</div>
-        <div class="protime-num">6</div>
-        <div class="protime-zi">时</div>
-        <div class="protime-num">23</div>
-        <div class="protime-zi">分</div>
-        <div class="protime-num">24</div>
-        <div class="protime-zi">秒</div>
-    </div>
-    <div class="pro-else">
-    	<div class="else-l">规格：</div>
-        <div class="else-r">
-            {volist name="spec" id="s"}
-        	<div class="gg">{$s.name}</div>
-            {/volist}
+        <div class="index_banner">
+        	<div class="block_home_slider">
+            <div id="home_slider" class="flexslider">
+                <ul class="slides">
+                    {volist name="pictures" id="pic"}
+                    <li>
+                        <div class="slide">
+                            <img src="{$pic.id|get_file_path}" alt="{$pic.name}" />
+                           
+                        </div>
+                    </li>          
+                    {/volist}
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="pro-else">
-    	<div class="else-l">数量：</div>
-        <div class="else-r">
-        	<ul class="buynum">
-            	<li>-</li>
-                <li>1</li>
-                <li>+</li>
+        </div>
+
+        <div class="prod-infobox">
+        	<div class="prod-protit">{$product.name}</div>
+            <div class="proprice">￥<span>{$product.price}</span></div>
+            <div class="protimezi">距团购结束时间</div>
+            <div class="protime">
+                <div class="protime-num">1</div>
+                <div class="protime-zi">天</div>
+                <div class="protime-num">6</div>
+                <div class="protime-zi">时</div>
+                <div class="protime-num">23</div>
+                <div class="protime-zi">分</div>
+                <div class="protime-num">24</div>
+                <div class="protime-zi">秒</div>
+            </div>
+            <div class="pro-else">
+            	<div class="else-l">规格：</div>
+                <div class="else-r">
+                    {volist name="spec" id="s"}
+                	<div class="gg">{$s.name}</div>
+                    {/volist}
+                </div>
+            </div>
+            <div class="pro-else">
+            	<div class="else-l">数量：</div>
+                <div class="else-r">
+                	<ul class="buynum">
+                    	<li>-</li>
+                        <li>1</li>
+                        <li>+</li>
+                    </ul>
+                </div>
+            </div>
+            
+        </div>
+        <div class="title">
+        	<div class="colorline"></div>商品详情
+        </div>
+        <div class="prodetail">
+        	{$product.desc}
+            <br />
+            <Img src="{$product.picture|get_file_path}" />
+        </div>
+
+        <a href="{:url('index/order/buildorder')}">
+            <div class="fix-buybtn">立即购买</div>
+        </a>
+        <footer>
+        <div class="space2"></div>
+        <div class="bottom-o">
+            <ul class="bottom">
+                <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
+                <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
+                <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
+                <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
             </ul>
-        </div>
-    </div>
-    
-</div>
-<div class="title">
-	<div class="colorline"></div>商品详情
-</div>
-<div class="prodetail">
-	{$product.desc}
-    <br />
-    <Img src="{$product.picture|get_file_path}" />
-</div>
+         </div>
 
-<div class="fix-buybtn">立即购买</div>
-<footer>
-<div class="space2"></div>
-<div class="bottom-o">
-    <ul class="bottom">
-        <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
-        <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
-        <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
-        <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
-    </ul>
- </div>
-
-<script type="text/javascript">
-		$(function(){
-				$('#home_slider').flexslider({
-					animation : 'slide',
-				   
-				});
-				
-				$('.gg').click(function(){
-					$('.gg').css('border','1px solid #ccc')	
-					$(this).css('border','2px solid #ff3368')	
-				})
-			})
-		
-		
-</script>
+        <script type="text/javascript">
+        		$(function(){
+        			$('#home_slider').flexslider({
+        				animation : 'slide',
+        			   
+        			});
+        			
+        			$('.gg').click(function(){
+        				$('.gg').css('border','1px solid #ccc')	
+        				$(this).css('border','2px solid #ff3368')	
+        			})
+        		});		
+        		
+        </script>
     </body>
 </html>

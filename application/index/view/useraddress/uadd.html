@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale =1, maximum-scale =1, user-scalable = no" />
+        <meta name="format-detection" content="telephone=no"/>
+        <title>{$title}</title>
+        <link type="text/css" href="__HOME_CSS__/lib.css"  rel="stylesheet"/>
+        <link type="text/css" href="__HOME_CSS__/style.css"  rel="stylesheet"/>
+       
+        <script src="__HOME_JS__/jquery-v1.10.2.min.js" type="text/javascript"></script>
+        
+        <script type="text/javascript" src="__HOME_JS__/jquery.event.drag-1.5.min.js"></script>
+		<script type="text/javascript" src="__HOME_JS__/jquery.touchSlider.js"></script>
+
+		<script type="text/javascript" src="__HOME_JS__/jquery.flexslider-min.js"></script>
+
+        
+    </head>
+    <body>
+
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+        	<div class="hidebox">
+            	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+            	提示文字信息            	
+            </div>
+        </div>
+
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
+                </div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
+
+        <form id="uadd_form" action="{url('index/UserAddress/uadd')}" method="post">
+        <div class="probox">
+        <div class="address-edit">
+            <div class="address-edit-l">
+                收货人：
+            </div>
+           <div class="address-edit-r">
+                <input type="text" name="username" placeholder="请输入收货人姓名"/>
+            </div>
+        </div>
+        <div class="address-edit">
+            <div class="address-edit-l">
+                手机号码：
+            </div>
+           <div class="address-edit-r">
+                <input type="text" name="mobile" placeholder="请输入手机号码"/>
+            </div>
+        </div>
+<!--         <div class="address-edit">
+            <div class="address-edit-l">
+                省份：
+            </div>
+           <div class="address-edit-r">
+                <select>
+                	<option>云南省</option>
+                    <option>云南省</option>
+                    <option>云南省</option>
+                </select>
+            </div>
+        </div>
+        <div class="address-edit">
+            <div class="address-edit-l">
+                城市：
+            </div>
+           <div class="address-edit-r">
+                <select>
+                	<option>昆明市</option>
+                    <option>昆明市</option>
+                    <option>昆明市</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="address-edit" >
+            <div class="address-edit-l">
+                区县：
+            </div>
+           <div class="address-edit-r">
+                <select>
+                	<option>官渡区</option>
+                    <option>官渡区</option>
+                    <option>官渡区</option>
+                </select>
+            </div>
+        </div> -->
+        <div class="address-edit" >
+            <div class="address-edit-l">
+                详细地址：
+            </div>
+           <div class="address-edit-r">
+                <input type="text" name="address" placeholder="请输入详细地址"/>
+            </div>
+        </div>
+
+        </div>
+        <div class="page-box"><div class="button-tj">提交</div></div>
+        </form>
+
+        <div class="space1"></div>	
+
+        <script type="text/javascript">
+        		$(function(){
+        			$('#home_slider').flexslider({
+        				animation : 'slide',
+        			   
+        			});
+        		});
+
+                $('.button-tj').click(function(){
+                    $("form").submit();
+                });
+
+                $('input').keydown(function(e){
+                    if(e.keyCode == 13){
+                        $("form").submit();                    
+                    }
+                });
+        		
+        </script>
+    </body>
+</html>

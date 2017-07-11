@@ -16,13 +16,13 @@ use think\helper\Hash;
 use think\Db;
 
 /**
- * 订单模型
+ * 收货人模型
  * @package app\common\model
  */
-class Order extends Model
+class UserAddress extends Model
 {
     // 设置当前模型对应的完整数据表名称
-    protected $table = '__ORDER__';
+    protected $table = '__USER_ADDRESS__';
 
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
@@ -40,7 +40,7 @@ class Order extends Model
         return date("Y-m-d H:i:s", time());
     }
 
-    public function getValue($where, $field="order_sn"){
+    public function getValue($where, $field="name"){
         return $this->where($where)->value($field);
     }
 
@@ -78,18 +78,6 @@ class Order extends Model
 
     public function upData($data, $where){
         return $this->allowField(true)->save($data,$where);
-    }
-
-    /** 
-     * 生成唯一订单号 
-     */  
-    public function buildOrderNo()  
-    {  
-        $order_sn = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
-        $info = $this->where(array('order_sn' => $order_sn))->find();  
-        (!empty($info)) && $order_sn = $this->buildOrderNo();  
-        return $order_sn;  
-          
     }
 
     
