@@ -25,7 +25,8 @@ class Cart extends Home
         $this->user = controller('common/User', 'model');
 
         if(!has_signin()){
-            $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
+            $this->redirect(url('index/index/loginpatch'));
+            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
         }
     }
 

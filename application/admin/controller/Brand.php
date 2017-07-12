@@ -50,6 +50,7 @@ class Brand extends Admin
                 ['name', '名称', 'text.edit'],
                 ['desc', '描述', 'text.edit'],
                 ['picture', '图片', 'picture'],
+                ['sort', '排序', 'text.edit'],
                 ['create_time', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
@@ -92,6 +93,7 @@ class Brand extends Admin
             ->addFormItems([ // 批量添加表单项
                 ['text', 'name', '品牌名称', '必填'],
                 ['text', 'desc', '描述'],
+                ['text', 'sort', '排序'],
                 ['image', 'picture', '品牌图片'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
@@ -136,6 +138,7 @@ class Brand extends Admin
                 ['hidden', 'id'],
                 ['text', 'name', '品牌名称', '必填'],
                 ['text', 'desc', '描述'],
+                ['text', 'sort', '排序'],
                 ['image', 'picture', '品牌图片'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])

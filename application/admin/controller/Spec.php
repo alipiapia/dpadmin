@@ -49,6 +49,7 @@ class Spec extends Admin
                 ['id', 'ID'],
                 ['name', '名称', 'text.edit'],
                 ['desc', '描述', 'text.edit'],
+                ['sort', '排序', 'text.edit'],
                 ['create_time', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
@@ -91,6 +92,7 @@ class Spec extends Admin
             ->addFormItems([ // 批量添加表单项
                 ['text', 'name', '规格名称', '必填'],
                 ['text', 'desc', '描述'],
+                ['text', 'sort', '排序'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
             ->fetch();
@@ -134,6 +136,7 @@ class Spec extends Admin
                 ['hidden', 'id'],
                 ['text', 'name', '规格名称', '必填'],
                 ['text', 'desc', '描述'],
+                ['text', 'sort', '排序'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])
             ->setFormData($info) // 设置表单数据

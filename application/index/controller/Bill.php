@@ -32,8 +32,8 @@ class Bill extends Home
         // pp($_SESSION);
 
         if(!has_signin()){
-            // $this->redirect(url('index/user/login'));
-            $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
+            $this->redirect(url('index/index/loginpatch'));
+            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
         }
     }
 

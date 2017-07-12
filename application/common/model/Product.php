@@ -27,17 +27,35 @@ class Product extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
-    protected $insert = ['create_time'];
-    protected $update = ['update_time'];
+    // protected $insert = ['create_time'];
+    // protected $update = ['update_time'];
 
-    public function setUpdateTimeAttr()
+    // public function setUpdateTimeAttr()
+    // {
+    //     return date("Y-m-d H:i:s", time());
+    // }
+
+    // public function setCreateTimeAttr()
+    // {
+    //     return date("Y-m-d H:i:s", time());
+    // }
+
+    public function setCreateTimeAttr($value)
     {
-        return date("Y-m-d H:i:s", time());
+        return $value != '' ? strtotime($value) : 0;
+    }
+    public function getCreateTimeAttr($value)
+    {
+        return $value != 0 ? date('Y-m-d H:i:s', $value) : '';
     }
 
-    public function setCreateTimeAttr()
+    public function setGroupEndTimeAttr($value)
     {
-        return date("Y-m-d H:i:s", time());
+        return $value != '' ? strtotime($value) : 0;
+    }
+    public function getGroupEndTimeAttr($value)
+    {
+        return $value != 0 ? date('Y-m-d', $value) : '';
     }
 
     public function getValue($where, $field="name"){
@@ -74,6 +92,27 @@ class Product extends Model
           $returndata = $data->toArray();
         }
         return $returndata;
+    }
+
+    //列表数据
+    public function getLists($where = 1, $order = ['id'], $field = "*", $limit = 8){
+     $lists = $this->where($where)->order($order)->field($field)->limit($limit)->select();
+     $return_lists = [];
+     foreach ($lists as $k => $v){
+         $return_lists[$k] = $v->toArray();
+     }
+     return $return_lists;
+    }
+
+    //分页数据
+    public function getPageLists($where = 1, $order = ['id'], $field = "*", $num){
+    $lists = $this->where($where)->order($order)->paginate($num);
+    $page = $lists->render();
+    $return_lists = [];
+    foreach ($lists as $k => $v){
+       $return_lists[$k] = $v->toArray();
+    }
+    return [$return_lists, $page];
     }
 
     public function upData($data, $where){

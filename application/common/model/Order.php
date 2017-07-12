@@ -27,18 +27,18 @@ class Order extends Model
     // 自动写入时间戳
     protected $autoWriteTimestamp = true;
 
-    protected $insert = ['create_time'];
-    protected $update = ['update_time'];
+    // protected $insert = ['create_time'];
+    // protected $update = ['update_time'];
 
-    public function setUpdateTimeAttr()
-    {
-        return date("Y-m-d H:i:s", time());
-    }
+    // public function setUpdateTimeAttr()
+    // {
+    //     return date("Y-m-d H:i:s", time());
+    // }
 
-    public function setCreateTimeAttr()
-    {
-        return date("Y-m-d H:i:s", time());
-    }
+    // public function setCreateTimeAttr()
+    // {
+    //     return date("Y-m-d H:i:s", time());
+    // }
 
     public function getValue($where, $field="order_sn"){
         return $this->where($where)->value($field);

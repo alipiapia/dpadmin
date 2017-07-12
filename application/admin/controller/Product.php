@@ -54,7 +54,7 @@ class Product extends Admin
             ->setTableName('Product') // 设置数据表名
             ->setSearch(['id' => 'ID', 'name' => '商品名称']) // 设置搜索参数
             ->addOrder('id,name,create_time') // 添加排序
-            ->addFilter('name,cate,brand,spec') // 添加筛选
+            ->addFilter('name') // 添加筛选
             ->addColumns([ // 批量添加列
                 ['id', 'ID'],
                 ['name', '名称', 'text.edit'],
@@ -62,11 +62,12 @@ class Product extends Admin
                 ['cate', '分类', 'select', $cate],
                 ['brand', '品牌', 'select', $brand],
                 // ['spec', '规格', 'select', $spec],
-                ['create_time', '创建时间', 'datetime'],
+                ['group_end_time', '团购截止日期'],
+                ['create_time', '创建时间'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
-            ->addTimeFilter('created_at')
+            ->addTimeFilter('create_time')
             ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
             ->addRightButtons('edit,delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
@@ -84,8 +85,8 @@ class Product extends Admin
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
-            // $data['spec'] = implode(',', $data['spec']);
-            $data['spec'] = input('post.spec/a');
+            $data['spec'] = implode(',', $data['spec']);
+            // $data['spec'] = input('post.spec/a');
             // pp($data);
             
             // 验证
@@ -123,7 +124,7 @@ class Product extends Admin
                 ['text', 'price', '销售价'],
                 ['text', 'promotion_price', '代理价'],
                 ['text', 'stock', '商品库存'],
-                ['text', 'group_days', '团购天数'],
+                ['date', 'group_end_time', '团购截止日期'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
             ->fetch();
@@ -142,8 +143,8 @@ class Product extends Admin
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
-            $data['spec'] = input('post.spec/a');
-            // $data['spec'] = implode(',', $data['spec']);
+            $data['spec'] = implode(',', $data['spec']);
+            // $data['spec'] = input('post.spec/a');
             // pp($data);
 
             // 验证
@@ -185,9 +186,10 @@ class Product extends Admin
                 ['text', 'price', '销售价'],
                 ['text', 'promotion_price', '代理价'],
                 ['text', 'stock', '商品库存'],
-                ['text', 'group_days', '团购天数'],
+                ['date', 'group_end_time', '团购截止日期'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])
+            // ->addDatetime('group_end_time', '团购截止日期', '', 'datetime')
             // ->addSelect('spec', '规格', '提示', $spec, '', 'multiple')
             ->setFormData($info) // 设置表单数据
             // ->submitConfirm()

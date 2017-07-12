@@ -39,8 +39,9 @@ class Product extends Common
         }
 
         $map = $this->getMap();
-        $productList = (new ProductModel)->getColumn($map);
-        // pp($map);
+        // $productList = (new ProductModel)->getColumn($map);
+        $productList = (new ProductModel)->getLists($map, 'sales desc', '');//热卖商品
+        // pp($productList);
 
         // return $this->fetch();
         return view('index', [
