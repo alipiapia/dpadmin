@@ -58,7 +58,7 @@ class User extends Home
         // pp($_COOKIE);
         // session(null);
         // pp($_SESSION);
-        // pp(session('user_auth'));
+        // pp(session('user_auth_index'));
         // pp(has_signin());
         // pp(cookie('signin_token'));
         if(!is_mobile()){

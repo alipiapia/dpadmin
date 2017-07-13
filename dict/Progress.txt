@@ -224,6 +224,7 @@
 				`order_sn` varchar(255) NOT NULL DEFAULT '0' COMMENT '订单号',
 				`product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品id',
 				`product_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品价格',
+				`product_spec` int(11) NOT NULL DEFAULT '0' COMMENT '商品规格',
 				`product_count` int(11) NOT NULL DEFAULT '0' COMMENT '商品数量',
 				`order_price` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '订单总价',
 				`shipping_fee` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '运费',

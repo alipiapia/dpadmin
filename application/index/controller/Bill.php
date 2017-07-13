@@ -25,7 +25,7 @@ class Bill extends Home
         parent::_initialize();
         $this->user = controller('common/User', 'model');
         // pp(has_signin());
-        // pp(session('user_auth'));
+        // pp(session('user_auth_index'));
         // cookie(null);
         // pp($_COOKIE);
         // session(null);
@@ -46,7 +46,7 @@ class Bill extends Home
         }
 
         //获取用户信息
-        $sessionUser =session('user_auth');
+        $sessionUser =session('user_auth_index');
         $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
         // pp($userInfo);
 

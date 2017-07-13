@@ -28,7 +28,7 @@ class UserAddress extends Home
     protected function _initialize(){
         parent::_initialize();
         $this->user = controller('common/User', 'model');
-        $this->userInfo = session('user_auth');
+        $this->userInfo = session('user_auth_index');
         $this->userAddress = new UserAddressModel;
 
         if(!has_signin()){

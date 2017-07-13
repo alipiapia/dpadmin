@@ -40,7 +40,24 @@ class Order extends Model
     //     return date("Y-m-d H:i:s", time());
     // }
 
-    public function getValue($where, $field="order_sn"){
+    public function setCreateTimeAttr($value)
+    {
+        return $value != '' ? strtotime($value) : 0;
+    }
+    public function getCreateTimeAttr($value)
+    {
+        return $value != 0 ? date('Y-m-d H:i:s', $value) : '';
+    }
+    public function setUpdateTimeAttr($value)
+    {
+        return $value != '' ? strtotime($value) : 0;
+    }
+    public function getUpdateTimeAttr($value)
+    {
+        return $value != 0 ? date('Y-m-d H:i:s', $value) : '';
+    }
+
+    public function getValue($where, $field = "order_sn"){
         return $this->where($where)->value($field);
     }
 
@@ -49,7 +66,7 @@ class Order extends Model
      * @param string $field 指定索引
      * @return mixed
      */
-    public function getColumn($where, $field="*"){
+    public function getColumn($where, $field = "*"){
         return $this->where($where)->column($field);
     }
 

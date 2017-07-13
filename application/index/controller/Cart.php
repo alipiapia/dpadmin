@@ -52,7 +52,7 @@ class Cart extends Home
         }
 
         //获取用户信息
-        $sessionUser =session('user_auth');
+        $sessionUser =session('user_auth_index');
         $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
         // pp($userInfo);
 

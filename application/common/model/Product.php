@@ -48,7 +48,14 @@ class Product extends Model
     {
         return $value != 0 ? date('Y-m-d H:i:s', $value) : '';
     }
-
+    public function setUpdateTimeAttr($value)
+    {
+        return $value != '' ? strtotime($value) : 0;
+    }
+    public function getUpdateTimeAttr($value)
+    {
+        return $value != 0 ? date('Y-m-d H:i:s', $value) : '';
+    }
     public function setGroupEndTimeAttr($value)
     {
         return $value != '' ? strtotime($value) : 0;
@@ -57,7 +64,6 @@ class Product extends Model
     {
         return $value != 0 ? date('Y-m-d', $value) : '';
     }
-
     public function getValue($where, $field="name"){
         return $this->where($where)->value($field);
     }

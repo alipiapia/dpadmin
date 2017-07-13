@@ -233,8 +233,8 @@ class User extends Model
             'last_login_time' => $user->last_login_time,
             'last_login_ip'   => get_client_ip(1),
         );
-        session('user_auth', $auth);
-        session('user_auth_sign', $this->dataAuthSign($auth));
+        session('user_auth_index', $auth);
+        session('user_auth_sign_index', $this->dataAuthSign($auth));
 
         // 记住登录
         if ($rememberme) {
@@ -275,7 +275,7 @@ class User extends Model
      */
     public function isLogin()
     {
-        $user = session('user_auth');
+        $user = session('user_auth_index');
         if (empty($user)) {
             // 判断是否记住登录
             if (cookie('?id') && cookie('?signin_token')) {
@@ -291,7 +291,7 @@ class User extends Model
             };
             return 0;
         }else{
-            return session('user_auth_sign') == $this->dataAuthSign($user) ? $user['id'] : 0;
+            return session('user_auth_sign_index') == $this->dataAuthSign($user) ? $user['id'] : 0;
         }
     }
 }

@@ -30,7 +30,7 @@ class Order extends Home
     protected function _initialize(){
         parent::_initialize();
         $this->user = controller('common/User', 'model');
-        $this->userInfo = session('user_auth');
+        $this->userInfo = session('user_auth_index');
         $this->product = new ProductModel;
         $this->userAddress = new UserAddressModel;
 
@@ -71,7 +71,7 @@ class Order extends Home
         }
 
         //获取用户信息
-        $sessionUser = session('user_auth');
+        $sessionUser = session('user_auth_index');
         $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
         // pp($userInfo);
 
