@@ -45,7 +45,7 @@ class Order extends Home
      * @author pp
      */
     public function buildOrder()
-    {
+    {return 1;
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }

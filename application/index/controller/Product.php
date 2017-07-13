@@ -62,8 +62,8 @@ class Product extends Common
         // $productDetail = Db::name('Product')->find($pid);
         $productDetail = (new ProductModel)->getOneDarry(['id' => $pid]);
         $pictures = (new AdminAttachmentModel)->getColumn(['id' => ['in', explode(',', $productDetail['pictures'])]], 'id,name,path');
-        $spec = (new SpecModel)->getColumn(['id' => ['in', explode(',', $productDetail['spec'])]]);
-        // pp($productDetail);
+        $spec = (new SpecModel)->getColumn(['id' => ['in', explode(',', $productDetail['spec'])]], 'id,name,product_id');
+        // pp($spec);
 
         // return $this->fetch();
         return view('detail',[

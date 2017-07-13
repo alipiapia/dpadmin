@@ -77,7 +77,8 @@
             	<div class="else-l">规格：</div>
                 <div class="else-r">
                     {volist name="spec" id="s"}
-                	<div class="gg">{$s.name}</div>
+                	   <!-- <div class="gg" data-select="n" data-id="{$s.id}">{$s.name}</div> -->
+                       <input type="radio" name="spec" value="{$s.id}" />{$s.name}
                     {/volist}
                 </div>
             </div>
@@ -85,10 +86,23 @@
             	<div class="else-l">数量：</div>
                 <div class="else-r">
                 	<ul class="buynum">
-                    	<li>-</li>
-                        <li>1</li>
-                        <li>+</li>
+                    	<li><input id="min" name="" type="button" value="-" /></li>
+                        <li><input id="product_count" name="product_count" type="text" value="1" style="width:30px;text-align: center"/></li>
+                        <li><input id="add" name="" type="button" value="+" /></li>
                     </ul>
+                    <!-- <input id="min" name="" type="button" value="-" />  -->
+                    <!-- <input id="text_box" name="" type="text" value="1" style="width:30px;text-align: center"/>  -->
+                    <!-- <input id="add" name="" type="button" value="+" /> -->
+                </div>
+            </div>
+            <div class="pro-else">
+                <div class="else-l">总价：</div>
+                <div class="else-r" id="total">0</div>
+            </div>
+            <div class="pro-else">
+                <div class="else-l">库存：</div>
+                <div class="else-r">
+                    {$product.stock}
                 </div>
             </div>
             
@@ -102,9 +116,9 @@
             <Img src="{$product.picture|get_file_path}" />
         </div>
 
-        <a href="{:url('index/order/buildorder')}">
-            <div class="fix-buybtn">立即购买</div>
-        </a>
+        <!-- <a href="{:url('index/order/buildorder')}"> -->
+            <div class="fix-buybtn" id="justbuy">立即购买</div>
+        <!-- </a> -->
         <footer>
         <div class="space2"></div>
         <div class="bottom-o">
@@ -112,90 +126,159 @@
                 <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
                 <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
                 <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
-                <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
+                <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>
             </ul>
          </div>
 
         <script type="text/javascript">
+                $(function(){
+                    //获得文本框对象
+                    var t = $("#product_count");
+                    var price = "{$product.price}";
+                    var max_num = "{$product.stock}";
+
+                    //数量增加操作
+                    $("#add").click(function(){
+                        t.val(parseInt(t.val()) + 1)
+                        if (parseInt(t.val()) != 1){
+                            $('#min').attr('disabled',false);
+                        }
+                        //不能超过库存
+                        if(parseInt(t.val()) >= max_num){
+                            $('#add').attr('disabled',true);
+                        }
+                        setTotal();
+                    });
+
+                    //数量减少操作
+                    $("#min").click(function(){
+                        t.val(parseInt(t.val()) - 1);
+                        //数量不能低于1
+                        if (parseInt(t.val()) == 1){
+                            $('#min').attr('disabled',true);
+                        }
+                        setTotal();
+                    });
+
+                    //计算操作
+                    function setTotal(){
+                        $("#total").html((parseInt(t.val()) * price).toFixed(2));//toFixed()是保留小数点的函数很实用哦
+                    }
+
+                    //初始化
+                    setTotal();
+                });
+
         		$(function(){
+
+                    //立即购买
+                    $("#justbuy").on('click', function(d){
+                        var pid = "{$product.id}";
+                        var price = "{$product.price}";
+                        var spec =  $("input:radio[name='spec']:checked").val();
+                        var stock = "{$product.stock}";
+                        var group_end_time = "{$product.group_end_time}";
+                        var count = $("#product_count").val();
+
+                        //商品有效期判断
+                        if(1 > stock){
+                            alert("商品库存不足");return false;
+                        }
+                        if(!spec){
+                            alert("请选择商品规格");return false;
+                        }
+                        // alert(count);return false;
+
+                        //去生成订单
+                        $.ajax({
+                            type:'post',
+                            url:'index/order/buildorder',
+                            data:{pid:pid, spec:spec, count:count},
+                            success:function(s){
+                                alert(s);return false;
+                            }
+                        });
+                    });
+
         			$('#home_slider').flexslider({
         				animation : 'slide',
         			   
         			});
         			
         			$('.gg').click(function(){
-        				$('.gg').css('border','1px solid #ccc')	
-        				$(this).css('border','2px solid #ff3368')	
-        			})
+        				$('.gg').css('border','1px solid #ccc');
+        				$(this).css('border','2px solid #ff3368');
+                        // $(this).attr("data-select", 'y');
+        			});
         		});	
 
-    //时间戳转日期
-    function formatDate(t, type) {
-        var d = new Date(t * 1000);    //根据时间戳生成的时间对象
-        var date;
-        switch(type){
-            case 'year':
-                date = d.getFullYear();
-                break;
-            case 'month':
-                date = d.getMonth() + 1;
-                break;
-            case 'day':
-                date = d.getDate();
-                break;
-            case 'hour':
-                date = d.getHours();
-                break;
-            case 'minute':
-                date = d.getMinutes();
-                break;
-            case 'second':
-                date = d.getSeconds();
-                break;
-            default:
-                date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + " " + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
-        }
-        return date;
-    }
-        
-    //倒计时
-    function ShowCountDown(year, month, day, divname) 
-    { 
-    var now = new Date(); 
-    var endDate = new Date(year, month-1, day); 
-    var leftTime = endDate.getTime()-now.getTime();
-    var leftsecond = parseInt(leftTime/1000); 
-    //var day1=parseInt(leftsecond/(24*60*60*6)); 
-    var day1 = Math.floor(leftsecond/(60*60*24)); 
-    var hour = Math.floor((leftsecond-day1*24*60*60)/3600); 
-    var minute = Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
-    var second = Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
-    var cc = document.getElementById(divname); 
-    // cc.innerHTML = "距离"+year+"年"+month+"月"+day+"日还有："+day1+"天"+hour+"小时"+minute+"分"+second+"秒"; 
-    cc.innerHTML = '<div class="protime-num">'
-                    +day1+'</div><div class="protime-zi">天</div><div class="protime-num">'
-                    +hour+'</div><div class="protime-zi">时</div><div class="protime-num">'
-                    +minute+'</div><div class="protime-zi">分</div><div class="protime-num">'
-                    +second+'</div><div class="protime-zi">秒</div>';
-    }
-        
-    //商品调用倒计时
-    $("div[id^='count']").each(function(i, o){
-        var pid = $(this).attr("date-id");
-        var getime = $(this).attr("date-getime");
-        var getimeArr = getime.split('-');
-        // var year = formatDate(getime, 'year');
-        // var month = formatDate(getime, 'month');
-        // var day = formatDate(getime, 'day');
-        // var hour = formatDate(getime, 'hour');
-        // var minute = formatDate(getime, 'minute');
-        // var second = formatDate(getime, 'second');
-        // alert(formatDate(getime));return false;
-        // alert(getimeArr[2]);return false;
-        window.setInterval(function(){
-            ShowCountDown(getimeArr[0], getimeArr[1], getimeArr[2], 'count' + pid);
-        }, 1000);
-    });	
+                //时间戳转日期
+                function formatDate(t, type) {
+                    var d = new Date(t * 1000);    //根据时间戳生成的时间对象
+                    var date;
+                    switch(type){
+                        case 'year':
+                            date = d.getFullYear();
+                            break;
+                        case 'month':
+                            date = d.getMonth() + 1;
+                            break;
+                        case 'day':
+                            date = d.getDate();
+                            break;
+                        case 'hour':
+                            date = d.getHours();
+                            break;
+                        case 'minute':
+                            date = d.getMinutes();
+                            break;
+                        case 'second':
+                            date = d.getSeconds();
+                            break;
+                        default:
+                            date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + " " + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
+                    }
+                    return date;
+                }
+                    
+                //倒计时
+                function ShowCountDown(year, month, day, divname) 
+                { 
+                var now = new Date(); 
+                var endDate = new Date(year, month-1, day); 
+                var leftTime = endDate.getTime()-now.getTime();
+                var leftsecond = parseInt(leftTime/1000); 
+                //var day1=parseInt(leftsecond/(24*60*60*6)); 
+                var day1 = Math.floor(leftsecond/(60*60*24)); 
+                var hour = Math.floor((leftsecond-day1*24*60*60)/3600); 
+                var minute = Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
+                var second = Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
+                var cc = document.getElementById(divname); 
+                // cc.innerHTML = "距离"+year+"年"+month+"月"+day+"日还有："+day1+"天"+hour+"小时"+minute+"分"+second+"秒"; 
+                cc.innerHTML = '<div class="protime-num">'
+                                +day1+'</div><div class="protime-zi">天</div><div class="protime-num">'
+                                +hour+'</div><div class="protime-zi">时</div><div class="protime-num">'
+                                +minute+'</div><div class="protime-zi">分</div><div class="protime-num">'
+                                +second+'</div><div class="protime-zi">秒</div>';
+                }
+                    
+                //商品调用倒计时
+                $("div[id^='count']").each(function(i, o){
+                    var pid = $(this).attr("date-id");
+                    var getime = $(this).attr("date-getime");
+                    var getimeArr = getime.split('-');
+                    // var year = formatDate(getime, 'year');
+                    // var month = formatDate(getime, 'month');
+                    // var day = formatDate(getime, 'day');
+                    // var hour = formatDate(getime, 'hour');
+                    // var minute = formatDate(getime, 'minute');
+                    // var second = formatDate(getime, 'second');
+                    // alert(formatDate(getime));return false;
+                    // alert(getimeArr[2]);return false;
+                    window.setInterval(function(){
+                        ShowCountDown(getimeArr[0], getimeArr[1], getimeArr[2], 'count' + pid);
+                    }, 1000);
+                });	
         		
         </script>
     </body>

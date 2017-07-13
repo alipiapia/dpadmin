@@ -19,211 +19,211 @@
     </head>
     <body>
 
-<!--隐藏浮层-->
-<div class="hidebox-w" style="display:none;">
-    <div class="hidebox">
-        <div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-        提示文字信息
-        
-    </div>
-</div>
-<!--离线咨询-->
-<div class="fix-right">
-    <img src="__HOME_IMG__/message.png" /><br />离<br />线<br />留<br />言
-</div>
-
-<div class="topsearch">
-    <input type="text" id="keyword" name="keyword" onkeydown="keyDown(event)" value="{$keyword}" placeholder="请输入搜索关键字" />
-    <a href="{:url('index/ucenter/index')}">
-        <img src="__HOME_IMG__/icon09.png" />
-    </a>
-</div>
-
-<ul class="i-iconbox">
-<!--     <a href="#">
-    <li>
-        <div class="iconbg iconbg01"><img src="__HOME_IMG__/i-icon01.png" /></div>
-        即将预售
-    </li>
-    </a>
-    <a href="#">
-    <li>
-        <div class="iconbg iconbg02"><img src="__HOME_IMG__/i-icon02.png" /></div>
-        热销中
-    </li>
-    </a>
-    <a href="#">
-    <li>
-        <div class="iconbg iconbg03"><img src="__HOME_IMG__/i-icon03.png" /></div>
-        过期销售
-    </li>
-    </a>
-    <a href="#">
-    <li>
-        <div class="iconbg iconbg04"><img src="__HOME_IMG__/i-icon04.png" /></div>
-        生活用品
-    </li>
-    </a>
-    <a href="#">
-    <li>
-        <div class="iconbg iconbg05"><img src="__HOME_IMG__/i-icon05.png" /></div>
-        微商爆款
-    </li>
-    </a>
-    <a href="#">
-    <li>
-        <div class="iconbg iconbg06"><img src="__HOME_IMG__/i-icon06.png" /></div>
-        服饰
-    </li>
-    </a>
-    <a href="#">
-    <li>
-        <div class="iconbg iconbg07"><img src="__HOME_IMG__/i-icon07.png" /></div>
-        水果
-    </li>
-    </a>
-    <a href="#">
-    <li>
-        <div class="iconbg iconbg08"><img src="__HOME_IMG__/i-icon08.png" /></div>
-        今日秒杀
-    </li>
-    </a> -->
-
-   {volist name="cate" id="cate"}
-        <!-- <a href="{:url('index/product/index', ['_filter' => 'cate', '_filter_content' => $cate['id']])}"> -->
-        <a href="/index/product/index?_filter=cate&_filter_content={$cate['id']}">
-            <li>
-                <div class="{$cate.icon}"><img src="{$cate.picture|get_file_path}" /></div>
-                {$cate.name}
-            </li>
-        </a>
-    {/volist}
-   
-</ul>
-
-<div class="notice"><img src="__HOME_IMG__/notice.png" />今晚12：00 超级大惊喜等你来！</div>
-<div class="title">
-    <div class="colorline"></div>热卖商品
-</div>
-
-<div class="probox">
-    {volist name="product" id="p"}
-    <a href="{:url('index/product/detail', ['pid' => $p['id']])}">
-    <div class="oneprobox">
-        <div class="proimg">
-            <img src="{$p.picture|get_file_path}" />
-        </div>
-        <div class="proimg-r">
-            <div class="protit">{$p.name}</div>
-            <div class="protimezi">距团购结束时间</div>
-            <div class="protime" id="count{$p.id}" date-id="{$p.id}" date-getime="{$p.group_end_time}">
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+            <div class="hidebox">
+                <div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+                提示文字信息
                 
             </div>
-            <div class="proprice">￥<span>{$p.price}</span></div>
         </div>
-    </div>
-    </a>
-    {/volist}
-</div>
+        <!--离线咨询-->
+        <div class="fix-right">
+            <img src="__HOME_IMG__/message.png" /><br />离<br />线<br />留<br />言
+        </div>
 
-<footer>
-<div class="space1"></div>
-<div class="bottom-o">
-    <ul class="bottom">
-        <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
-        <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
-        <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
-        <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
-    </ul>
- </div>
+        <div class="topsearch">
+            <input type="text" id="keyword" name="keyword" onkeydown="keyDown(event)" value="{$keyword}" placeholder="请输入搜索关键字" />
+            <a href="{:url('index/ucenter/index')}">
+                <img src="__HOME_IMG__/icon09.png" />
+            </a>
+        </div>
 
-<script type="text/javascript">
-        $(function(){
-            $('.i-gametit').animate({'top':'0'});
-        });
+        <ul class="i-iconbox">
+        <!--     <a href="#">
+            <li>
+                <div class="iconbg iconbg01"><img src="__HOME_IMG__/i-icon01.png" /></div>
+                即将预售
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <div class="iconbg iconbg02"><img src="__HOME_IMG__/i-icon02.png" /></div>
+                热销中
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <div class="iconbg iconbg03"><img src="__HOME_IMG__/i-icon03.png" /></div>
+                过期销售
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <div class="iconbg iconbg04"><img src="__HOME_IMG__/i-icon04.png" /></div>
+                生活用品
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <div class="iconbg iconbg05"><img src="__HOME_IMG__/i-icon05.png" /></div>
+                微商爆款
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <div class="iconbg iconbg06"><img src="__HOME_IMG__/i-icon06.png" /></div>
+                服饰
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <div class="iconbg iconbg07"><img src="__HOME_IMG__/i-icon07.png" /></div>
+                水果
+            </li>
+            </a>
+            <a href="#">
+            <li>
+                <div class="iconbg iconbg08"><img src="__HOME_IMG__/i-icon08.png" /></div>
+                今日秒杀
+            </li>
+            </a> -->
 
-        function keyDown(e) {
-            var ev= window.event||e;
-            if (ev.keyCode == 13) {
-                var keyword = $("#keyword").val();
-                // alert(keyword);return false;
-                location.href = '/index/product/index?search_field=name&keyword=' + keyword;
+           {volist name="cate" id="cate"}
+                <!-- <a href="{:url('index/product/index', ['_filter' => 'cate', '_filter_content' => $cate['id']])}"> -->
+                <a href="/index/product/index?_filter=cate&_filter_content={$cate['id']}">
+                    <li>
+                        <div class="{$cate.icon}"><img src="{$cate.picture|get_file_path}" /></div>
+                        {$cate.name}
+                    </li>
+                </a>
+            {/volist}
+           
+        </ul>
+
+        <div class="notice"><img src="__HOME_IMG__/notice.png" />今晚12：00 超级大惊喜等你来！</div>
+        <div class="title">
+            <div class="colorline"></div>热卖商品
+        </div>
+
+        <div class="probox">
+            {volist name="product" id="p"}
+            <a href="{:url('index/product/detail', ['pid' => $p['id']])}">
+            <div class="oneprobox">
+                <div class="proimg">
+                    <img src="{$p.picture|get_file_path}" />
+                </div>
+                <div class="proimg-r">
+                    <div class="protit">{$p.name}</div>
+                    <div class="protimezi">距团购结束时间</div>
+                    <div class="protime" id="count{$p.id}" date-id="{$p.id}" date-getime="{$p.group_end_time}">
+                        
+                    </div>
+                    <div class="proprice">￥<span>{$p.price}</span></div>
+                </div>
+            </div>
+            </a>
+            {/volist}
+        </div>
+
+        <footer>
+        <div class="space1"></div>
+        <div class="bottom-o">
+            <ul class="bottom">
+                <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
+                <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
+                <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
+                <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
+            </ul>
+         </div>
+
+        <script type="text/javascript">
+            $(function(){
+                $('.i-gametit').animate({'top':'0'});
+            });
+
+            function keyDown(e) {
+                var ev= window.event||e;
+                if (ev.keyCode == 13) {
+                    var keyword = $("#keyword").val();
+                    // alert(keyword);return false;
+                    location.href = '/index/product/index?search_field=name&keyword=' + keyword;
+                }
+             }
+
+            // $('input').keydown(function(e){
+            //     if(e.keyCode == 13){
+            //         $("form").submit();                    
+            //     }
+            // }); 
+
+            //时间戳转日期
+            function formatDate(t, type) {
+                var d = new Date(t * 1000);    //根据时间戳生成的时间对象
+                var date;
+                switch(type){
+                    case 'year':
+                        date = d.getFullYear();
+                        break;
+                    case 'month':
+                        date = d.getMonth() + 1;
+                        break;
+                    case 'day':
+                        date = d.getDate();
+                        break;
+                    case 'hour':
+                        date = d.getHours();
+                        break;
+                    case 'minute':
+                        date = d.getMinutes();
+                        break;
+                    case 'second':
+                        date = d.getSeconds();
+                        break;
+                    default:
+                        date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + " " + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
+                }
+                return date;
             }
-         }
-
-        // $('input').keydown(function(e){
-        //     if(e.keyCode == 13){
-        //         $("form").submit();                    
-        //     }
-        // }); 
-
-    //时间戳转日期
-    function formatDate(t, type) {
-        var d = new Date(t * 1000);    //根据时间戳生成的时间对象
-        var date;
-        switch(type){
-            case 'year':
-                date = d.getFullYear();
-                break;
-            case 'month':
-                date = d.getMonth() + 1;
-                break;
-            case 'day':
-                date = d.getDate();
-                break;
-            case 'hour':
-                date = d.getHours();
-                break;
-            case 'minute':
-                date = d.getMinutes();
-                break;
-            case 'second':
-                date = d.getSeconds();
-                break;
-            default:
-                date = (d.getFullYear()) + "-" + (d.getMonth() + 1) + "-" + (d.getDate()) + " " + (d.getHours()) + ":" + (d.getMinutes()) + ":" + (d.getSeconds());
-        }
-        return date;
-    }
-        
-    //倒计时
-    function ShowCountDown(year, month, day, divname) 
-    { 
-    var now = new Date(); 
-    var endDate = new Date(year, month-1, day); 
-    var leftTime = endDate.getTime()-now.getTime();
-    var leftsecond = parseInt(leftTime/1000); 
-    //var day1=parseInt(leftsecond/(24*60*60*6)); 
-    var day1 = Math.floor(leftsecond/(60*60*24)); 
-    var hour = Math.floor((leftsecond-day1*24*60*60)/3600); 
-    var minute = Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
-    var second = Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
-    var cc = document.getElementById(divname); 
-    // cc.innerHTML = "距离"+year+"年"+month+"月"+day+"日还有："+day1+"天"+hour+"小时"+minute+"分"+second+"秒"; 
-    cc.innerHTML = '<div class="protime-num">'
-                    +day1+'</div><div class="protime-zi">天</div><div class="protime-num">'
-                    +hour+'</div><div class="protime-zi">时</div><div class="protime-num">'
-                    +minute+'</div><div class="protime-zi">分</div><div class="protime-num">'
-                    +second+'</div><div class="protime-zi">秒</div>';
-    }
-        
-    //商品调用倒计时
-    $("div[id^='count']").each(function(i, o){
-        var pid = $(this).attr("date-id");
-        var getime = $(this).attr("date-getime");
-        var getimeArr = getime.split('-');
-        // var year = formatDate(getime, 'year');
-        // var month = formatDate(getime, 'month');
-        // var day = formatDate(getime, 'day');
-        // var hour = formatDate(getime, 'hour');
-        // var minute = formatDate(getime, 'minute');
-        // var second = formatDate(getime, 'second');
-        // alert(formatDate(getime));return false;
-        // alert(getimeArr[2]);return false;
-        window.setInterval(function(){
-            ShowCountDown(getimeArr[0], getimeArr[1], getimeArr[2], 'count' + pid);
-        }, 1000);
-    });
-</script>
+                
+            //倒计时
+            function ShowCountDown(year, month, day, divname) 
+            { 
+            var now = new Date(); 
+            var endDate = new Date(year, month-1, day); 
+            var leftTime = endDate.getTime()-now.getTime();
+            var leftsecond = parseInt(leftTime/1000); 
+            //var day1=parseInt(leftsecond/(24*60*60*6)); 
+            var day1 = Math.floor(leftsecond/(60*60*24)); 
+            var hour = Math.floor((leftsecond-day1*24*60*60)/3600); 
+            var minute = Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
+            var second = Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
+            var cc = document.getElementById(divname); 
+            // cc.innerHTML = "距离"+year+"年"+month+"月"+day+"日还有："+day1+"天"+hour+"小时"+minute+"分"+second+"秒"; 
+            cc.innerHTML = '<div class="protime-num">'
+                            +day1+'</div><div class="protime-zi">天</div><div class="protime-num">'
+                            +hour+'</div><div class="protime-zi">时</div><div class="protime-num">'
+                            +minute+'</div><div class="protime-zi">分</div><div class="protime-num">'
+                            +second+'</div><div class="protime-zi">秒</div>';
+            }
+                
+            //商品调用倒计时
+            $("div[id^='count']").each(function(i, o){
+                var pid = $(this).attr("date-id");
+                var getime = $(this).attr("date-getime");
+                var getimeArr = getime.split('-');
+                // var year = formatDate(getime, 'year');
+                // var month = formatDate(getime, 'month');
+                // var day = formatDate(getime, 'day');
+                // var hour = formatDate(getime, 'hour');
+                // var minute = formatDate(getime, 'minute');
+                // var second = formatDate(getime, 'second');
+                // alert(formatDate(getime));return false;
+                // alert(getimeArr[2]);return false;
+                window.setInterval(function(){
+                    ShowCountDown(getimeArr[0], getimeArr[1], getimeArr[2], 'count' + pid);
+                }, 1000);
+            });
+        </script>
     </body>
 </html>
