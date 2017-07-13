@@ -192,7 +192,7 @@
                         //去生成订单
                         $.ajax({
                             type:'post',
-                            url:'index/order/buildorder',
+                            url:'/index/order/buildorder',
                             data:{pid:pid, spec:spec, count:count},
                             success:function(s){
                                 alert(s);return false;

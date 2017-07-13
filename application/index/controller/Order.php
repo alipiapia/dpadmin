@@ -45,7 +45,7 @@ class Order extends Home
      * @author pp
      */
     public function buildOrder()
-    {return 1;
+    {
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
@@ -55,6 +55,7 @@ class Order extends Home
 
         if(request()->isPost()){
             //
+            return 1;
         }else{
             return view('buildorder', [
                     'title' => '确认订单',
