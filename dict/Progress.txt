@@ -51,33 +51,12 @@
 			`mobile` varchar(11) NOT NULL COMMENT '手机号码',
 			`address` varchar(1000) NOT NULL DEFAULT '' COMMENT '详细地址',
 			`postcode` varchar(10) NOT NULL DEFAULT '' COMMENT '邮编',
-			`is_defaut` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为默认地址：0否 1是',
+			`is_default` tinyint(1) NOT NULL DEFAULT '0' COMMENT '是否为默认地址：0否 1是',
 			`status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
 			`create_time` int(11) NOT NULL COMMENT '添加时间',
 			`update_time` int(11) NOT NULL COMMENT '编辑时间',
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户收货地址表';
-			
-			DROP TABLE IF EXISTS `dp_user_address`;
-			CREATE TABLE `dp_user_express_address` (
-			  `id` int(11) NOT NULL AUTO_INCREMENT,
-			  `uid` int(11) NOT NULL COMMENT '会员基本资料表ID',
-			  `consigner` varchar(255) NOT NULL DEFAULT '' COMMENT '收件人',
-			  `mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '手机',
-			  `phone` varchar(20) NOT NULL DEFAULT '' COMMENT '固定电话',
-			  `province` int(11) NOT NULL DEFAULT '0' COMMENT '省',
-			  `city` int(11) NOT NULL DEFAULT '0' COMMENT '市',
-			  `district` int(11) NOT NULL DEFAULT '0' COMMENT '区县',
-			  `address` varchar(255) NOT NULL DEFAULT '' COMMENT '详细地址',
-			  `zip_code` varchar(6) NOT NULL DEFAULT '' COMMENT '邮编',
-			  `alias` varchar(50) NOT NULL DEFAULT '' COMMENT '地址别名',
-			  `is_default` int(11) NOT NULL DEFAULT '0' COMMENT '默认收货地址',
-			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `create_time` int(11) NOT NULL COMMENT '添加时间',
-			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
-			  PRIMARY KEY (`id`),
-			  KEY `IDX_member_express_address_uid` (`uid`)
-			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='会员收货地址管理';
 		
 	2,账户变动；
 		a,建立用户资金变动表@dp_user_account;
@@ -232,71 +211,13 @@
 				`buyer` int(11) NOT NULL DEFAULT '0' COMMENT '收货人',
 				`buyer_address` int(11) NOT NULL DEFAULT '0' COMMENT '收货地址',
 				`order_note` varchar(255) DEFAULT '' COMMENT '备注',
-				`pay_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '支付状态(0未支付1支付中2已支付3支付失败)',
 				`pay_type` varchar(20) DEFAULT '0' COMMENT '支付类型(1wxpay 2alipay)',
+				`pay_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '支付状态(0未支付1支付中2已支付3支付失败)',
 				`order_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '订单状态(0待付款1待发货2已发货/待确认收货3已签收/待评价4已评价5申请退款6退款成功)',
 				`create_time` int(11) NOT NULL COMMENT '添加时间',
 				`update_time` int(11) NOT NULL COMMENT '编辑时间',
 				PRIMARY KEY (`id`),
 				UNIQUE KEY `order_sn` (`order_sn`)
-			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='订单表';
-			
-			DROP TABLE IF EXISTS `dp_order`;
-			CREATE TABLE `dp_order` (
-			  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '订单id',
-			  `no` varchar(255) DEFAULT '' COMMENT '订单编号',
-			  `out_trade_no` varchar(100) NOT NULL DEFAULT '0' COMMENT '外部交易号',
-			  `order_type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '订单类型',
-			  `payment_type` tinyint(4) NOT NULL DEFAULT '0' COMMENT '支付类型。取值范围：\n\n\n\nWEIXIN (微信自有支付)\n\n\n\nWEIXIN_DAIXIAO (微信代销支付)\n\n\n\nALIPAY (支付宝支付)',
-			  `shipping_type` tinyint(4) NOT NULL DEFAULT '1' COMMENT '订单配送方式',
-			  `order_from` varchar(255) NOT NULL DEFAULT '' COMMENT '订单来源',
-			  `buyer_id` int(11) NOT NULL COMMENT '买家id',
-			  `user_name` varchar(50) NOT NULL DEFAULT '' COMMENT '买家会员名称',
-			  `pay_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '订单付款时间',
-			  `buyer_ip` varchar(20) NOT NULL DEFAULT '' COMMENT '买家ip',
-			  `buyer_message` varchar(255) NOT NULL DEFAULT '' COMMENT '买家附言',
-			  `buyer_invoice` varchar(255) NOT NULL DEFAULT '' COMMENT '买家发票信息',
-			  `shipping_time` datetime NOT NULL COMMENT '买家要求配送时间',
-			  `sign_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '买家签收时间',
-			  `receiver_mobile` varchar(11) NOT NULL DEFAULT '' COMMENT '收货人的手机号码',
-			  `receiver_province` int(11) NOT NULL COMMENT '收货人所在省',
-			  `receiver_city` int(11) NOT NULL COMMENT '收货人所在城市',
-			  `receiver_district` int(11) NOT NULL COMMENT '收货人所在街道',
-			  `receiver_address` varchar(255) NOT NULL DEFAULT '' COMMENT '收货人详细地址',
-			  `receiver_zip` varchar(6) NOT NULL DEFAULT '' COMMENT '收货人邮编',
-			  `receiver_name` varchar(50) NOT NULL DEFAULT '' COMMENT '收货人姓名',
-			  `shop_id` int(11) NOT NULL COMMENT '卖家店铺id',
-			  `shop_name` varchar(100) NOT NULL DEFAULT '' COMMENT '卖家店铺名称',
-			  `seller_star` tinyint(4) NOT NULL DEFAULT '0' COMMENT '卖家对订单的标注星标',
-			  `seller_memo` varchar(255) NOT NULL DEFAULT '' COMMENT '卖家对订单的备注',
-			  `consign_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '卖家发货时间',
-			  `consign_time_adjust` int(11) NOT NULL DEFAULT '0' COMMENT '卖家延迟发货时间',
-			  `product_money` decimal(19,2) NOT NULL COMMENT '商品总价',
-			  `order_money` decimal(10,2) NOT NULL COMMENT '订单总价',
-			  `point` int(11) NOT NULL COMMENT '订单消耗积分',
-			  `point_money` decimal(10,2) NOT NULL COMMENT '订单消耗积分抵多少钱',
-			  `coupon_money` decimal(10,2) NOT NULL COMMENT '订单代金券支付金额',
-			  `coupon_id` int(11) NOT NULL COMMENT '订单代金券id',
-			  `user_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '订单余额支付金额',
-			  `user_platform_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '用户平台余额支付',
-			  `promotion_money` decimal(10,2) NOT NULL COMMENT '订单优惠活动金额',
-			  `shipping_money` decimal(10,2) NOT NULL COMMENT '订单运费',
-			  `pay_money` decimal(10,2) NOT NULL COMMENT '订单实付金额',
-			  `refund_money` decimal(10,2) NOT NULL COMMENT '订单退款金额',
-			  `coin_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '购物币金额',
-			  `give_point` int(11) NOT NULL COMMENT '订单赠送积分',
-			  `give_coin` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '订单成功之后返购物币',
-			  `order_status` tinyint(4) NOT NULL COMMENT '订单状态',
-			  `pay_status` tinyint(4) NOT NULL COMMENT '订单付款状态',
-			  `shipping_status` tinyint(4) NOT NULL COMMENT '订单配送状态',
-			  `review_status` tinyint(4) NOT NULL COMMENT '订单评价状态',
-			  `feedback_status` tinyint(4) NOT NULL COMMENT '订单维权状态',
-			  `is_evaluate` smallint(6) NOT NULL DEFAULT '0' COMMENT '是否评价 0为未评价 1为已评价 2为已追评',
-			  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
-			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `create_time` int(11) NOT NULL COMMENT '添加时间',
-			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
-			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
 			DROP TABLE IF EXISTS `dp_order_product`;

@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale =1, maximum-scale =1, user-scalable = no" />
+        <meta name="format-detection" content="telephone=no"/>
+        <title>{$title}</title>
+        <link type="text/css" href="__HOME_CSS__/lib.css"  rel="stylesheet"/>
+        <link type="text/css" href="__HOME_CSS__/style.css"  rel="stylesheet"/>
+       
+        <script src="__HOME_JS__/jquery-v1.10.2.min.js" type="text/javascript"></script>
+        
+        <script type="text/javascript" src="__HOME_JS__/jquery.event.drag-1.5.min.js"></script>
+		<script type="text/javascript" src="__HOME_JS__/jquery.touchSlider.js"></script>
+
+		<script type="text/javascript" src="__HOME_JS__/jquery.flexslider-min.js"></script>
+
+        
+    </head>
+    <body>
+
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+        	<div class="hidebox">
+            	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+            	提示文字信息    	
+            </div>
+        </div>
+
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
+                </div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
+
+        <div class="probox">
+            	<div class="oneprobox">
+                    	<div class="proimg">
+                            <a href="{:url('index/product/detail', ['pid' => $order['product_id']])}">
+                        	<img src="{$order.product.picture|get_file_path}" />
+                            </a>
+                        </div>
+                    <div class="proimg-r">
+                    	<div class="protit">{$order.product.name}</div>
+                        <div class="pro-else">
+                        	<div class="else-l">规格：</div>
+                            <div class="else-r">
+                            	<div class="gg">{$order.product_spec_name}</div>
+                            </div>
+                        </div>
+                        <div class="pro-else">
+                        	<div class="else-l">数量：</div>
+                            <div class="else-r">
+                                <ul class="buynum">
+                                    <li><input id="min" name="" type="button" value="-" /></li>
+                                    <li><input id="product_count" name="product_count" type="text" value="{$order.product_count}" style="width:30px;text-align: center"/></li>
+                                    <li><input id="add" name="" type="button" value="+" /></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="proprice">￥<span>{$order.product.price}</span></div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="recipientbox-w">
+            	<div class="recipientbox">
+                	<div class="title">
+                        <div class="colorline"></div>收件人<span><img src="__HOME_IMG__/close.png" /></span>
+                    </div>
+                	<div class="addressbox">
+                    	<div class="address">请选择收件人姓名电话地址</div>
+                        <div class="changeaddress"><a href="{:url('index/userAddress/selectAddress')}">选择收货人</a></div>
+                    </div>
+                    {notempty name="order.address"}
+                    <div class="addressbox">
+                    	<div class="address" id="address_id" data-id="{$order.address.id}">
+                        <em>{$order.address.username}</em><br />
+                        电话：{$order.address.mobile}<br />
+                        地址：{$order.address.address}
+                        </div>
+                    </div>
+                    {/notempty}
+                    <div class="postage">
+                    	运费：<span>￥<span id="shipping_fee">0</span></span>/件
+                    </div>
+                    <div class="allprice">
+                    	小计：￥<span id="total">0</span>
+                    </div>
+                    <div class="note">
+                    	<input type="text" id="order_note" name="order_note" placeholder="请输入备注信息" />
+                    </div>
+                </div>
+<!--                 {empty name="order.address"}
+                <a href="{:url('index/UserAddress/uadd')}">
+                    <div class="addaddress">添加收件人</div>
+                </a>
+                {/empty} -->
+        </div>
+
+        <div class="fix-buybtn1">
+            <div class="zi">
+                应付金额:<span id="order_price">0</span>元<br />
+            共<span id="total_num"></span>件商品
+            </div>
+        	<div class="fbuybtn" id="justbuy">提交订单</div>
+        </div>
+        <div class="space1"></div>
+
+        <script type="text/javascript">
+            $(function(){
+                //获得文本框对象
+                var t = $("#product_count");
+                var price = "{$order.product.price}";
+                var max_num = "{$order.product.stock}";
+
+                //数量增加操作
+                $("#add").click(function(){
+                    t.val(parseInt(t.val()) + 1)
+                    if (parseInt(t.val()) != 1){
+                        $('#min').attr('disabled',false);
+                    }
+                    //不能超过库存
+                    if(parseInt(t.val()) >= max_num){
+                        $('#add').attr('disabled',true);
+                    }
+                    setTotal();
+                });
+
+                //数量减少操作
+                $("#min").click(function(){
+                    t.val(parseInt(t.val()) - 1);
+                    //数量不能低于1
+                    if (parseInt(t.val()) <= 1){
+                        $('#min').attr('disabled',true);
+                    }
+                    setTotal();
+                });
+
+                //计算操作
+                function setTotal(){
+                    $("#total_num").html(parseInt(t.val()));//商品数量
+                    $("#total").html((parseInt(t.val()) * price).toFixed(2));//toFixed()是保留小数点的函数很实用哦
+                    $("#order_price").html((parseInt(t.val()) * price).toFixed(2));
+                }
+
+                //初始化
+                setTotal();
+            });
+
+    		$(function(){
+    			$('#home_slider').flexslider({
+    				animation : 'slide',    			   
+    			});
+
+                //立即购买
+                $("#justbuy").on('click', function(d){
+                    var uid = "{$session_user.id}";
+                    var product_id = "{$order.product.id}";
+                    var product_price = "{$order.product.price}";
+                    var product_spec =  "{$order.product_spec}";
+                    var product_count = $("#product_count").val();
+                    // var order_price = product_price * product_count;
+                    var stock = "{$order.product.stock}";
+                    var group_end_time = "{$order.product.group_end_time}";
+                    var buyer_address = $("#address_id").attr("data-id");
+                    var order_note = $("#order_note").val();
+
+                    // alert(buyer_address);return false;
+
+                    //登录判断
+                    if(!uid){
+                        window.location.href = '/index/index/loginpatch';return false;
+                    }
+
+                    //商品有效性判断
+                    if((1 > stock) || (product_count > stock)){
+                        alert("商品库存不足");return false;
+                    }
+
+                    if(!product_spec){
+                        alert("请选择商品规格");return false;
+                    }
+
+                    if(1 > product_count){
+                        alert("请选择商品数量");return false;
+                    }
+
+                    if(buyer_address == undefined){
+                        alert("请选择收货地址");return false;                        
+                    }
+
+                    //去生成订单
+                    $.ajax({
+                        type:'post',
+                        url:'/index/order/buildOrder',
+                        data:{product_id:product_id, product_price:product_price, product_spec:product_spec, product_count:product_count,buyer:uid,buyer_address:buyer_address,order_note:order_note},
+                        success:function(s){
+                            // alert(s);return false;
+                            if(s > 0){
+                                location.href = '/index/order/payorder';
+                            }
+                        },
+                        error:function(e){
+                            //
+                        }
+                    });
+                });
+    		});
+        		
+        </script>
+    </body>
+</html>

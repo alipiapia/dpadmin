@@ -91,7 +91,7 @@ class Product extends Model
      * @param string $field
      * @return array
      */
-    public function getOneDarry($where, $field="*"){
+    public function getOneDarry($where, $field = "*"){
         $returndata = [];
         $data = $this->where($where)->field($field)->find();
         if(!empty($data)){

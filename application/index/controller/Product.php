@@ -71,6 +71,7 @@ class Product extends Common
                 'product' => $productDetail,
                 'pictures' => $pictures,
                 'spec' => $spec,
+                'session_user' => session('user_auth_index'),
             ]);
     }
 }

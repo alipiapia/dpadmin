@@ -24,10 +24,15 @@ class Order extends Validate
     protected $rule = [
         'order_sn|订单号' => 'require|unique:Order',
         'product_id|商品' => 'require',
-        'order_price|订单金额' => 'require',
-        'shipping_fee|运费' => 'require|float',
+        'product_price|商品价格' => 'require|float',
+        'product_spec|商品规格' => 'require',
+        'product_count|商品数量' => 'require',
+        'order_price|订单总价' => 'require|float',
+        // 'shipping_fee|运费' => 'require|float',
+        // 'seller|卖家' => 'require',
         'buyer|收货人' => 'require',
         'buyer_address|收货地址' => 'require',
+        // 'pay_type|支付类型' => 'require',
     ];
 
     //定义验证提示
@@ -39,7 +44,7 @@ class Order extends Validate
     protected $scene = [
         'order_sn' => ['order_sn'],
         //添加
-        'add'  =>  ['order_sn' => 'require', 'desc' => 'require'],
+        'add'  =>  ['order_sn' => 'require', 'product_id' => 'require', 'product_price' => 'require', 'product_spec' => 'require', 'product_count' => 'require', 'order_price' => 'require'],
         //更新
         'update'  =>  ['order_sn' => 'require', 'desc' => 'require'],
     ];

@@ -76,6 +76,27 @@ class UserAddress extends Model
         return $returndata;
     }
 
+    //列表数据
+    public function getLists($where = 1, $order = ['id'], $field = "*", $limit = 10){
+     $lists = $this->where($where)->order($order)->field($field)->limit($limit)->select();
+     $return_lists = [];
+     foreach ($lists as $k => $v){
+         $return_lists[$k] = $v->toArray();
+     }
+     return $return_lists;
+    }
+
+    //分页数据
+    public function getPageLists($where = 1, $order = ['id'], $field = "*", $num){
+    $lists = $this->where($where)->order($order)->paginate($num);
+    $page = $lists->render();
+    $return_lists = [];
+    foreach ($lists as $k => $v){
+       $return_lists[$k] = $v->toArray();
+    }
+    return [$return_lists, $page];
+    }
+
     public function upData($data, $where){
         return $this->allowField(true)->save($data,$where);
     }

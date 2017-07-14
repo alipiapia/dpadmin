@@ -84,13 +84,34 @@ class Order extends Model
      * @param string $field
      * @return array
      */
-    public function getOneDarry($where, $field="*"){
+    public function getOneDarry($where, $field = "*"){
         $returndata = [];
         $data = $this->where($where)->field($field)->find();
         if(!empty($data)){
           $returndata = $data->toArray();
         }
         return $returndata;
+    }
+
+    //列表数据
+    public function getLists($where = 1, $order = ['id'], $field = "*", $limit = 10){
+     $lists = $this->where($where)->order($order)->field($field)->limit($limit)->select();
+     $return_lists = [];
+     foreach ($lists as $k => $v){
+         $return_lists[$k] = $v->toArray();
+     }
+     return $return_lists;
+    }
+
+    //分页数据
+    public function getPageLists($where = 1, $order = ['id'], $field = "*", $num){
+    $lists = $this->where($where)->order($order)->paginate($num);
+    $page = $lists->render();
+    $return_lists = [];
+    foreach ($lists as $k => $v){
+       $return_lists[$k] = $v->toArray();
+    }
+    return [$return_lists, $page];
     }
 
     public function upData($data, $where){
@@ -105,8 +126,7 @@ class Order extends Model
         $order_sn = date('Ymd').substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 8);
         $info = $this->where(array('order_sn' => $order_sn))->find();  
         (!empty($info)) && $order_sn = $this->buildOrderNo();  
-        return $order_sn;  
-          
+        return $order_sn;          
     }
 
     

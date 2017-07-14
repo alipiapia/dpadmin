@@ -11,8 +11,10 @@
 
 namespace app\index\controller;
 
+use app\common\model\Order as OrderModel;
 use app\common\model\Product as ProductModel;
 use app\common\model\UserAddress as UserAddressModel;
+use app\common\model\Spec as SpecModel;
 
 /**
  * 前台订单控制器
@@ -24,15 +26,19 @@ class Order extends Home
         
     protected $user;
     protected $userInfo;
+    protected $order;
     protected $product;
     protected $userAddress;
+    protected $spec;
 
     protected function _initialize(){
         parent::_initialize();
         $this->user = controller('common/User', 'model');
         $this->userInfo = session('user_auth_index');
+        $this->order = new OrderModel;
         $this->product = new ProductModel;
         $this->userAddress = new UserAddressModel;
+        $this->spec = new SpecModel;
 
         if(!has_signin()){
             $this->redirect(url('index/index/loginpatch'));
@@ -41,25 +47,81 @@ class Order extends Home
     }
 
     /**
-     * 生成订单
+     * 确认订单
      * @author pp
      */
-    public function buildOrder()
+    public function checkOrder()
     {
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        $orderInfo['product'] = $this->product->getColumn('');//商品
-        $orderInfo['address'] = $this->userAddress->getColumn(['uid' => $this->userInfo['id']]);//收货地址
+        $data = request()->get();
+        if(empty($data['product_id'])){
+            $this->error("商品不存在");
+        }
+
+        $orderInfo['product_id'] = $data['product_id'];
+        $orderInfo['product_spec'] = $data['product_spec'];
+        $orderInfo['product_spec_name'] = $this->spec->getValue(['id' => $data['product_spec']], 'name');
+        $orderInfo['product_count'] = $data['product_count'];
+        $orderInfo['product'] = $this->product->getOneDarry(['id' => $data['product_id']]);//商品
+
+        $defaultAddress = $this->userAddress->getOneDarry(['uid' => $this->userInfo['id'], 'is_default' => 1]);//默认收货地址
+        $latestAddress = $this->userAddress->getLists(['uid' => $this->userInfo['id']], 'update_time DESC', '', 1);//最近更新地址
+        $orderInfo['address'] = $defaultAddress ? $defaultAddress : (isset($latestAddress[0]) ? $latestAddress[0] : []);//收货地址
+        // $orderInfo['address'] = $this->userAddress->getColumn(['uid' => $this->userInfo['id']]);//收货地址
         // pp($orderInfo);
 
+        return view('checkorder', [
+                'title' => '确认订单',
+                'order' => $orderInfo,
+                'session_user' => session('user_auth_index'),
+        ]);
+    }
+
+    /**
+     * 生成订单
+     * @author pp
+     */
+    public function buildOrder(){
+        $data = request()->post();
+        //订单号生成
+        $newOrderNo = $this->order->buildOrderNo();
+        $orderCheck = $this->order->getValue(['order_sn' => $newOrderNo], 'order_sn');//检查订单号唯一性
+        $data['order_sn'] = $orderCheck ? $this->order->buildOrderNo() : $newOrderNo;
+
+        //商品信息
+        $data['product_price'] = $this->product->getValue(['id' => $data['product_id']], 'price');
+        $data['order_price'] = $data['product_count'] * $data['product_price'];
+        $checkResult = $this->validate($data, 'Order');
+        // pp($addOrder);
+        if(true !== $checkResult) return $this->error($checkResult);
+        $creatOrder = OrderModel::create($data);
+        return $creatOrder ? 1 : 0;
+        // if ($order = OrderModel::create($data)) {
+            // return $this->success('订单生成成功', url('index/Order/ulist'));
+        // } else {
+            // return $this->error('订单生成失败');
+        // }
+    }
+
+    /**
+     * 支付订单
+     * @author pp
+     */
+    public function payOrder(){        
+        if(!is_mobile()){
+            return "提示：请使用手机访问！";
+        }
+        pp("pp");
+        $order_sn = input('order_sn');
+        $orderInfo = $this->order->getOneDarry(['order_sn' => $order_sn]);
+        $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
         if(request()->isPost()){
             //
-            return 1;
         }else{
-            return view('buildorder', [
-                    'title' => '确认订单',
-                    'order' => $orderInfo,
+            return view('payorder', [
+                    'title' => '支付订单',
             ]);
         }
     }

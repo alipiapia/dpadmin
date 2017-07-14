@@ -27,7 +27,6 @@
             </div>
         </div>
 
-
         <header class="toptit">
             {$title}
             <a href="JavaScript:history.go(-1)">
@@ -154,7 +153,7 @@
                     $("#min").click(function(){
                         t.val(parseInt(t.val()) - 1);
                         //数量不能低于1
-                        if (parseInt(t.val()) == 1){
+                        if (parseInt(t.val()) <= 1){
                             $('#min').attr('disabled',true);
                         }
                         setTotal();
@@ -173,31 +172,38 @@
 
                     //立即购买
                     $("#justbuy").on('click', function(d){
-                        var pid = "{$product.id}";
-                        var price = "{$product.price}";
-                        var spec =  $("input:radio[name='spec']:checked").val();
+                        var uid = "{$session_user.id}";
+                        var product_id = "{$product.id}";
+                        var product_price = "{$product.price}";
+                        var product_spec =  $("input:radio[name='spec']:checked").val();
+                        var product_count = $("#product_count").val();
                         var stock = "{$product.stock}";
                         var group_end_time = "{$product.group_end_time}";
-                        var count = $("#product_count").val();
 
-                        //商品有效期判断
-                        if(1 > stock){
+                        //登录判断
+                        if(!uid){
+                            window.location.href = '/index/index/loginpatch';return false;
+                        }
+
+                        //商品有效性判断
+                        if((1 > stock) || (product_count > stock)){
                             alert("商品库存不足");return false;
                         }
-                        if(!spec){
+
+                        if(!product_spec){
                             alert("请选择商品规格");return false;
                         }
-                        // alert(count);return false;
 
-                        //去生成订单
-                        $.ajax({
-                            type:'post',
-                            url:'/index/order/buildorder',
-                            data:{pid:pid, spec:spec, count:count},
-                            success:function(s){
-                                alert(s);return false;
-                            }
-                        });
+                        if(1 > product_count){
+                            alert("请选择商品数量");return false;
+                        }
+
+                        // alert(product_count);return false;
+
+                        window.location.href = '/index/order/checkorder?'
+                                             + 'product_id=' + product_id
+                                              + '&product_spec=' + product_spec
+                                               + '&product_count=' + product_count;
                     });
 
         			$('#home_slider').flexslider({
