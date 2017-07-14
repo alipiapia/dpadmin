@@ -75,3 +75,25 @@ if (!function_exists('pp')) {
         die;
     }
 }
+
+if (!function_exists('get_username')) {
+    /**
+     * 断点打印测试
+     * @author pp
+     * @return boolean
+     */
+    function get_username($id){
+        return model('common/user')->getValue(['id' => $id], 'username');
+    }
+}
+
+if (!function_exists('get_product_name')) {
+    /**
+     * 断点打印测试
+     * @author pp
+     * @return boolean
+     */
+    function get_product_name($id){
+        return model('common/product')->getValue(['id' => $id], 'name');
+    }
+}

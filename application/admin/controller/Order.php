@@ -49,14 +49,14 @@ class Order extends Admin
             ->addFilter('id,order_sn') // 添加筛选
             ->addColumns([ // 批量添加列
                 ['order_sn' , '订单号'],
-                ['product_id', '商品'],
+                ['product_id', '商品', 'callback', 'get_product_name'],
                 ['order_price', '订单金额'],
                 ['shipping_fee', '运费', 'text.edit'],
-                ['buyer', '收货人'],
-                ['buyer_address', '收货地址'],
+                ['buyer', '收货人', 'callback', 'get_username'],
+                // ['buyer_address', '收货地址'],
                 ['pay_status', '支付状态', 'status', '', config('order.pay_status')],
                 ['pay_type', '支付类型', 'status', '', config('order.pay_type')],
-                ['create_time', '下单时间', 'datetime'],
+                ['create_time', '下单时间'],
                 ['order_status', '订单状态', 'status', '', config('order.order_status')],
                 ['right_button', '操作', 'btn']
             ])
