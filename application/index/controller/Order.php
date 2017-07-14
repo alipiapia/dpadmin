@@ -87,17 +87,32 @@ class Order extends Home
         $data = request()->post();
         //订单号生成
         $newOrderNo = $this->order->buildOrderNo();
-        $orderCheck = $this->order->getValue(['order_sn' => $newOrderNo], 'order_sn');//检查订单号唯一性
+
+        //商品详情
+        $productInfo = $this->product->getOneDarry(['id' => $data['product_id']]);
+        $data['product_price'] = $productInfo['price'];
+
+        //检查订单号唯一性
+        $orderCheck = $this->order->getValue(['order_sn' => $newOrderNo], 'order_sn');
         $data['order_sn'] = $orderCheck ? $this->order->buildOrderNo() : $newOrderNo;
 
-        //商品信息
-        $data['product_price'] = $this->product->getValue(['id' => $data['product_id']], 'price');
         $data['order_price'] = $data['product_count'] * $data['product_price'];
         $checkResult = $this->validate($data, 'Order');
         // pp($addOrder);
+
         if(true !== $checkResult) return $this->error($checkResult);
         $creatOrder = OrderModel::create($data);
-        return $creatOrder ? 1 : 0;
+        if($creatOrder){
+            $upData = [
+                'stock' => ($productInfo['stock'] - $data['product_count']),//更新库存
+                'sales' => $productInfo['sales'] + $data['product_count'],//更新销售数量
+            ];
+            $upProduct = $this->product->upData($upData, ['id' => $productInfo['id']]);
+            return $data['order_sn'];
+        }else{
+            return 0;
+        }
+        // return $creatOrder ? 1 : 0;
         // if ($order = OrderModel::create($data)) {
             // return $this->success('订单生成成功', url('index/Order/ulist'));
         // } else {
@@ -113,7 +128,6 @@ class Order extends Home
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        pp("pp");
         $order_sn = input('order_sn');
         $orderInfo = $this->order->getOneDarry(['order_sn' => $order_sn]);
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
@@ -122,6 +136,8 @@ class Order extends Home
         }else{
             return view('payorder', [
                     'title' => '支付订单',
+                    'order' => $orderInfo,
+                    'user' => $userInfo,
             ]);
         }
     }

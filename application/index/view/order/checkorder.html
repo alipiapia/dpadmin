@@ -165,7 +165,7 @@
                 $("#justbuy").on('click', function(d){
                     var uid = "{$session_user.id}";
                     var product_id = "{$order.product.id}";
-                    var product_price = "{$order.product.price}";
+                    // var product_price = "{$order.product.price}";
                     var product_spec =  "{$order.product_spec}";
                     var product_count = $("#product_count").val();
                     // var order_price = product_price * product_count;
@@ -202,11 +202,11 @@
                     $.ajax({
                         type:'post',
                         url:'/index/order/buildOrder',
-                        data:{product_id:product_id, product_price:product_price, product_spec:product_spec, product_count:product_count,buyer:uid,buyer_address:buyer_address,order_note:order_note},
+                        data:{product_id:product_id, product_spec:product_spec, product_count:product_count,buyer:uid,buyer_address:buyer_address,order_note:order_note},
                         success:function(s){
                             // alert(s);return false;
                             if(s > 0){
-                                location.href = '/index/order/payorder';
+                                location.href = '/index/order/payorder?order_sn=' + s;
                             }
                         },
                         error:function(e){
