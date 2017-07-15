@@ -43,37 +43,19 @@
 </header>
 
 <div class="u-list-o">
-	<a href="{:url('index/order/udetail')}">
+    {volist name="order" id="o" empty="暂无订单"}
+	<a href="{:url('index/order/udetail', ['order_sn' => $o['order_sn']])}">
     <div class="u-i-list">
-    	<div class="ordernum">订单号：45521233555<span>86.00元</span></div>
+    	<div class="ordernum">订单号：{$o.order_sn}<span>{$o.order_price}元</span></div>
         <div class="orderelse">
-        状态：2017-06-25 待付款<br />
-        商品：某某商品<br />
-        地址：云南省昆市官渡区某某待道某某大楼15号
+        状态：{$o.create_time|date='Y-m-d H:i:s', ###} {$config_order_status[$o['order_status']]}<br />
+        商品：{$o.product_id|get_product_value='name'}<br />
+        地址：{$o.address}
+        <!-- 地址：{$o.buyer_address|get_user_address_value='address'} -->
         </div>
     </div>
     </a>
-    <a href="{:url('index/order/udetail')}">
-    <div class="u-i-list">
-    	<div class="ordernum">订单号：45521233555<span>86.00元</span></div>
-        <div class="orderelse">
-        状态：2017-06-25 待付款<br />
-        商品：某某商品<br />
-        地址：云南省昆市官渡区某某待道某某大楼15号
-        </div>
-    </div>
-    </a>
-    <a href="{:url('index/order/udetail')}">
-    <div class="u-i-list">
-    	<div class="ordernum">订单号：45521233555<span>86.00元</span></div>
-        <div class="orderelse">
-        状态：2017-06-25 待付款<br />
-        商品：某某商品<br />
-        地址：云南省昆市官渡区某某待道某某大楼15号
-        </div>
-    </div>
-    </a>
-   
+   {/volist}
 </div>
 <footer>
 <div class="space1"></div>

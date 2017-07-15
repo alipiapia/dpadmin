@@ -160,6 +160,10 @@ class Order extends Home
 
         //更新账户信息
         $upUserAccount = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+
+        //添加账户明细记录
+        //
+        
         // pp($payCheck);
         return $payCheck;
     }
@@ -171,15 +175,28 @@ class Order extends Home
             return "提示：请使用手机访问！";
         }
 
-        //获取用户信息
-        $sessionUser = session('user_auth_index');
-        $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
-        // pp($userInfo);
+        $map = ['buyer' => $this->userInfo['id']];
+
+        if((input('order_status') !== null)){
+            $map['order_status'] = input('order_status');
+        }
+
+        // pp($map); 
+
+        //我的订单
+        $orders = $this->order->getColumn($map);
+        $newOrders = $orders;
+        foreach ($orders as $k => $v) {
+            $userAddress = $this->userAddress->getOneDarry(['id' => $v['buyer_address']]);
+            $newOrders[$k]['address'] = $userAddress['username'] .' ' . $userAddress['mobile'] . '' .$userAddress['address'] . $v['order_note'];
+        }
+        // pp($newOrders);
 
         // return $this->fetch();
         return view('ulist', [
                 'title' => '个人中心-我的订单',
-                'user' => $userInfo,
+                'order' => $newOrders,
+                'config_order_status' => config('order.order_status'),
             ]);
     }
 
@@ -193,7 +210,7 @@ class Order extends Home
             return "提示：请使用手机访问！";
         }
         if(request()->isPost()){
-            //
+            pp(input('order_sn'));
         }else{
             return view('udetail', [
                     'title' => '个人中心-订单详情',

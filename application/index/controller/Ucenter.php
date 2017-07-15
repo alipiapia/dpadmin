@@ -19,11 +19,15 @@ namespace app\index\controller;
 class Ucenter extends Home
 {
         
+    protected $userInfo;
     protected $user;
+    protected $order;
 
     protected function _initialize(){
         parent::_initialize();
+        $this->userInfo = session('user_auth_index');
         $this->user = controller('common/User', 'model');
+        $this->order = controller('common/Order', 'model');
         // pp(has_signin());
         // pp(session('user_auth_index'));
         // cookie(null);
@@ -46,9 +50,11 @@ class Ucenter extends Home
         }
 
         //获取用户信息
-        $sessionUser =session('user_auth_index');
-        $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
-        // pp($userInfo);
+        $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
+
+        //订单信息
+        // $orderCount0 = $this->order->where(['order_status' => 0])->count();
+        // pp($orderCount);
 
         // return $this->fetch();
         return view('index', [

@@ -54,7 +54,7 @@ if (!function_exists('has_signin')) {
     /**
      * 判断是否登录
      * @author pp
-     * @return mixed
+     * @return Boolean
      */
     function has_signin()
     {
@@ -66,7 +66,7 @@ if (!function_exists('pp')) {
     /**
      * 断点打印测试
      * @author pp
-     * @return boolean
+     * @return Mixed
      */
     function pp($arr){
         echo "<pre>";        
@@ -76,24 +76,46 @@ if (!function_exists('pp')) {
     }
 }
 
-if (!function_exists('get_username')) {
+if (!function_exists('get_user_value')) {
     /**
-     * 断点打印测试
+     * 获取某一column
      * @author pp
-     * @return boolean
+     * @return String
      */
-    function get_username($id){
-        return model('common/user')->getValue(['id' => $id], 'username');
+    function get_user_value($id, $column){
+        return model('common/user')->getValue(['id' => $id], $column);
     }
 }
 
-if (!function_exists('get_product_name')) {
+if (!function_exists('get_product_value')) {
     /**
-     * 断点打印测试
+     * 获取某一column
      * @author pp
-     * @return boolean
+     * @return String
      */
-    function get_product_name($id){
-        return model('common/product')->getValue(['id' => $id], 'name');
+    function get_product_value($id, $column){
+        return model('common/product')->getValue(['id' => $id], $column);
+    }
+}
+
+if (!function_exists('get_user_address_value')) {
+    /**
+     * 获取某一column
+     * @author pp
+     * @return String
+     */
+    function get_user_address_value($id, $column){
+        return model('common/useraddress')->getValue(['id' => $id], $column);
+    }
+}
+
+if (!function_exists('get_order_status_count')) {
+    /**
+     * 订单状态统计
+     * @author pp
+     * @return Int
+     */
+    function get_order_status_count($status){
+        return model('common/order')->where(['order_status' => $status])->count();
     }
 }
