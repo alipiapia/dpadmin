@@ -121,25 +121,47 @@ class Order extends Home
     }
 
     /**
-     * 支付订单
+     * 检查支付密码
      * @author pp
      */
-    public function payOrder(){        
+    public function checkPay(){        
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        $order_sn = input('order_sn');
+        $order_sn = input('order_sn') ? input('order_sn'): 0;
         $orderInfo = $this->order->getOneDarry(['order_sn' => $order_sn]);
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
-        if(request()->isPost()){
-            //
-        }else{
-            return view('payorder', [
-                    'title' => '支付订单',
-                    'order' => $orderInfo,
-                    'user' => $userInfo,
-            ]);
+        if(!$userInfo['paypass']){
+            $this->error("请先设置支付密码", url('index/user/paypass'));
         }
+        if(!input('order_sn') || !$orderInfo){
+            $this->error("订单不存在");
+        }
+
+        return view('checkpay', [
+                'title' => '支付订单',
+                'order' => $orderInfo,
+                'user' => $userInfo,
+        ]);
+    }
+
+    /**
+     * 支付订单
+     * @author pp
+     */
+    public function payOrder(){
+        $data = request()->post();
+        $orderInfo = $this->order->getOneDarry(['order_sn' => $data['order_sn']]);
+        $payCheck = $this->user->checkPass($this->userInfo['id'], 'paypass', $data['paypass']);
+        $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
+
+        //更新订单信息
+        $upUserOrder = $this->order->upData(['order_status' => 1, 'pay_status' => 1], ['order_sn' => $data['order_sn']]);
+
+        //更新账户信息
+        $upUserAccount = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+        // pp($payCheck);
+        return $payCheck;
     }
 
     //个人中心-我的订单

@@ -61,7 +61,7 @@
                             <div class="else-r">
                                 <ul class="buynum">
                                     <li><input id="min" name="" type="button" value="-" /></li>
-                                    <li><input id="product_count" name="product_count" type="text" value="{$order.product_count}" style="width:30px;text-align: center"/></li>
+                                    <li><input id="product_count" name="product_count" type="number" value="{$order.product_count}" style="width:30px;text-align: center"/></li>
                                     <li><input id="add" name="" type="button" value="+" /></li>
                                 </ul>
                             </div>
@@ -174,20 +174,20 @@
                     var buyer_address = $("#address_id").attr("data-id");
                     var order_note = $("#order_note").val();
 
-                    // alert(buyer_address);return false;
+                    // alert(Number(product_count) > Number(stock));return false;
 
                     //登录判断
                     if(!uid){
                         window.location.href = '/index/index/loginpatch';return false;
                     }
 
-                    //商品有效性判断
-                    if((1 > stock) || (product_count > stock)){
-                        alert("商品库存不足");return false;
-                    }
-
                     if(!product_spec){
                         alert("请选择商品规格");return false;
+                    }
+
+                    //商品有效性判断
+                    if((1 > stock) || (Number(product_count) > Number(stock))){
+                        alert("商品库存不足");return false;
                     }
 
                     if(1 > product_count){
@@ -206,7 +206,7 @@
                         success:function(s){
                             // alert(s);return false;
                             if(s > 0){
-                                location.href = '/index/order/payorder?order_sn=' + s;
+                                location.href = '/index/order/checkpay?order_sn=' + s;
                             }
                         },
                         error:function(e){

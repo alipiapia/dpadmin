@@ -86,7 +86,7 @@
                 <div class="else-r">
                 	<ul class="buynum">
                     	<li><input id="min" name="" type="button" value="-" /></li>
-                        <li><input id="product_count" name="product_count" type="text" value="1" style="width:30px;text-align: center"/></li>
+                        <li><input id="product_count" name="product_count" type="number" value="1" style="width:30px;text-align: center"/></li>
                         <li><input id="add" name="" type="button" value="+" /></li>
                     </ul>
                     <!-- <input id="min" name="" type="button" value="-" />  -->
@@ -185,13 +185,13 @@
                             window.location.href = '/index/index/loginpatch';return false;
                         }
 
-                        //商品有效性判断
-                        if((1 > stock) || (product_count > stock)){
-                            alert("商品库存不足");return false;
-                        }
-
                         if(!product_spec){
                             alert("请选择商品规格");return false;
+                        }
+
+                        //商品有效性判断
+                        if((1 > stock) || (Number(product_count) > Number(stock))){
+                            alert("商品库存不足");return false;
                         }
 
                         if(1 > product_count){
