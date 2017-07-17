@@ -60,6 +60,7 @@ class Ucenter extends Home
         return view('index', [
                 'title' => '个人中心',
                 'user' => $userInfo,
+                'config_order_status' => config('order.order_status'),
             ]);
     }
 }
