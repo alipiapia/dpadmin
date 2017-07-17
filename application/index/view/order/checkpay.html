@@ -61,14 +61,16 @@
             	<div class="pay-way-l">帐户余额支付：</div>
                 <div class="pay-way-r">可用余额：{$user.balance}元</div>
             </div>
-            {if condition="$user['balance'] >= $order['product_price']"}
+            {if condition="($user['balance'] >= $order['product_price'])"}
+            {eq name="order.order_status" value="0"}
             <div class="pay-password">支付密码：<input type="password" id="paypass" name="paypass" placeholder="请输入支付密码" /></div>
+            {/eq}
             {else /}
             <div class="pay-password">余额不足，请先<a href="{:url('index/ucenter/index')}">充值</a></div>
             {/if}
         </div>
 
-        {if condition="$user['balance'] >= $order['product_price']"}
+        {if condition="($user['balance'] >= $order['product_price']) && ($order['order_status'] == 0)"}
         <div class="page-box"> <div class="button-tj" id="justpay">确认支付</div></div>
         {/if}
         <footer>
@@ -103,8 +105,10 @@
                         url:'/index/order/payOrder',
                         data:{paypass:paypass,order_sn:order_sn},
                         success:function(s){
-                            if(s > 0){
+                            if(s == 1){
                                 location.href = '/index/order/ulist';
+                            }else if(s == 2){
+                                alert("订单已支付或被删除");return false;
                             }else{
                                 alert("支付密码错误");return false;
                             }

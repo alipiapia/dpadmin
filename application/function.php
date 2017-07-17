@@ -98,6 +98,28 @@ if (!function_exists('get_product_value')) {
     }
 }
 
+if (!function_exists('get_cate_value')) {
+    /**
+     * 获取某一column
+     * @author pp
+     * @return String
+     */
+    function get_cate_value($id, $column){
+        return model('common/cate')->getValue(['id' => $id], $column);
+    }
+}
+
+if (!function_exists('get_spec_value')) {
+    /**
+     * 获取某一column
+     * @author pp
+     * @return String
+     */
+    function get_spec_value($id, $column){
+        return model('common/spec')->getValue(['id' => $id], $column);
+    }
+}
+
 if (!function_exists('get_user_address_value')) {
     /**
      * 获取某一column

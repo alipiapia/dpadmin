@@ -64,16 +64,16 @@
 			CREATE TABLE `dp_user_account` (
 			`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
 			`put_id` int(11) unsigned NOT NULL DEFAULT '' COMMENT '发起方用户id',
-			`get_id` int(11) unsigned NOT NULL DEFAULT '' COMMENT '接收方用户id',
+			`sign` smallint(6) NOT NULL DEFAULT '1' COMMENT '正负号',
 			`count` decimal(11,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '变动余额',
 			`type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '变动类型：0充值 1返利 2提成',
-			`title` varchar(255) NOT NULL DEFAULT '' COMMENT '变动说明',
+			`desc` varchar(255) NOT NULL DEFAULT '' COMMENT '变动说明',
 			`create_time` int(11) NOT NULL COMMENT '添加时间',
 			`update_time` int(11) NOT NULL COMMENT '编辑时间',
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户资金变动表';
 			
-			DROP TABLE IF EXISTS `dp_user_account`;
+			DROP TABLE IF EXISTS `dp_user_account_records`;
 			CREATE TABLE `dp_user_account_records` (
 			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
 			  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',

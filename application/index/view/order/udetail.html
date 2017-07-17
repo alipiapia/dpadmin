@@ -19,135 +19,137 @@
     </head>
     <body>
 
-<!--隐藏浮层-->
-<div class="hidebox-w" style="display:none;">
-	<div class="hidebox">
-    	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-    	提示文字信息
-    	
-    </div>
-</div>
-
-<!--取消订单-->
-<div class="cancel-order-w" style="display:none;">
-	<div class="cancel-order">
-    	<div class="text">确实要操作吗？订单取水将不能恢复</div>
-        <ul class="operation">
-        	<li>取消</li>
-            <li>确认</li>
-        </ul>
-    </div>
-</div>
-
-<header class="toptit">
-    {$title}
-    <a href="JavaScript:history.go(-1)">
-        <div class="go-back">
-            <img src="__HOME_IMG__/arrow-l.png" />
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+        	<div class="hidebox">
+            	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+            	提示文字信息
+            	
+            </div>
         </div>
-    </a>
-    <a href="{:url('index/index/index')}">
-        <div class="go-home">
-            <img src="__HOME_IMG__/home.png" />
-        </div>
-    </a>
-</header>
 
-<div class="probox">
-	
-	<div class="oneprobox">
-    	<div class="proimg">
-        	<img src="__HOME_IMG__/cs02.jpg" />
+        <!--取消订单-->
+        <div class="cancel-order-w" style="display:none;">
+        	<div class="cancel-order">
+            	<div class="text">确实要操作吗？订单取水将不能恢复</div>
+                <ul class="operation">
+                	<li>取消</li>
+                    <li>确认</li>
+                </ul>
+            </div>
         </div>
-        <div class="proimg-r">
-        	<div class="protit">商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页</div>
-            <div class="pro-else">
-            	<div class="else-l">规格：</div>
+
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
+                </div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
+
+        <div class="probox">
+        	
+        	<div class="oneprobox">
+            	<div class="proimg">
+                	<img src="__HOME_IMG__/cs02.jpg" />
+                </div>
+                <div class="proimg-r">
+                	<div class="protit">{$order.product_id|get_product_value='name'}</div>
+                    <div class="pro-else">
+                    	<div class="else-l">规格：</div>
+                        <div class="else-r">
+                        	<div class="gg">{$order.product_spec|get_spec_value='name'}</div>
+                        </div>
+                    </div>
+                    <div class="pro-else">
+            	<div class="else-l">数量：</div>
                 <div class="else-r">
-                	<div class="gg">200g每份</div>
+                	{$order.product_count}
                 </div>
             </div>
-            <div class="pro-else">
-    	<div class="else-l">数量：</div>
-        <div class="else-r">
-        	5
+                    <div class="proprice">￥<span>{$order.order_price}</span></div>
+                </div>
+            </div>
+           
+         
         </div>
-    </div>
-            <div class="proprice">￥<span>18.60</span></div>
+        <div class="order-d-o">
+        	<div class="order-d">
+            	<div class="order-d-one order-d-address">
+                	<div class="order-d-address-l">收货地址：</div>
+                    <div class="order-d-address-r">{$order.buyer_address|get_user_address_value='address'}</div>
+                	
+                </div>
+            </div>
+            <div class="order-d">
+            	<div class="order-d-one">
+                	订单状态：<span>{$config_order_status[$order['order_status']]}</span>
+                </div>
+                <div class="order-d-one">
+                	交易订单：<span>{$order.order_sn}</span>
+                </div>
+                <div class="order-d-one">
+                	订单时间：<span>{$order.create_time}</span>
+                </div>
+            </div>
+            <div class="order-d">
+            	<div class="order-d-one">
+                	付款状态：<em>{$config_pay_status[$order['pay_status']]}</em>
+                </div>
+                <div class="order-d-one">
+                	商品金额：<em>{$order.product_price}元</em>
+                </div>
+                <div class="order-d-one">
+                	运费金额：<em>{$order.shipping_fee}元</em>
+                </div>
+                <div class="order-d-one">
+                	订单总额：<em>{$order.order_price}元</em>
+                </div>
+                <div class="order-d-one order-d-address">
+                	<div class="order-d-address-l">订单备注：</div>
+                    <div class="order-d-address-r">{$order.order_note}</div>
+                	
+                </div>
+            </div>
         </div>
-    </div>
-   
- 
-</div>
-<div class="order-d-o">
-	<div class="order-d">
-    	<div class="order-d-one order-d-address">
-        	<div class="order-d-address-l">收货地址：</div>
-            <div class="order-d-address-r">云南省昆市官渡区某某待道某某大楼云南省昆市官渡区某某待道某某大楼</div>
-        	
+        {neq name="order.order_status" value="3"}
+        <div class="page-box">
+            {eq name="order.order_status" value="0"}
+            <div class="button-tj" id="justbuy">立即支付</div>
+            {/eq}
+            <div class="button-tj button-tj1">取消订单</div>
         </div>
-    </div>
-    <div class="order-d">
-    	<div class="order-d-one">
-        	订单状态：<span>待发货</span>
-        </div>
-        <div class="order-d-one">
-        	交易订单：<span>154886566455</span>
-        </div>
-        <div class="order-d-one">
-        	订单时间：<span>2017-06-24 10：00</span>
-        </div>
-    </div>
-    <div class="order-d">
-    	<div class="order-d-one">
-        	付款状态：<em>未付款</em>
-        </div>
-        <div class="order-d-one">
-        	商品金额：<em>56.00元</em>
-        </div>
-        <div class="order-d-one">
-        	运费金额：<em>10.00元</em>
-        </div>
-        <div class="order-d-one">
-        	订单总额：<em>66.00元</em>
-        </div>
-        <div class="order-d-one order-d-address">
-        	<div class="order-d-address-l">订单备注：</div>
-            <div class="order-d-address-r">备注信息备注信息备注信息备注信息备注信息备注信息</div>
-        	
-        </div>
-    </div>
-</div>
-<div class="page-box">
- <div class="button-tj">立即支付</div>
-  <div class="button-tj button-tj1">取消订单</div>
-</div>
-<footer>
-<div class="space1"></div>
-<div class="bottom-o">
-    <ul class="bottom">
-        <a href="#"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
-        <a href="#">
-        <li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li>
-        </a>
-        <a href="#"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
-        <a href="#"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>
-        
-      
-    </ul>
- </div>
+        {/neq}
+        <footer>
+        <div class="space1"></div>
+            <div class="bottom-o">
+                <ul class="bottom">
+                    <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
+                    <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
+                    <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
+                    <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
+                </ul>
+             </div>
 
+        <script type="text/javascript">
+        		$(function(){
+        			$('#home_slider').flexslider({
+        				animation : 'slide',			   
+        			});
+        		});
 
-
-<script type="text/javascript">
-		$(function(){
-				$('#home_slider').flexslider({
-					animation : 'slide',
-				   
-				});
-			})
-		
-		
-</script>
+                $("#justbuy").on('click', function(d){
+                    var order_sn = "{$order.order_sn}";
+                    // alert(order_sn);return false;
+                    location.href = '/index/order/checkPay?order_sn=' + order_sn;
+                });
+        		
+        </script>
     </body>
 </html>

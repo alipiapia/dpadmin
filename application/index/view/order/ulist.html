@@ -19,64 +19,62 @@
     </head>
     <body>
 
-<!--隐藏浮层-->
-<div class="hidebox-w" style="display:none;">
-	<div class="hidebox">
-    	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-    	提示文字信息
-    	
-    </div>
-</div>
-
-<header class="toptit">
-    {$title}
-    <a href="JavaScript:history.go(-1)">
-        <div class="go-back">
-            <img src="__HOME_IMG__/arrow-l.png" />
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+        	<div class="hidebox">
+            	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+            	提示文字信息
+            	
+            </div>
         </div>
-    </a>
-    <a href="{:url('index/index/index')}">
-        <div class="go-home">
-            <img src="__HOME_IMG__/home.png" />
-        </div>
-    </a>
-</header>
 
-<div class="u-list-o">
-    {volist name="order" id="o" empty="暂无订单"}
-	<a href="{:url('index/order/udetail', ['order_sn' => $o['order_sn']])}">
-    <div class="u-i-list">
-    	<div class="ordernum">订单号：{$o.order_sn}<span>{$o.order_price}元</span></div>
-        <div class="orderelse">
-        状态：{$o.create_time|date='Y-m-d H:i:s', ###} {$config_order_status[$o['order_status']]}<br />
-        商品：{$o.product_id|get_product_value='name'}<br />
-        地址：{$o.address}
-        <!-- 地址：{$o.buyer_address|get_user_address_value='address'} -->
-        </div>
-    </div>
-    </a>
-   {/volist}
-</div>
-<footer>
-<div class="space1"></div>
-    <div class="bottom-o">
-        <ul class="bottom">
-            <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
-            <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
-            <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
-            <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
-        </ul>
-     </div>
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
+                </div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
 
-<script type="text/javascript">
-		$(function(){
-				$('#home_slider').flexslider({
-					animation : 'slide',
-				   
-				});
-			})
-		
-		
-</script>
+        <div class="u-list-o">
+            {volist name="order" id="o" empty="暂无订单"}
+        	<a href="{:url('index/order/udetail', ['order_sn' => $o['order_sn']])}">
+            <div class="u-i-list">
+            	<div class="ordernum">订单号：{$o.order_sn}<span>{$o.order_price}元</span></div>
+                <div class="orderelse">
+                状态：{$o.create_time|date='Y-m-d H:i:s', ###} {$config_order_status[$o['order_status']]}<br />
+                商品：{$o.product_id|get_product_value='name'}<br />
+                地址：{$o.address}
+                <!-- 地址：{$o.buyer_address|get_user_address_value='address'} -->
+                </div>
+            </div>
+            </a>
+           {/volist}
+        </div>
+        <footer>
+        <div class="space1"></div>
+            <div class="bottom-o">
+                <ul class="bottom">
+                    <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
+                    <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
+                    <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
+                    <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
+                </ul>
+             </div>
+
+        <script type="text/javascript">
+        		$(function(){
+        			$('#home_slider').flexslider({
+        				animation : 'slide',			   
+        			});
+        		});		
+        		
+        </script>
     </body>
 </html>

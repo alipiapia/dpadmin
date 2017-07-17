@@ -152,6 +152,11 @@ class Order extends Home
     public function payOrder(){
         $data = request()->post();
         $orderInfo = $this->order->getOneDarry(['order_sn' => $data['order_sn']]);
+        //添加 除待付款以外状态不允许付款
+        if($orderInfo['order_status'] != 0){
+            // $this->error("订单已支付或被删除");
+            return 2;
+        }
         $payCheck = $this->user->checkPass($this->userInfo['id'], 'paypass', $data['paypass']);
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
 
@@ -209,11 +214,22 @@ class Order extends Home
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
+
+        if(!input('order_sn')){
+            $this->error("订单不存在");
+        }
+
+        $orderInfo = $this->order->getOneDarry(['order_sn' => input('order_sn')]);
+        // pp($orderInfo);
+
         if(request()->isPost()){
             pp(input('order_sn'));
         }else{
             return view('udetail', [
                     'title' => '个人中心-订单详情',
+                    'order' => $orderInfo,
+                    'config_order_status' => config('order.order_status'),
+                    'config_pay_status' => config('order.pay_status'),
             ]);
         }
     }
