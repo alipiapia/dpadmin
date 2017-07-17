@@ -11,25 +11,25 @@
 
 namespace app\index\controller;
 
+use app\common\model\UserAddress as UserAddressModel;
+
 /**
- * 前台资金明细控制器
+ * 用户资金变动控制器
  * @package app\index\controller
  */
 
-class Bill extends Home
+class UserAccount extends Home
 {
         
     protected $user;
+    protected $userInfo;
+    protected $userAccount;
 
     protected function _initialize(){
         parent::_initialize();
         $this->user = controller('common/User', 'model');
-        // pp(has_signin());
-        // pp(session('user_auth_index'));
-        // cookie(null);
-        // pp($_COOKIE);
-        // session(null);
-        // pp($_SESSION);
+        $this->userInfo = session('user_auth_index');
+        $this->userAccount = new UserAddressModel;
 
         if(!has_signin()){
             $this->redirect(url('index/index/loginpatch'));
@@ -37,28 +37,27 @@ class Bill extends Home
         }
     }
 
-    //首页
+    //个人中心-我的收货地址
     public function ulist()
     {
-        // return '个人中心';
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
 
         //获取用户信息
-        $sessionUser =session('user_auth_index');
-        $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
-        // pp($userInfo);
+        // $uid = $this->user->getValue(['id' => $this->userInfo['id']], 'id');
+        $userAccount = $this->userAccount->getColumn(['uid' => $this->userInfo['id']], 'id,uid,username,mobile,address');
+        // pp($userAccount);
 
         // return $this->fetch();
-        return view('ulist', [
-                'title' => '个人中心-资金明细',
-                'user' => $userInfo,
+        return view('useraccount/ulist', [
+                'title' => '个人中心-我的收货地址',
+                'useraccount' => $userAccount,
             ]);
     }
 
     /**
-     * 资金明细
+     * 个人中心-资金详情
      * @author pp
      */
     public function udetail()
@@ -66,12 +65,28 @@ class Bill extends Home
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
+
+        // pp($orderInfo);
+
         if(request()->isPost()){
-            //
+            pp(input('order_sn'));
         }else{
-            return view('udetail', [
-                    'title' => '个人中心-资金明细',
+            return view('useraccount/udetail', [
+                    'title' => '个人中心-订单详情',
+                    'config_order_status' => config('order.order_status'),
+                    'config_pay_status' => config('order.pay_status'),
             ]);
         }
+    }
+
+    /**
+     * 个人中心-收货地址-删除
+     * @author pp
+     */
+    public function udelete()
+    {
+        $delId = $this->userAccount->where(['id' => input('id')])->delete();
+        // return $delId ? 1 : 0;
+        $delId ? $this->success("删除成功") : $this->error("删除失败");
     }
 }

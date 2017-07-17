@@ -164,9 +164,10 @@ class Order extends Home
         $upUserOrder = $this->order->upData(['order_status' => 1, 'pay_status' => 1], ['order_sn' => $data['order_sn']]);
 
         //更新账户信息
-        $upUserAccount = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+        $upUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
 
         //添加账户明细记录
+        $addUserAccount = '';
         //
         
         // pp($payCheck);

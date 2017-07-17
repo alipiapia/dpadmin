@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1 ,minimum-scale =1, maximum-scale =1, user-scalable = no" />
+        <meta name="format-detection" content="telephone=no"/>
+        <title>{$title}</title>
+        <link type="text/css" href="__HOME_CSS__/lib.css"  rel="stylesheet"/>
+        <link type="text/css" href="__HOME_CSS__/style.css"  rel="stylesheet"/>
+       
+        <script src="__HOME_JS__/jquery-v1.10.2.min.js" type="text/javascript"></script>
+        
+        <script type="text/javascript" src="__HOME_JS__/jquery.event.drag-1.5.min.js"></script>
+        <script type="text/javascript" src="__HOME_JS__/jquery.touchSlider.js"></script>
+
+        <script type="text/javascript" src="__HOME_JS__/jquery.flexslider-min.js"></script>
+
+        
+    </head>
+    <body>
+
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+            <div class="hidebox">
+                <div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+                提示文字信息
+                
+            </div>
+        </div>
+
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
+                </div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
+
+        <div class="u-list-o">
+            <a href="{:url('index/UserAccount/udetail')}">
+            <div class="u-list-zj">
+                <div class="u-list-zj-l">
+                类型：充值<br /><span>2017-06-25 10:25</span>
+                </div>
+                <div class="u-list-zj-r">+50.00元</div>
+            </div>
+            </a>
+            <a href="{:url('index/UserAccount/udetail')}">
+            <div class="u-list-zj">
+                <div class="u-list-zj-l">
+                类型：订单消费<br /><span>2017-06-25 10:25</span>
+                </div>
+                <div class="u-list-zj-r">-26.00元</div>
+            </div>
+            </a>
+            <a href="{:url('index/UserAccount/udetail')}">
+            <div class="u-list-zj">
+                <div class="u-list-zj-l">
+                类型：订单消费<br /><span>2017-06-25 10:25</span>
+                </div>
+                <div class="u-list-zj-r">-26.00元</div>
+            </div>
+            </a>
+            <a href="{:url('index/UserAccount/udetail')}">
+            <div class="u-list-zj">
+                <div class="u-list-zj-l">
+                类型：订单消费<br /><span>2017-06-25 10:25</span>
+                </div>
+                <div class="u-list-zj-r">-26.00元</div>
+            </div>
+            </a>
+            <a href="{:url('index/UserAccount/udetail')}">
+            <div class="u-list-zj">
+                <div class="u-list-zj-l">
+                类型：订单消费<br /><span>2017-06-25 10:25</span>
+                </div>
+                <div class="u-list-zj-r">-26.00元</div>
+            </div>
+            </a>
+            <a href="{:url('index/UserAccount/udetail')}">
+            <div class="u-list-zj">
+                <div class="u-list-zj-l">
+                类型：订单消费<br /><span>2017-06-25 10:25</span>
+                </div>
+                <div class="u-list-zj-r">-26.00元</div>
+            </div>
+            </a>
+            <a href="{:url('index/UserAccount/udetail')}">
+            <div class="u-list-zj">
+                <div class="u-list-zj-l">
+                类型：订单消费<br /><span>2017-06-25 10:25</span>
+                </div>
+                <div class="u-list-zj-r">-26.00元</div>
+            </div>
+            </a>
+            <a href="{:url('index/UserAccount/udetail')}">
+            <div class="u-list-zj">
+                <div class="u-list-zj-l">
+                类型：订单消费<br /><span>2017-06-25 10:25</span>
+                </div>
+                <div class="u-list-zj-r">-26.00元</div>
+            </div>
+            </a>
+            
+        </div>
+        <footer>
+        <div class="space1"></div>
+            <div class="bottom-o">
+                <ul class="bottom">
+                    <a href="{:url('index/index/index')}"><li><img src="__HOME_IMG__/b-icon01.png" /><br />首页</li></a>
+                    <a href="{:url('index/product/index')}"><li><img src="__HOME_IMG__/b-icon02.png" /><br />所有商品 </li></a>
+                    <a href="{:url('index/cart/index')}"><li><img src="__HOME_IMG__/b-icon03.png" /><br />购物车</li></a>
+                    <a href="{:url('index/ucenter/index')}"><li><img src="__HOME_IMG__/b-icon04.png" /><br />会员中心</li></a>        
+                </ul>
+             </div>
+
+        <script type="text/javascript">
+                $(function(){
+                    $('#home_slider').flexslider({
+                        animation : 'slide',                   
+                    });
+                });       
+                
+        </script>
+    </body>
+</html>

@@ -14,7 +14,7 @@ namespace app\index\controller;
 use app\common\model\UserAddress as UserAddressModel;
 
 /**
- * 收货人控制器
+ * 收货地址控制器
  * @package app\index\controller
  */
 

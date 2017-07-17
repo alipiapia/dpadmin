@@ -63,7 +63,7 @@
 			DROP TABLE IF EXISTS `dp_user_account`;
 			CREATE TABLE `dp_user_account` (
 			`id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-			`put_id` int(11) unsigned NOT NULL DEFAULT '' COMMENT '发起方用户id',
+			`user_id` int(11) unsigned NOT NULL COMMENT '用户id',
 			`sign` smallint(6) NOT NULL DEFAULT '1' COMMENT '正负号',
 			`count` decimal(11,2) unsigned NOT NULL DEFAULT '0.00' COMMENT '变动余额',
 			`type` tinyint(1) NOT NULL DEFAULT '0' COMMENT '变动类型：0充值 1返利 2提成',
@@ -73,21 +73,6 @@
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户资金变动表';
 			
-			DROP TABLE IF EXISTS `dp_user_account_records`;
-			CREATE TABLE `dp_user_account_records` (
-			  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
-			  `uid` int(11) NOT NULL DEFAULT '0' COMMENT '用户ID',
-			  `shop_id` int(11) NOT NULL DEFAULT '0' COMMENT '店铺ID',
-			  `account_type` int(11) NOT NULL DEFAULT '1' COMMENT '账户类型1.积分2.余额3.购物币',
-			  `sign` smallint(6) NOT NULL DEFAULT '1' COMMENT '正负号',
-			  `number` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '数量',
-			  `from_type` smallint(6) NOT NULL DEFAULT '0' COMMENT '产生方式1.商城订单2.订单退还3.兑换4.充值5.签到6.分享7.注册8.提现9提现退还',
-			  `data_id` int(11) NOT NULL DEFAULT '0' COMMENT '相关表的数据ID',
-			  `text` varchar(255) NOT NULL DEFAULT '' COMMENT '数据相关内容描述文本',
-			  `create_time` int(11) NOT NULL COMMENT '添加时间',
-			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
-			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='会员流水账表';
 	3，分销管理【后台】；
 		a,建表@dp_admin_distribution;
 			
@@ -220,6 +205,19 @@
 				UNIQUE KEY `order_sn` (`order_sn`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='订单表';
 
+			#购物车表
+			DROP TABLE IF EXISTS `dp_cart`;
+			CREATE TABLE `dp_cart` (
+			  `id` int(11) NOT NULL AUTO_INCREMENT,
+			  `user_id` int(11) NOT NULL DEFAULT '0' COMMENT '用户id',
+			  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品id',
+			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
+			  `create_time` int(11) NOT NULL COMMENT '添加时间',
+			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
+			  PRIMARY KEY (`id`)
+			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='购物车表';
+			
+			
 			DROP TABLE IF EXISTS `dp_order_product`;
 			CREATE TABLE `dp_order_product` (
 			  `order_product_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单项ID',
