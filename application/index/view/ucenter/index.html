@@ -49,10 +49,10 @@
         </ul>
 
         <ul class="u-buyinfo">
-            <li><a href="{:url('index/Order/ulist', ['order_status' => 0])}">待付款(<span><?php echo get_order_status_count(0);?></span>)</a></li>
-            <li><a href="{:url('index/Order/ulist', ['order_status' => 1])}">待发货(<span><?php echo get_order_status_count(1);?></span>)</a></li>
-            <li><a href="{:url('index/Order/ulist', ['order_status' => 3])}">已完成(<span><?php echo get_order_status_count(3);?></span>)</a></li>
-            <li><a href="{:url('index/Order/ulist', ['order_status' => 5])}">已删除(<span><?php echo get_order_status_count(5);?></span>)</a></li>
+            <li><a href="{:url('index/Order/ulist', ['order_status' => 0])}">待付款(<span><?php echo get_order_status_count($user['id'],0);?></span>)</a></li>
+            <li><a href="{:url('index/Order/ulist', ['order_status' => 1])}">待发货(<span><?php echo get_order_status_count($user['id'],1);?></span>)</a></li>
+            <li><a href="{:url('index/Order/ulist', ['order_status' => 3])}">已完成(<span><?php echo get_order_status_count($user['id'],3);?></span>)</a></li>
+            <li><a href="{:url('index/Order/ulist', ['order_status' => 5])}">已删除(<span><?php echo get_order_status_count($user['id'],5);?></span>)</a></li>
         </ul>
 
         <div class="u-list-o">

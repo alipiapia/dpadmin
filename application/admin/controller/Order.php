@@ -49,7 +49,8 @@ class Order extends Admin
             ->addFilter('id,order_sn') // 添加筛选
             ->addColumns([ // 批量添加列
                 ['order_sn' , '订单号'],
-                ['product_id', '商品', 'callback', 'get_product_name', 'name'],
+                ['product_id', '商品名称', 'callback', 'get_product_value', 'name'],
+                ['product_count', '商品数量'],
                 ['order_price', '订单金额'],
                 ['shipping_fee', '运费', 'text.edit'],
                 ['buyer', '收货人', 'callback', 'get_user_value', 'username'],

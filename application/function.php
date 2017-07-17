@@ -115,7 +115,7 @@ if (!function_exists('get_order_status_count')) {
      * @author pp
      * @return Int
      */
-    function get_order_status_count($status){
-        return model('common/order')->where(['order_status' => $status])->count();
+    function get_order_status_count($uid, $status){
+        return model('common/order')->where(['buyer' => $uid, 'order_status' => $status])->count();
     }
 }
