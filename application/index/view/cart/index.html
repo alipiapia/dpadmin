@@ -19,118 +19,121 @@
     </head>
     <body>
 
-<!--隐藏浮层-->
-<div class="hidebox-w" style="display:none;">
-	<div class="hidebox">
-    	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-    	提示文字信息
-    </div>
-</div>
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+        	<div class="hidebox">
+            	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+            	提示文字信息
+            </div>
+        </div>
 
-<header class="toptit">
-    {$title}
-    <a href="JavaScript:history.go(-1)">
-        <div class="go-back">
-            <img src="__HOME_IMG__/arrow-l.png" />
-        </div>
-    </a>
-    <a href="{:url('index/index/index')}">
-        <div class="go-home">
-            <img src="__HOME_IMG__/home.png" />
-        </div>
-    </a>
-</header>
-
-<div class="probox">
-	<div class="oneprobox oneprobox1">
-    	<div class="chechbox"><input type="checkbox" /></div>
-    	<div class="proimg">
-        	<img src="__HOME_IMG__/cs02.jpg" />
-        </div>
-        <div class="proimg-r">
-        	<div class="protit">商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页</div>
-            <div class="pro-else">
-            	<div class="else-l">规格：</div>
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
+                </div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
+        
+        {volist name="cart" id="c"}
+        <div class="probox">
+        	<div class="oneprobox oneprobox1">
+            	<div class="chechbox"><input type="checkbox" /></div>
+            	<div class="proimg">
+                	<img src="__HOME_IMG__/cs02.jpg" />
+                </div>
+                <div class="proimg-r">
+                	<div class="protit">{$c.uid}</div>
+                    <div class="pro-else">
+                    	<div class="else-l">规格：</div>
+                        <div class="else-r">
+                        	<div class="gg">{$c.uid}</div>
+                        </div>
+                    </div>
+                    <div class="pro-else">
+            	<div class="else-l">数量：</div>
                 <div class="else-r">
-                	<div class="gg">200g每份</div>
+                	<ul class="buynum">
+                        <li><input id="min" name="" type="button" value="-" /></li>
+                        <li><input id="product_count" name="product_count" type="number" value="{$c.product_count}" style="width:30px;text-align: center"/></li>
+                        <li><input id="add" name="" type="button" value="+" /></li>
+                    </ul>
                 </div>
             </div>
-            <div class="pro-else">
-    	<div class="else-l">数量：</div>
-        <div class="else-r">
-        	<ul class="buynum">
-            	<li>-</li>
-                <li>0</li>
-                <li>+</li>
-            </ul>
-        </div>
-    </div>
-            <div class="proprice">￥<span>18.60</span></div>
-        </div>
-    </div>
-    <div class="operabtn">
-        <button>删除</button>
-    </div>
-</div>
-<div class="probox">
-	<div class="oneprobox oneprobox1">
-    	<div class="chechbox"><input type="checkbox" /></div>
-    	<div class="proimg">
-        	<img src="__HOME_IMG__/cs02.jpg" />
-        </div>
-        <div class="proimg-r">
-        	<div class="protit">商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页商品详细页</div>
-            <div class="pro-else">
-            	<div class="else-l">规格：</div>
-                <div class="else-r">
-                	<div class="gg">200g每份</div>
+                    <div class="proprice">￥<span>{$c.uid}</span></div>
                 </div>
             </div>
-            <div class="pro-else">
-    	<div class="else-l">数量：</div>
-        <div class="else-r">
-        	<ul class="buynum">
-            	<li>-</li>
-                <li>0</li>
-                <li>+</li>
-            </ul>
+            <div class="operabtn">
+                <button>删除</button>
+            </div>
         </div>
-    </div>
-            <div class="proprice">￥<span>18.60</span></div>
+        {/volist}
+
+        <div class="fix-buybtn1">
+            <div class="zi">
+                应付金额:<span id="order_price">0</span>元<br />
+            共<span id="total_num"></span>件商品
+            </div>
+            <!-- <div class="fbuybtn" id="justbuy">提交订单</div> -->
+            <a href="{:url('index/order/buildorder')}">
+        	   <div class="fbuybtn">结&nbsp;算</div>
+            </a>
         </div>
-    </div>
-    <div class="operabtn">
-        <button>删除</button>
-    </div>
-</div>
+        <div class="space1"></div>
 
+        <script type="text/javascript">
+            $(function(){
+                //获得文本框对象
+                var t = $("#product_count");
+                var price = "{$c.product.price}";
+                var max_num = "{$c.product.stock}";
 
+                //数量增加操作
+                $("#add").click(function(){
+                    t.val(parseInt(t.val()) + 1)
+                    if (parseInt(t.val()) != 1){
+                        $('#min').attr('disabled',false);
+                    }
+                    //不能超过库存
+                    if(parseInt(t.val()) >= max_num){
+                        $('#add').attr('disabled',true);
+                    }
+                    setTotal();
+                });
 
+                //数量减少操作
+                $("#min").click(function(){
+                    t.val(parseInt(t.val()) - 1);
+                    //数量不能低于1
+                    if (parseInt(t.val()) <= 1){
+                        $('#min').attr('disabled',true);
+                    }
+                    setTotal();
+                });
 
+                //计算操作
+                function setTotal(){
+                    $("#total_num").html(parseInt(t.val()));//商品数量
+                    $("#total").html((parseInt(t.val()) * price).toFixed(2));//toFixed()是保留小数点的函数很实用哦
+                    $("#order_price").html((parseInt(t.val()) * price).toFixed(2));
+                }
 
+                //初始化
+                setTotal();
+            });
 
-<div class="fix-buybtn1">
-    <div class="zi">
-        应付金额:18.20元<br />
-    共1件商品
-    </div>
-    <a href="{:url('index/order/buildorder')}">
-	   <div class="fbuybtn">结&nbsp;算</div>
-    </a>
-</div>
-<div class="space1"></div>	
-
-
-
-<script type="text/javascript">
-		$(function(){
-				$('#home_slider').flexslider({
-					animation : 'slide',
-				   
-				});
-			})
-		
-		
-</script>
+    		$(function(){
+    			$('#home_slider').flexslider({
+    				animation : 'slide',				   
+    			});
+    		});	
+        		
+        </script>
     </body>
 </html>

@@ -198,7 +198,11 @@
                             alert("请选择商品数量");return false;
                         }
 
-                        // alert(product_count);return false;
+                        if(new Date(group_end_time).getTime() < (new Date())){
+                            alert("团购已结束");return false;                            
+                        }
+
+                        // alert(new Date(group_end_time).getTime());return false;
 
                         window.location.href = '/index/order/checkorder?'
                                              + 'product_id=' + product_id
@@ -250,22 +254,27 @@
                 //倒计时
                 function ShowCountDown(year, month, day, divname) 
                 { 
-                var now = new Date(); 
-                var endDate = new Date(year, month-1, day); 
-                var leftTime = endDate.getTime()-now.getTime();
-                var leftsecond = parseInt(leftTime/1000); 
-                //var day1=parseInt(leftsecond/(24*60*60*6)); 
-                var day1 = Math.floor(leftsecond/(60*60*24)); 
-                var hour = Math.floor((leftsecond-day1*24*60*60)/3600); 
-                var minute = Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
-                var second = Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
-                var cc = document.getElementById(divname); 
-                // cc.innerHTML = "距离"+year+"年"+month+"月"+day+"日还有："+day1+"天"+hour+"小时"+minute+"分"+second+"秒"; 
-                cc.innerHTML = '<div class="protime-num">'
-                                +day1+'</div><div class="protime-zi">天</div><div class="protime-num">'
-                                +hour+'</div><div class="protime-zi">时</div><div class="protime-num">'
-                                +minute+'</div><div class="protime-zi">分</div><div class="protime-num">'
-                                +second+'</div><div class="protime-zi">秒</div>';
+                    var now = new Date(); 
+                    var endDate = new Date(year, month-1, day); 
+                    var leftTime = endDate.getTime()-now.getTime();
+                    var leftsecond = parseInt(leftTime/1000); 
+                    //var day1=parseInt(leftsecond/(24*60*60*6)); 
+                    var day1 = Math.floor(leftsecond/(60*60*24)); 
+                    var hour = Math.floor((leftsecond-day1*24*60*60)/3600); 
+                    var minute = Math.floor((leftsecond-day1*24*60*60-hour*3600)/60); 
+                    var second = Math.floor(leftsecond-day1*24*60*60-hour*3600-minute*60); 
+                    var cc = document.getElementById(divname); 
+                    // cc.innerHTML = "距离"+year+"年"+month+"月"+day+"日还有："+day1+"天"+hour+"小时"+minute+"分"+second+"秒";
+                    if(leftsecond > 0){
+                        cc.innerHTML = '<div class="protime-num">'
+                                        +day1+'</div><div class="protime-zi">天</div><div class="protime-num">'
+                                        +hour+'</div><div class="protime-zi">时</div><div class="protime-num">'
+                                        +minute+'</div><div class="protime-zi">分</div><div class="protime-num">'
+                                        +second+'</div><div class="protime-zi">秒</div>';
+
+                    }else{
+                        $(".protimezi").html("团购已结束");
+                    }
                 }
                     
                 //商品调用倒计时

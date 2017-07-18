@@ -11,10 +11,11 @@
 
 namespace app\index\controller;
 
-use app\common\model\Order as OrderModel;
 use app\common\model\Product as ProductModel;
-use app\common\model\UserAddress as UserAddressModel;
 use app\common\model\Spec as SpecModel;
+use app\common\model\Order as OrderModel;
+use app\common\model\UserAddress as UserAddressModel;
+use app\common\model\UserAccount as UserAccountModel;
 
 /**
  * 前台订单控制器
@@ -26,19 +27,21 @@ class Order extends Home
         
     protected $user;
     protected $userInfo;
-    protected $order;
     protected $product;
-    protected $userAddress;
     protected $spec;
+    protected $order;
+    protected $userAddress;
+    protected $userAccount;
 
     protected function _initialize(){
         parent::_initialize();
         $this->user = controller('common/User', 'model');
         $this->userInfo = session('user_auth_index');
-        $this->order = new OrderModel;
         $this->product = new ProductModel;
-        $this->userAddress = new UserAddressModel;
         $this->spec = new SpecModel;
+        $this->order = new OrderModel;
+        $this->userAddress = new UserAddressModel;
+        $this->userAccount = new UserAccountModel;
 
         if(!has_signin()){
             $this->redirect(url('index/index/loginpatch'));
@@ -105,7 +108,7 @@ class Order extends Home
         if($creatOrder){
             $upData = [
                 'stock' => ($productInfo['stock'] - $data['product_count']),//更新库存
-                'sales' => $productInfo['sales'] + $data['product_count'],//更新销售数量
+                'sales' => ($productInfo['sales'] + $data['product_count']),//更新销售数量
             ];
             $upProduct = $this->product->upData($upData, ['id' => $productInfo['id']]);
             return $data['order_sn'];
@@ -160,18 +163,57 @@ class Order extends Home
         $payCheck = $this->user->checkPass($this->userInfo['id'], 'paypass', $data['paypass']);
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
 
+        //密码验证通过，进行资金变动等操作
+        if($payCheck){
+            //更新订单信息
+            $upUserOrder = $this->order->upData(['order_status' => 1, 'pay_status' => 1], ['order_sn' => $data['order_sn']]);
+
+            //更新账户信息
+            $upUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+
+            //添加账户明细记录
+            $accountData = [
+                'uid' => $this->userInfo['id'],
+                'sign' => 1,
+                'count' => $orderInfo['order_price'],
+                'type' => 0,
+            ];
+            // $addUserAccount = UserAccountModel::create($accountData);
+            $addUserAccount = add_user_account($accountData);
+            //
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+
+    /**
+     * 取消订单
+     * @author pp
+     */
+    public function cancelOrder()
+    {
+        if(!input('order_sn')){
+            return 0;
+        }
+
+        $orderInfo = $this->order->getOneDarry(['order_sn' => input('order_sn')]);
+        $productInfo = $this->product->getOneDarry(['id' => $orderInfo['product_id']]);
+
         //更新订单信息
-        $upUserOrder = $this->order->upData(['order_status' => 1, 'pay_status' => 1], ['order_sn' => $data['order_sn']]);
+        $upOrder = $this->order->upData(['order_status' => 3], ['order_sn' => input('order_sn')]);
 
-        //更新账户信息
-        $upUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+        //更新商品库存信息
+        // $upProduct = $this->product->where(['id' => $orderInfo['product_id']])->setInc('stock', $orderInfo['product_count']);
+        // $upProduct = $this->product->where(['id' => $orderInfo['product_id']])->setDec('sales', $orderInfo['product_count']);
+        $upData = [
+            'stock' => ($productInfo['stock'] + $orderInfo['product_count']),//更新库存
+            'sales' => ($productInfo['sales'] - $orderInfo['product_count']),//更新销售数量
+        ];
+        $upProduct = $this->product->upData($upData, ['id' => $productInfo['id']]);
 
-        //添加账户明细记录
-        $addUserAccount = '';
-        //
-        
-        // pp($payCheck);
-        return $payCheck;
+        // return $upOrder ? 1 : 0;
+        $upOrder ? $this->success("订单取消成功") : $this->error("订单取消失败");
     }
 
     //个人中心-我的订单
@@ -190,7 +232,9 @@ class Order extends Home
         // pp($map); 
 
         //我的订单
-        $orders = $this->order->getColumn($map);
+        // $orders = $this->order->getColumn($map);
+        $orders = $this->order->getLists($map, 'create_time DESC');
+        // pp($orders);
         $newOrders = $orders;
         foreach ($orders as $k => $v) {
             $userAddress = $this->userAddress->getOneDarry(['id' => $v['buyer_address']]);
@@ -221,6 +265,7 @@ class Order extends Home
         }
 
         $orderInfo = $this->order->getOneDarry(['order_sn' => input('order_sn')]);
+        $orderInfo['picture'] = get_product_value($orderInfo['product_id'], 'picture');
         // pp($orderInfo);
 
         if(request()->isPost()){

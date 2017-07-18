@@ -11,6 +11,9 @@
 
 namespace app\index\controller;
 
+use app\common\model\Product as ProductModel;
+use app\common\model\Cart as CartModel;
+
 /**
  * 前台购物车控制器
  * @package app\index\controller
@@ -19,10 +22,16 @@ class Cart extends Home
 {
         
     protected $user;
+    protected $userInfo;
+    protected $product;
+    protected $cart;
 
     protected function _initialize(){
         parent::_initialize();
         $this->user = controller('common/User', 'model');
+        $this->userInfo = session('user_auth_index');
+        $this->product = new ProductModel;
+        $this->cart = new CartModel;
 
         if(!has_signin()){
             $this->redirect(url('index/index/loginpatch'));
@@ -30,17 +39,24 @@ class Cart extends Home
         }
     }
 
-    //首页
+    //我的购物车首页
     public function index()
     {
-        // return '购物车';
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        // return $this->fetch();
+
+        $map = [];
+        $cartLists = $this->cart->getLists($map);
+        $newCartLists = $cartLists;
+        foreach ($cartLists as $k => $v) {
+            $newCartLists[$k]['product'] = $this->product->getOneDarry(['id' => $v['product_id']]);
+        }
+        // pp($newCartLists);
+
         return view('index', [
-                'title' => '购物车',
-                // 'user' => $userInfo,
+                'title' => '我的购物车',
+                'cart' => $newCartLists,
             ]);
     }
 

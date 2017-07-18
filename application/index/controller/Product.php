@@ -39,6 +39,9 @@ class Product extends Common
         }
 
         $map = $this->getMap();
+        $map['status'] = 1;
+        // $map['group_end_time'] = ['gt', time()];
+        // pp($map);
         // $productList = (new ProductModel)->getColumn($map);
         $productList = (new ProductModel)->getLists($map, 'sales desc', '');//热卖商品
         // pp($productList);

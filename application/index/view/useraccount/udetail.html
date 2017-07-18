@@ -49,21 +49,21 @@
             </div>
             <div class="order-d">
             	<div class="order-d-one">
-                	交易类型：<span>管理员录款</span>
+                	交易类型：<span>{$config_account_type[$accountinfo.type]}</span>
                 </div>
                 <div class="order-d-one">
-                	交易时间：<span>2017-06-25 12：32</span>
+                	交易时间：<span>{$accountinfo.create_time}</span>
                 </div>
             </div>
             <div class="order-d">
             	<div class="order-d-one">
-                	会员资金：<em>54.00元</em>
+                	会员资金：<em>{$balance}元</em>
                 </div>
                 <div class="order-d-one">
-                	当前金额：<em>564.00元</em>
+                	当前金额：<em>{$accountinfo.count}元</em>
                 </div>
                 <div class="order-d-one">
-                	备注：<em>订单退款</em>
+                	备注：<em>{$config_account_type[$accountinfo.type]}</em>
                 </div>
                 
             </div>

@@ -57,7 +57,7 @@
         	
         	<div class="oneprobox">
             	<div class="proimg">
-                	<img src="__HOME_IMG__/cs02.jpg" />
+                	<img src="{$order.picture|get_file_path}" />
                 </div>
                 <div class="proimg-r">
                 	<div class="protit">{$order.product_id|get_product_value='name'}</div>
@@ -123,7 +123,7 @@
             {eq name="order.order_status" value="0"}
             <div class="button-tj" id="justbuy">立即支付</div>
             {/eq}
-            <div class="button-tj button-tj1">取消订单</div>
+            <div class="button-tj button-tj1" id="justcancel">取消订单</div>
         </div>
         {/neq}
         <footer>
@@ -148,6 +148,16 @@
                     var order_sn = "{$order.order_sn}";
                     // alert(order_sn);return false;
                     location.href = '/index/order/checkPay?order_sn=' + order_sn;
+                });
+
+                $("#justcancel").on('click', function(d){
+                    var order_sn = "{$order.order_sn}";
+                    // alert(order_sn);return false;
+                    if(confirm("确认取消该订单？")){
+                        location.href = '/index/order/cancelOrder?order_sn=' + order_sn;                        
+                    }else{
+                        window.reload();
+                    }
                 });
         		
         </script>

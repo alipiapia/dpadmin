@@ -48,7 +48,7 @@
             <div class="u-i-list">
             	<div class="ordernum">订单号：{$o.order_sn}<span>{$o.order_price}元</span></div>
                 <div class="orderelse">
-                状态：{$o.create_time|date='Y-m-d H:i:s', ###} {$config_order_status[$o['order_status']]}<br />
+                状态：{$o.create_time} {$config_order_status[$o['order_status']]}<br />
                 商品：{$o.product_id|get_product_value='name'}<br />
                 地址：{$o.address}
                 <!-- 地址：{$o.buyer_address|get_user_address_value='address'} -->

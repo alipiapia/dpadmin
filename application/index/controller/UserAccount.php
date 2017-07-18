@@ -11,7 +11,7 @@
 
 namespace app\index\controller;
 
-use app\common\model\UserAddress as UserAddressModel;
+use app\common\model\UserAccount as UserAccountModel;
 
 /**
  * 用户资金变动控制器
@@ -29,7 +29,7 @@ class UserAccount extends Home
         parent::_initialize();
         $this->user = controller('common/User', 'model');
         $this->userInfo = session('user_auth_index');
-        $this->userAccount = new UserAddressModel;
+        $this->userAccount = new UserAccountModel;
 
         if(!has_signin()){
             $this->redirect(url('index/index/loginpatch'));
@@ -37,7 +37,7 @@ class UserAccount extends Home
         }
     }
 
-    //个人中心-我的收货地址
+    //个人中心-我的资金明细
     public function ulist()
     {
         if(!is_mobile()){
@@ -45,14 +45,17 @@ class UserAccount extends Home
         }
 
         //获取用户信息
+        $map = ['uid' => $this->userInfo['id']];
         // $uid = $this->user->getValue(['id' => $this->userInfo['id']], 'id');
-        $userAccount = $this->userAccount->getColumn(['uid' => $this->userInfo['id']], 'id,uid,username,mobile,address');
+        // $userAccount = $this->userAccount->getColumn(['uid' => $this->userInfo['id']], 'id,uid,sign,count,type,create_time');
+        $userAccount = $this->userAccount->getLists($map, 'create_time DESC', 'id,uid,sign,count,type,create_time');
         // pp($userAccount);
 
         // return $this->fetch();
         return view('useraccount/ulist', [
-                'title' => '个人中心-我的收货地址',
+                'title' => '个人中心-我的资金明细',
                 'useraccount' => $userAccount,
+                'config_account_type' => config('order.account_type'),
             ]);
     }
 
@@ -66,21 +69,26 @@ class UserAccount extends Home
             return "提示：请使用手机访问！";
         }
 
-        // pp($orderInfo);
-
-        if(request()->isPost()){
-            pp(input('order_sn'));
-        }else{
-            return view('useraccount/udetail', [
-                    'title' => '个人中心-订单详情',
-                    'config_order_status' => config('order.order_status'),
-                    'config_pay_status' => config('order.pay_status'),
-            ]);
+        if(!input('id')){
+            $this->error("找不到资金明细");
         }
+
+        $accountInfo = $this->userAccount->getOneDarry(['id' => input('id')]);
+
+        if(!$accountInfo){
+            $this->error("找不到资金明细");
+        }
+        // pp($accountInfo);
+        return view('useraccount/udetail', [
+                'title' => '个人中心-资金明细',
+                'accountinfo' => $accountInfo,
+                'balance' => get_user_value($this->userInfo['id'], 'balance'),
+                'config_account_type' => config('order.account_type'),
+        ]);
     }
 
     /**
-     * 个人中心-收货地址-删除
+     * 个人中心-资金详情-删除
      * @author pp
      */
     public function udelete()

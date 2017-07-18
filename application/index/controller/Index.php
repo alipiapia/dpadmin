@@ -38,9 +38,11 @@ class Index extends Common
         }
 
         $map = $this->getMap();
+        $map['status'] = 1;
+        // $map['group_end_time'] = ['gt', time()];
         // $productList = (new ProductModel)->getColumn($map);//商品
         // $cateList = (new CateModel)->getColumn('', 'id,name,picture,icon');//分类
-        $productList = (new ProductModel)->getLists('', 'sales desc', '', 5);//热卖商品
+        $productList = (new ProductModel)->getLists($map, 'sales desc', '', 5);//热卖商品
         $cateList = (new CateModel)->getLists('', 'sort', 'id,name,picture,icon', 8);//首页分类
         // pp($productList);
 

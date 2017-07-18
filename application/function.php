@@ -141,3 +141,14 @@ if (!function_exists('get_order_status_count')) {
         return model('common/order')->where(['buyer' => $uid, 'order_status' => $status])->count();
     }
 }
+
+if (!function_exists('add_user_account')) {
+    /**
+     * 订单状态统计
+     * @author pp
+     * @return Int
+     */
+    function add_user_account($data){
+        return model('common/useraccount')->create($data);
+    }
+}
