@@ -46,31 +46,31 @@
         	<div class="oneprobox oneprobox1">
             	<div class="chechbox"><input type="checkbox" /></div>
             	<div class="proimg">
-                	<img src="__HOME_IMG__/cs02.jpg" />
+                	<img src="{$c.product.picture|get_file_path}" />
                 </div>
                 <div class="proimg-r">
-                	<div class="protit">{$c.uid}</div>
+                	<div class="protit">{$c.product_id|get_product_value='name'}</div>
                     <div class="pro-else">
                     	<div class="else-l">规格：</div>
                         <div class="else-r">
-                        	<div class="gg">{$c.uid}</div>
+                        	<div class="gg">{$c.product_spec|get_spec_value='name'}</div>
                         </div>
                     </div>
                     <div class="pro-else">
             	<div class="else-l">数量：</div>
                 <div class="else-r">
                 	<ul class="buynum">
-                        <li><input id="min" name="" type="button" value="-" /></li>
-                        <li><input id="product_count" name="product_count" type="number" value="{$c.product_count}" style="width:30px;text-align: center"/></li>
-                        <li><input id="add" name="" type="button" value="+" /></li>
+                        <li><input id="min_{$c.id}" name="" type="button" value="-" /></li>
+                        <li><input id="product_count_{$c.id}" data-count="{$c.product.stock}" name="product_count" type="number" value="{$c.product_count}" style="width:30px;text-align: center"/></li>
+                        <li><input id="add_{$c.id}" name="" type="button" value="+" /></li>
                     </ul>
                 </div>
             </div>
-                    <div class="proprice">￥<span>{$c.uid}</span></div>
+                    <div class="proprice">￥<span id="total">{$c.product.price}</span></div>
                 </div>
             </div>
             <div class="operabtn">
-                <button>删除</button>
+                <button id="delCart_{$c.id}" data-id="{$c.id}">删除</button>
             </div>
         </div>
         {/volist}
@@ -90,12 +90,15 @@
         <script type="text/javascript">
             $(function(){
                 //获得文本框对象
+
                 var t = $("#product_count");
                 var price = "{$c.product.price}";
                 var max_num = "{$c.product.stock}";
 
                 //数量增加操作
-                $("#add").click(function(){
+                $("input[id^='add']").on('click', function(){
+                    var pp = $(this).parent("buynum").find("input[id^='product_count']").val();
+                    alert(pp);return false;
                     t.val(parseInt(t.val()) + 1)
                     if (parseInt(t.val()) != 1){
                         $('#min').attr('disabled',false);
@@ -119,9 +122,15 @@
 
                 //计算操作
                 function setTotal(){
-                    $("#total_num").html(parseInt(t.val()));//商品数量
-                    $("#total").html((parseInt(t.val()) * price).toFixed(2));//toFixed()是保留小数点的函数很实用哦
-                    $("#order_price").html((parseInt(t.val()) * price).toFixed(2));
+                    var counts = 0;
+                    $("input[id^='product_count_']").each(function(){
+                        counts += parseInt($(this).val());
+                    });
+                    // alert(counts);return false;
+                    var t = counts;
+                    $("#total_num").html(parseInt(t));//商品数量
+                    // $("#total").html((parseInt(t) * price).toFixed(2));//toFixed()是保留小数点的函数很实用哦
+                    $("#order_price").html((parseInt(t) * price).toFixed(2));
                 }
 
                 //初始化
