@@ -44,7 +44,7 @@
         {volist name="cart" id="c"}
         <div class="probox">
         	<div class="oneprobox oneprobox1">
-            	<div class="chechbox"><input type="checkbox" /></div>
+            	<div class="chechbox"><input type="checkbox" id="cart_check_{$c.id}" /></div>
             	<div class="proimg">
                 	<img src="{$c.product.picture|get_file_path}" />
                 </div>
@@ -109,7 +109,7 @@
                     if(parseInt(t.val()) >= stock){
                         $(this).attr('disabled',true);
                     }
-                    setTotals();
+                    // setTotals();
                 });
 
                 //数量减少操作
@@ -122,7 +122,7 @@
                     if (parseInt(t.val()) <= 1){
                         $(this).attr('disabled',true);
                     }
-                    setTotals();
+                    // setTotals();
                 });
 
                 //删除
@@ -166,39 +166,75 @@
                 }
 
                 //初始化
-                setTotals();
-            });
+                // setTotals();
 
-    		$(function(){
     			$('#home_slider').flexslider({
     				animation : 'slide',				   
     			});
 
+                    // $("input[id^='cart_check_']").click(function(r){
+                    //     if($(this).is(':checked')){
+                    //         setTotals();
+                    //     }
+                    // });
+
                 $("#justbuy").on('click', function(d){
                     var postProducts = [];
 
-                    $("input[id^='product_count_']").each(function(d){
-                        var count = parseInt($(this).val());
-                        var stock = parseInt($(this).attr('data-stock'));
-                        var spec = parseInt($(this).attr('data-spec'));
-                        var pid = parseInt($(this).attr('data-pid'));
-                        // alert(count);return false;
+                    $("input[id^='cart_check_']").each(function(r){
+                        if($(this).is(':checked')){
+                            var pro = $(this).parent().parent().find("input[name='product_count']");
+                            var count = parseInt($(pro).val());
+                            var stock = parseInt($(pro).attr('data-stock'));
+                            var spec = parseInt($(pro).attr('data-spec'));
+                            var pid = parseInt($(pro).attr('data-pid'));
 
-                        //商品有效性判断
-                        if((1 > stock) || (count > stock)){
-                            alert("商品库存不足");return false;
-                        }
+                            //商品有效性判断
+                            if((1 > stock) || (count > stock)){
+                                alert("商品库存不足");return false;
+                            }
 
-                        if(1 > count){
-                            alert("请选择商品数量");return false;
+                            if(1 > count){
+                                alert("请选择商品数量");return false;
+                            }
+                            
+                            // alert(count);return false;
+                            postProducts.push([pid, spec, count]);
+                            setTotals();
                         }
-                        
-                        postProducts.push([pid, spec, count]);
                     });
                     // alert(postProducts);return false;
+
+                    if(postProducts == "" || postProducts == undefined || postProducts == null){
+                        alert("请选择商品");return false;                        
+                    }
+
                     $.post('/index/order/checkorder',{data:postProducts},function(d){
                         //
                     });
+
+                    // $("input[id^='product_count_']").each(function(d){
+                    //     var count = parseInt($(this).val());
+                    //     var stock = parseInt($(this).attr('data-stock'));
+                    //     var spec = parseInt($(this).attr('data-spec'));
+                    //     var pid = parseInt($(this).attr('data-pid'));
+                    //     // alert(count);return false;
+
+                    //     //商品有效性判断
+                    //     if((1 > stock) || (count > stock)){
+                    //         alert("商品库存不足");return false;
+                    //     }
+
+                    //     if(1 > count){
+                    //         alert("请选择商品数量");return false;
+                    //     }
+                        
+                    //     postProducts.push([pid, spec, count]);
+                    // });
+                    // // alert(postProducts);return false;
+                    // $.post('/index/order/checkorder',{data:postProducts},function(d){
+                    //     //
+                    // });
                 });
     		});	
         		
