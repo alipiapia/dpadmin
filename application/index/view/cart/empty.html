@@ -19,42 +19,42 @@
     </head>
     <body style="background:#fff;">
 
-<!--隐藏浮层-->
-<div class="hidebox-w" style="display:none;">
-	<div class="hidebox">
-    	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-    	提示文字信息    	
-    </div>
-</div>
-
-
-<header class="toptit">
-    {$title}
-    <a href="JavaScript:history.go(-1)">
-        <div class="go-back">
-            <img src="__HOME_IMG__/arrow-l.png" />
+        <!--隐藏浮层-->
+        <div class="hidebox-w" style="display:none;">
+        	<div class="hidebox">
+            	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+            	提示文字信息    	
+            </div>
         </div>
-    </a>
-    <a href="{:url('index/index/index')}">
-        <div class="go-home">
-            <img src="__HOME_IMG__/home.png" />
+
+
+        <header class="toptit">
+            {$title}
+            <a href="JavaScript:history.go(-1)">
+                <div class="go-back">
+                    <img src="__HOME_IMG__/arrow-l.png" />
+                </div>
+            </a>
+            <a href="{:url('index/index/index')}">
+                <div class="go-home">
+                    <img src="__HOME_IMG__/home.png" />
+                </div>
+            </a>
+        </header>
+
+        <div class="tishi">
+        <img src="__HOME_IMG__/tishi2.png" />
+        <div class="ts-btn-o">
+            <div class="ts-btn" style="width:100%;"><button style=" background:#F60;" onclick='location.href="{:url('index/index/index')}"'>马上去逛逛好商品</button></div>
         </div>
-    </a>
-</header>
+        </div>
 
-<div class="tishi">
-<img src="__HOME_IMG__/tishi2.png" />
-<div class="ts-btn-o">
-    <div class="ts-btn" style="width:100%;"><button style=" background:#F60;" onclick='location.href="{:url('index/index/index')}"'>马上去逛逛好商品</button></div>
-</div>
-</div>
-
-<script type="text/javascript">
-	$(function(){
-			$('#home_slider').flexslider({
-				animation : 'slide',
-			});
-	});
-</script>
+        <script type="text/javascript">
+        	$(function(){
+        		$('#home_slider').flexslider({
+        			animation : 'slide',
+        		});
+        	});
+        </script>
     </body>
 </html>

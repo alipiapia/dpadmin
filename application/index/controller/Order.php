@@ -58,6 +58,7 @@ class Order extends Home
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
+        pp(input(''));
         $data = request()->get();
         if(empty($data['product_id'])){
             $this->error("商品不存在");

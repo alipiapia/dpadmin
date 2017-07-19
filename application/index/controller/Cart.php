@@ -46,15 +46,18 @@ class Cart extends Home
             return "提示：请使用手机访问！";
         }
 
-        $map = [];
+        $map = [
+            'uid' => $this->userInfo['id'],
+        ];
         $cartLists = $this->cart->getLists($map);
         $newCartLists = $cartLists;
         foreach ($cartLists as $k => $v) {
             $newCartLists[$k]['product'] = $this->product->getOneDarry(['id' => $v['product_id']]);
         }
         // pp($newCartLists);
+        $view = count($newCartLists) ? 'index' : 'empty';
 
-        return view('index', [
+        return view($view, [
                 'title' => '我的购物车',
                 'cart' => $newCartLists,
             ]);
@@ -95,5 +98,16 @@ class Cart extends Home
                     'title' => '购物车详情',
             ]);
         }
+    }
+
+    /**
+     * 个人中心-购物车-删除
+     * @author pp
+     */
+    public function delete()
+    {
+        $delId = $this->cart->where(['id' => input('id')])->delete();
+        return $delId ? 1 : 0;
+        // $delId ? $this->success("删除成功") : $this->error("删除失败");
     }
 }

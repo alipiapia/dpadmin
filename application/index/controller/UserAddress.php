@@ -47,7 +47,8 @@ class UserAddress extends Home
             return "提示：请使用手机访问！";
         }
 
-        $userAddress = $this->userAddress->getColumn(['uid' => $this->userInfo['id']], 'id,uid,username,mobile,address');
+        $map = ['uid' => $this->userInfo['id']];
+        $userAddress = $this->userAddress->getColumn($map, 'id,uid,username,mobile,address');
         // pp($userAddress);
 
         if(request()->isPost()){

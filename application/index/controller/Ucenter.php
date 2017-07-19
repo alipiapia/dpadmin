@@ -22,12 +22,14 @@ class Ucenter extends Home
     protected $userInfo;
     protected $user;
     protected $order;
+    protected $cart;
 
     protected function _initialize(){
         parent::_initialize();
         $this->userInfo = session('user_auth_index');
         $this->user = controller('common/User', 'model');
         $this->order = controller('common/Order', 'model');
+        $this->cart = controller('common/Cart', 'model');
         // pp(has_signin());
         // pp(session('user_auth_index'));
         // cookie(null);
@@ -44,7 +46,6 @@ class Ucenter extends Home
     //首页
     public function index()
     {
-        // return '个人中心';
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
@@ -52,15 +53,14 @@ class Ucenter extends Home
         //获取用户信息
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
 
-        //订单信息
-        // $orderCount0 = $this->order->where(['order_status' => 0])->count();
-        // pp($orderCount);
+        //购物车内数量
+        $cartNum = $this->cart->where(['uid' => $this->userInfo['id']])->count();
 
-        // return $this->fetch();
         return view('index', [
                 'title' => '个人中心',
                 'user' => $userInfo,
                 'config_order_status' => config('order.order_status'),
+                'cartnum' => $cartNum,
             ]);
     }
 }
