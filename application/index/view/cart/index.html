@@ -42,9 +42,9 @@
         </header>
         
         {volist name="cart" id="c"}
-        <div class="probox">
-        	<div class="oneprobox oneprobox1">
-            	<div class="chechbox"><input type="checkbox" id="cart_check_{$c.id}" /></div>
+        <div class="probox shop-group-item">
+        	<div class="oneprobox oneprobox1 shop-info">
+            	<div class="chechbox"><input class="goods-check goodsCheck" type="checkbox" data-oid="{$c.id}" data-pid="{$c.product.id}" data-spec="{$c.product_spec}" data-count="{$c.product_count}" data-price="{$c.product.price}" data-stock="{$c.product.stock}" /></div>
             	<div class="proimg">
                 	<img src="{$c.product.picture|get_file_path}" />
                 </div>
@@ -60,25 +60,27 @@
                     	<div class="else-l">数量：</div>
                         <div class="else-r">
                         	<ul class="buynum">
-                                <li><input id="min_{$c.id}" name="" type="button" value="-" /></li>
-                                <li><input id="product_count_{$c.id}" data-pid="{$c.product.id}" data-stock="{$c.product.stock}" data-price="{$c.product.price}" data-spec="{$c.product_spec}" name="product_count" type="number" value="{$c.product_count}" style="width:30px;text-align: center"/></li>
-                                <li><input id="add_{$c.id}" name="" type="button" value="+" /></li>
+                                <li class="minus">-</li>
+                                <li class="num">{$c.product_count|default=0}</li>
+                                <li class="plus">+</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="proprice">￥<span id="total">{$c.product.price}</span></div>
+                    <div class="proprice">￥<span class="price">{$c.product.price}</span></div>
                 </div>
             </div>
             <div class="operabtn">
+                小计 ￥<span class="ShopTotal">0.00</span>元
                 <button id="delCart_{$c.id}" data-id="{$c.id}">删除</button>
             </div>
         </div>
         {/volist}
 
+        <div class=""><input type="checkbox" class="goods-check" id="AllCheck">全选</div>
         <div class="fix-buybtn1">
             <div class="zi">
-                应付金额:<span id="order_price">0</span>元<br />
-            共<span id="total_num"></span>件商品
+                应付金额:<span id="AllTotal">0.00</span>元<br />
+            共<span id="AllNum">0</span>件商品
             </div>
             <div class="fbuybtn" id="justbuy">结&nbsp;算</div>
 <!--             <a href="{:url('index/order/buildorder')}">
@@ -89,129 +91,253 @@
 
         <script type="text/javascript">
             $(function(){
-                //获得文本框对象
+
+                $('#home_slider').flexslider({
+                 animation : 'slide',                   
+                });
+
+                // 数量减
+                $(".minus").click(function() {
+                    var t = $(this).parent().find('.num');
+                    t.text(parseInt(t.text()) - 1);
+                    if (t.text() <= 1) {
+                        t.text(1);
+                    }
+                    TotalPrice();
+                });
+
+                // 数量加
+                $(".plus").click(function() {
+                    var t = $(this).parent().find('.num');
+                    t.text(parseInt(t.text()) + 1);
+                    var stock = parseInt($(this).parents(".shop-info").find(".goodsCheck").attr('data-stock'));
+                    if(t.text() >= stock){
+                        t.text(stock);
+                    }
+                    if (t.text() <= 1) {
+                        t.text(1);
+                    }
+                    TotalPrice();
+                });
+
+                // 点击商品按钮
+                $(".goodsCheck").click(function() {
+                var goods = $(this).closest(".shop-group-item").find(".goodsCheck"); //获取本店铺的所有商品
+                var goodsC = $(this).closest(".shop-group-item").find(".goodsCheck:checked"); //获取本店铺所有被选中的商品
+                var Shops = $(this).closest(".shop-group-item").find(".shopCheck"); //获取本店铺的全选按钮
+                // alert(goodsC.length);
+                if (goods.length == goodsC.length) { //如果选中的商品等于所有商品
+                  // Shops.prop('checked', true); //店铺全选按钮被选中
+                  // if ($(".shopCheck").length == $(".shopCheck:checked").length) { //如果店铺被选中的数量等于所有店铺的数量
+                    $("#AllCheck").prop('checked', true); //全选按钮被选中
+                    TotalPrice();
+                  // } else {
+                    // $("#AllCheck").prop('checked', false); //else全选按钮不被选中 
+                    // TotalPrice();
+                  // }
+                } else { //如果选中的商品不等于所有商品
+                  // Shops.prop('checked', false); //店铺全选按钮不被选中
+                  $("#AllCheck").prop('checked', false); //全选按钮也不被选中
+                  // 计算
+                  TotalPrice();
+                  // 计算
+                }
+                });
+
+              // 点击全选按钮
+              $("#AllCheck").click(function() {
+                if ($(this).prop("checked") == true) { //如果全选按钮被选中
+                  $(".goods-check").prop('checked', true); //所有按钮都被选中
+                  TotalPrice();
+                } else {
+                  $(".goods-check").prop('checked', false); //else所有按钮不全选
+                  TotalPrice();
+                }
+                $(".shopCheck").change(); //执行店铺全选的操作
+              });
+            });
+
+            //计算
+            function TotalPrice() {
+                var allprice = 0; //总价
+                var allnum = 0; //总数
+                $(".shop-group-item").each(function() { //循环每个店铺
+                  var oprice = 0; //店铺总价
+                  var onum = 0; //店铺总数
+                  $(this).find(".goodsCheck").each(function() { //循环店铺里面的商品
+                    if ($(this).is(":checked")) { //如果该商品被选中
+                      var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
+                      var price = parseFloat($(this).parents(".shop-info").find(".price").text()); //得到商品的单价
+                      var total = price * num; //计算单个商品的总价
+                      oprice += total; //计算该店铺的总价
+                      onum += num; //计算该店铺的总价
+                    }
+                    $(this).closest(".shop-group-item").find(".ShopTotal").text(oprice.toFixed(2)); //显示被选中商品的店铺总价
+                    $("#AllNum").text(onum);
+                  });
+                  var oneprice = parseFloat($(this).find(".ShopTotal").text()); //得到每个店铺的总价
+                  allprice += oneprice; //计算所有店铺的总价
+                  allnum += onum;
+                });
+                $("#AllTotal").text(allprice.toFixed(2)); //输出全部总价
+                $("#AllNum").text(allnum);
+            }
 
                 // var t = $("#product_count");
                 // var price = "{$c.product.price}";
                 // var max_num = "{$c.product.stock}";
 
                 //数量增加操作
-                $("input[id^='add']").on('click', function(){
-                    var t = $(this).parent().prev().children();
-                    var price = $(t).attr('data-price');
-                    var stock = $(t).attr('data-stock');
-                    // alert($(t).attr('data-stock'));return false;
-                    t.val(parseInt(t.val()) + 1);
-                    if (parseInt(t.val()) != 1){
-                        $(this).parent().prev().prev().attr('disabled',false);
-                    }
-                    //不能超过库存
-                    if(parseInt(t.val()) >= stock){
-                        $(this).attr('disabled',true);
-                    }
-                    // setTotals();
-                });
+       //          $("input[id^='add']").on('click', function(){
+       //              var t = $(this).parent().prev().children();
+       //              var price = $(t).attr('data-price');
+       //              var stock = $(t).attr('data-stock');
+       //              // alert($(t).attr('data-stock'));return false;
+       //              t.val(parseInt(t.val()) + 1);
+       //              if (parseInt(t.val()) != 1){
+       //                  $(this).parent().prev().prev().attr('disabled',false);
+       //              }
+       //              //不能超过库存
+       //              if(parseInt(t.val()) >= stock){
+       //                  $(this).attr('disabled',true);
+       //              }
+       //              // setTotals();
+       //          });
 
-                //数量减少操作
-                $("input[id^='min']").on('click', function(){
-                    var t = $(this).parent().next().children();
-                    // alert(t.val());return false;
-                    var price = $(t).attr('data-price');
-                    t.val(parseInt(t.val()) - 1);
-                    //数量不能低于1
-                    if (parseInt(t.val()) <= 1){
-                        $(this).attr('disabled',true);
-                    }
-                    // setTotals();
-                });
+       //          //数量减少操作
+       //          $("input[id^='min']").on('click', function(){
+       //              var t = $(this).parent().next().children();
+       //              // alert(t.val());return false;
+       //              var price = $(t).attr('data-price');
+       //              t.val(parseInt(t.val()) - 1);
+       //              //数量不能低于1
+       //              if (parseInt(t.val()) <= 1){
+       //                  $(this).attr('disabled',true);
+       //              }
+       //              // setTotals();
+       //          });
 
-                //删除
-                $("button[id^='delCart_']").on('click', function(){
-                    var d = $(this);
-                    var id = d.attr('data-id');
-                    // alert(id);return false;
-                    if(confirm("确认删除该商品？")){
-                        // location.href = 'index/cart/delete?id=' + id;
-                        $.post('/index/cart/delete',{id:id},function(j){
-                            // alert(j);
-                            window.location.reload();
-                        });
-                    }else{
-                        window.location.reload();
-                    }
-                });
+       //          //删除
+       //          $("button[id^='delCart_']").on('click', function(){
+       //              var d = $(this);
+       //              var id = d.attr('data-id');
+       //              // alert(id);return false;
+       //              if(confirm("确认删除该商品？")){
+       //                  // location.href = 'index/cart/delete?id=' + id;
+       //                  $.post('/index/cart/delete',{id:id},function(j){
+       //                      // alert(j);
+       //                      window.location.reload();
+       //                  });
+       //              }else{
+       //                  window.location.reload();
+       //              }
+       //          });
 
-                //计算操作
-                function setTotals(){
-                    var t = p = 0;
-                    $("input[id^='product_count_']").each(function(){
-                        var reft = parseInt($(this).val());
-                        var stock = $(this).attr('data-stock');
-                        var price = $(this).attr('data-price');
-                        var each_total = $(this).parent().parent().parent().parent().next().children();
-                        var each_account = (reft * price).toFixed(2);
+       //          //计算操作
+       //          function setTotals(){
+       //              var t = p = 0;
+       //              $("input[id^='product_count_']").each(function(){
+       //                  var reft = parseInt($(this).val());
+       //                  var stock = $(this).attr('data-stock');
+       //                  var price = $(this).attr('data-price');
+       //                  var each_total = $(this).parent().parent().parent().parent().next().children();
+       //                  var each_account = (reft * price).toFixed(2);
 
-                        // if(reft <= 1){
-                        //     $(this).parent().prev().children().attr('disabled', true);
-                        // }
+       //                  // if(reft <= 1){
+       //                  //     $(this).parent().prev().children().attr('disabled', true);
+       //                  // }
 
-                        each_total.html(each_account);
-                        t += reft;
-                        p += parseInt(each_account);
-                        // alert(each_account);return false;
-                    });
-                    // alert(p);return false;
-                    $("#total_num").html(t);//商品数量
-                    $("#order_price").html(p);//toFixed()是保留小数点的函数很实用哦
-                }
+       //                  each_total.html(each_account);
+       //                  t += reft;
+       //                  p += parseInt(each_account);
+       //                  // alert(each_account);return false;
+       //              });
+       //              // alert(p);return false;
+       //              $("#total_num").html(t);//商品数量
+       //              $("#order_price").html(p);//toFixed()是保留小数点的函数很实用哦
+       //          }
 
-                //初始化
-                // setTotals();
+       //          //计算操作
+       //          function setEachTotal(obj){
+       //              var t = p = 0;
+       //              var pro = obj.parent().parent().find("input[name='product_count']");
+       //              var reft = parseInt(pro.val());
+       //              var stock = pro.attr('data-stock');
+       //              var price = pro.attr('data-price');
+       //              var each_total = pro.parent().parent().parent().parent().next().children();
+       //              var each_account = (reft * price).toFixed(2);
 
-    			$('#home_slider').flexslider({
-    				animation : 'slide',				   
-    			});
+       //              each_total.html(each_account);
+       //              t = reft;
+       //              p = parseInt(each_account);
+       //              // alert(p);return false;
+       //          }
 
-                    // $("input[id^='cart_check_']").click(function(r){
-                    //     if($(this).is(':checked')){
-                    //         setTotals();
-                    //     }
-                    // });
+       //          //初始化
+       //          // setTotals();
+
+    			// $('#home_slider').flexslider({
+    			// 	animation : 'slide',				   
+    			// });
+
+       //          $("input[id^='cart_check_']").click(function(r){
+       //              if($(this).is(':checked')){
+       //                  var t = p = 0;
+       //                  var pro = $(this).parent().parent().find("input[name='product_count']");
+       //                  var reft = parseInt(pro.val());
+       //                  var stock = pro.attr('data-stock');
+       //                  var price = pro.attr('data-price');
+       //                  var each_total = pro.parent().parent().parent().parent().next().children();
+       //                  var each_account = (reft * price).toFixed(2);
+
+       //                  each_total.html(each_account);
+       //                  t = reft;
+       //                  p = parseInt(each_account);
+       //                  // alert(each_total);return false;
+       //                  $("#total_num").html(t);//商品数量
+       //                  $("#order_price").html(p);//toFixed()是保留小数点的函数很实用哦
+       //              }
+       //          });
 
                 $("#justbuy").on('click', function(d){
                     var postProducts = [];
-
-                    $("input[id^='cart_check_']").each(function(r){
+                    $(".goodsCheck").each(function(r){
                         if($(this).is(':checked')){
-                            var pro = $(this).parent().parent().find("input[name='product_count']");
-                            var count = parseInt($(pro).val());
-                            var stock = parseInt($(pro).attr('data-stock'));
-                            var spec = parseInt($(pro).attr('data-spec'));
-                            var pid = parseInt($(pro).attr('data-pid'));
+                            var cart_id = parseInt($(this).attr('data-oid'));
+                            var product_id = parseInt($(this).attr('data-pid'));
+                            // var product_count = parseInt($(this).attr('data-count'));
+                            var product_count = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
+                            var product_spec = parseInt($(this).attr('data-spec'));
+                            var product_stock = parseInt($(this).attr('data-stock'));
 
-                            //商品有效性判断
-                            if((1 > stock) || (count > stock)){
-                                alert("商品库存不足");return false;
-                            }
+                            // //商品有效性判断
+                            // if((1 > product_stock) || (product_count > product_stock)){
+                            //     alert("商品库存不足");return false;
+                            // }
 
-                            if(1 > count){
-                                alert("请选择商品数量");return false;
-                            }
+                            // if(1 > product_count){
+                            //     alert("请选择商品数量");return false;
+                            // }
                             
-                            // alert(count);return false;
-                            postProducts.push([pid, spec, count]);
-                            setTotals();
+                            var eachPost = [product_id,product_spec,product_count,cart_id];
+                            // eachPost['product_id'] = product_id;
+                            // eachPost['product_spec'] = product_spec;
+                            // eachPost['product_count'] = product_count;
+                            // alert(eachPost);return false;
+                            postProducts.push(eachPost);
                         }
                     });
-                    // alert(postProducts);return false;
+                    // alert(JSON.stringify(postProducts));return false;
 
                     if(postProducts == "" || postProducts == undefined || postProducts == null){
                         alert("请选择商品");return false;                        
                     }
 
-                    $.post('/index/order/checkorder',{data:postProducts},function(d){
-                        //
-                    });
+                    location.href = '/index/Order/checkOrder?products=' + JSON.stringify(postProducts);
+
+                    // $.post('/index/Order/checkOrder',{products:postProducts},function(d){
+                    //     //
+                    // });
 
                     // $("input[id^='product_count_']").each(function(d){
                     //     var count = parseInt($(this).val());
@@ -236,7 +362,7 @@
                     //     //
                     // });
                 });
-    		});	
+    		// });	
         		
         </script>
     </body>

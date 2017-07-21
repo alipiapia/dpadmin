@@ -16,6 +16,7 @@ use app\common\model\Spec as SpecModel;
 use app\common\model\Order as OrderModel;
 use app\common\model\UserAddress as UserAddressModel;
 use app\common\model\UserAccount as UserAccountModel;
+use app\common\model\Cart as CartModel;
 
 /**
  * 前台订单控制器
@@ -32,6 +33,7 @@ class Order extends Home
     protected $order;
     protected $userAddress;
     protected $userAccount;
+    protected $cart;
 
     protected function _initialize(){
         parent::_initialize();
@@ -42,6 +44,7 @@ class Order extends Home
         $this->order = new OrderModel;
         $this->userAddress = new UserAddressModel;
         $this->userAccount = new UserAccountModel;
+        $this->cart = new CartModel;
 
         if(!has_signin()){
             $this->redirect(url('index/index/loginpatch'));
@@ -58,28 +61,37 @@ class Order extends Home
         if(!is_mobile()){
             return "提示：请使用手机访问！";
         }
-        // pp(input(''));
-        $data = request()->get();
-        if(empty($data['product_id'])){
+
+        $gets = request()->get();
+        $data = json_decode($gets['products'],true);
+        // pp($data);
+
+        if(empty($data)){
             $this->error("商品不存在");
         }
 
-        $orderInfo['product_id'] = $data['product_id'];
-        $orderInfo['product_spec'] = $data['product_spec'];
-        $orderInfo['product_spec_name'] = $this->spec->getValue(['id' => $data['product_spec']], 'name');
-        $orderInfo['product_count'] = $data['product_count'];
-        $orderInfo['product'] = $this->product->getOneDarry(['id' => $data['product_id']]);//商品
+        $orderInfo = [];
+        foreach($data as $k => $v){
+            $orderInfo[$k]['product_id'] = $v[0];
+            $orderInfo[$k]['product_spec'] = $v[1];
+            $orderInfo[$k]['product_spec_name'] = $this->spec->getValue(['id' => $v[1]], 'name');
+            $orderInfo[$k]['product_count'] = $v[2];
+            $orderInfo[$k]['cart_id'] = $v[3];
+            $orderInfo[$k]['product'] = $this->product->getOneDarry(['id' => $v[0]]);//商品
+        }
 
         $defaultAddress = $this->userAddress->getOneDarry(['uid' => $this->userInfo['id'], 'is_default' => 1]);//默认收货地址
         $latestAddress = $this->userAddress->getLists(['uid' => $this->userInfo['id']], 'update_time DESC', '', 1);//最近更新地址
-        $orderInfo['address'] = $defaultAddress ? $defaultAddress : (isset($latestAddress[0]) ? $latestAddress[0] : []);//收货地址
+        $address = $defaultAddress ? $defaultAddress : (isset($latestAddress[0]) ? $latestAddress[0] : []);//收货地址
+
         // $orderInfo['address'] = $this->userAddress->getColumn(['uid' => $this->userInfo['id']]);//收货地址
         // pp($orderInfo);
 
         return view('checkorder', [
                 'title' => '确认订单',
-                'order' => $orderInfo,
                 'session_user' => session('user_auth_index'),
+                'order' => $orderInfo,
+                'address' => $address,
         ]);
     }
 
@@ -88,40 +100,58 @@ class Order extends Home
      * @author pp
      */
     public function buildOrder(){
-        $data = request()->post();
-        //订单号生成
-        $newOrderNo = $this->order->buildOrderNo();
+        $gets = request()->get();
+        $pro = json_decode($gets['products'],true);
+        // pp($pro);
 
-        //商品详情
-        $productInfo = $this->product->getOneDarry(['id' => $data['product_id']]);
-        $data['product_price'] = $productInfo['price'];
+        foreach($pro as $k => $v){
+            //订单号生成
+            $newOrderNo = $this->order->buildOrderNo();
 
-        //检查订单号唯一性
-        $orderCheck = $this->order->getValue(['order_sn' => $newOrderNo], 'order_sn');
-        $data['order_sn'] = $orderCheck ? $this->order->buildOrderNo() : $newOrderNo;
+            //商品详情
+            $v['product_id'] = $v[0];unset($v[0]);
+            $v['product_spec'] = $v[1];unset($v[1]);
+            $v['product_count'] = $v[2];unset($v[2]);
+            $v['buyer'] = $v[3];unset($v[3]);
+            $v['buyer_address'] = $v[4];unset($v[4]);
+            $v['order_note'] = $v[5];unset($v[5]);
+            $cart_id = $v[6];unset($v[6]);
+            $productInfo = $this->product->getOneDarry(['id' => $v['product_id']]);
+            $v['product_price'] = $productInfo['price'];
 
-        $data['order_price'] = $data['product_count'] * $data['product_price'];
-        $checkResult = $this->validate($data, 'Order');
-        // pp($addOrder);
+            //检查订单号唯一性
+            $orderCheck = $this->order->getValue(['order_sn' => $newOrderNo], 'order_sn');
+            $v['order_sn'] = $orderCheck ? $this->order->buildOrderNo() : $newOrderNo;
 
-        if(true !== $checkResult) return $this->error($checkResult);
-        $creatOrder = OrderModel::create($data);
-        if($creatOrder){
-            $upData = [
-                'stock' => ($productInfo['stock'] - $data['product_count']),//更新库存
-                'sales' => ($productInfo['sales'] + $data['product_count']),//更新销售数量
-            ];
-            $upProduct = $this->product->upData($upData, ['id' => $productInfo['id']]);
-            return $data['order_sn'];
-        }else{
-            return 0;
+            $v['order_price'] = $v['product_count'] * $v['product_price'];
+            $checkResult = $this->validate($v, 'Order');
+            // pp($addOrder);
+
+            if(true !== $checkResult) return $this->error($checkResult);
+            $creatOrder = OrderModel::create($v);
+            if($creatOrder){
+                $this->cart->where(['id' => $cart_id])->delete();
+                $upData = [
+                    'stock' => ($productInfo['stock'] - $v['product_count']),//更新库存
+                    'sales' => ($productInfo['sales'] + $v['product_count']),//更新销售数量
+                ];
+                $upProduct = $this->product->upData($upData, ['id' => $productInfo['id']]);
+                // return 1;
+                // $this->redirect('index/order/ulist');
+                continue;
+            }else{
+                // return 0;
+                // $this->redirect('index/cart/index');
+                break;
+            }
+            // return $creatOrder ? 1 : 0;
+            // if ($order = OrderModel::create($data)) {
+                // return $this->success('订单生成成功', url('index/Order/ulist'));
+            // } else {
+                // return $this->error('订单生成失败');
+            // }
         }
-        // return $creatOrder ? 1 : 0;
-        // if ($order = OrderModel::create($data)) {
-            // return $this->success('订单生成成功', url('index/Order/ulist'));
-        // } else {
-            // return $this->error('订单生成失败');
-        // }
+        $this->redirect('index/ucenter/index');
     }
 
     /**
