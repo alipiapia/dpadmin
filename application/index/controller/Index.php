@@ -21,6 +21,20 @@ use app\common\model\Cate as CateModel;
  */
 class Index extends Common
 {
+    /**
+     * 初始化方法
+     * @author thinkphp
+     */
+    protected function _initialize()
+    {
+        parent::_initialize();
+
+        //是否为移动设备
+        if(!is_mobile()){
+            echo "提示：请使用手机访问！";die;
+        }
+    }
+    
     public function index()
     {
         // cookie(null);

@@ -26,10 +26,15 @@ class Product extends Common
      * 初始化方法
      * @author thinkphp
      */
-    // protected function _initialize()
-    // {
-    //     parent::_initialize();
-    // }
+    protected function _initialize()
+    {
+        parent::_initialize();
+
+        //是否为移动设备
+        if(!is_mobile()){
+            echo "提示：请使用手机访问！";die;
+        }
+    }
 
     //列表页
     public function index()
