@@ -46,6 +46,6 @@ class Order extends Validate
         //添加
         'add'  =>  ['order_sn' => 'require', 'product_id' => 'require', 'product_price' => 'require', 'product_spec' => 'require', 'product_count' => 'require', 'order_price' => 'require'],
         //更新
-        'update'  =>  ['order_sn' => 'require', 'desc' => 'require'],
+        'update'  =>  ['order_price' => 'require'],
     ];
 }

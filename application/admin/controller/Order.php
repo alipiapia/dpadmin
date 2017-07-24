@@ -63,51 +63,51 @@ class Order extends Admin
             ])
             // ->addValidate('Order', 'order_sn')
             ->addTimeFilter('create_time')
-            ->addTopButtons('add,enable,disable,delete') // 批量添加顶部按钮
+            ->addTopButtons('delete') // 批量添加顶部按钮
             ->addRightButtons('edit,delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
             ->setPages($page) // 设置分页数据
             ->fetch(); // 渲染页面
     }
 
-    /**
-     * 新增
-     * @author thinkphp
-     * @return mixed
-     */
-    public function add()
-    {
-        // 保存数据
-        if ($this->request->isPost()) {
-            $data = $this->request->post();
-            // 验证
-            $result = $this->validate($data, 'Order');
-            // 验证失败 输出错误信息
-            if(true !== $result) return $this->error($result);
+    // /**
+    //  * 新增
+    //  * @author thinkphp
+    //  * @return mixed
+    //  */
+    // public function add()
+    // {
+    //     // 保存数据
+    //     if ($this->request->isPost()) {
+    //         $data = $this->request->post();
+    //         // 验证
+    //         $result = $this->validate($data, 'Order');
+    //         // 验证失败 输出错误信息
+    //         if(true !== $result) return $this->error($result);
 
-            if ($order = OrderModel::create($data)) {
-                // 记录行为
-                action_log('order_add', 'admin_order', $order['id'], UID);
-                return $this->success('新增成功', url('index'));
-            } else {
-                return $this->error('新增失败');
-            }
-        }
+    //         if ($order = OrderModel::create($data)) {
+    //             // 记录行为
+    //             //action_log('order_add', 'admin_order', $order['id'], UID);
+    //             return $this->success('新增成功', url('index'));
+    //         } else {
+    //             return $this->error('新增失败');
+    //         }
+    //     }
 
-        // 使用ZBuilder快速创建表单
-        return ZBuilder::make('form')
-            ->setPageTitle('新增') // 设置页面标题
-            ->addFormItems([ // 批量添加表单项
-                ['text', 'order_sn', '订单号'],
-                ['text', 'product_id', '商品'],
-                ['text', 'order_price', '订单金额'],
-                ['text', 'shipping_fee', '运费'],
-                ['text', 'buyer', '收货人'],
-                ['text', 'buyer_address', '收货地址'],
-                ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
-            ])
-            ->fetch();
-    }
+    //     // 使用ZBuilder快速创建表单
+    //     return ZBuilder::make('form')
+    //         ->setPageTitle('新增') // 设置页面标题
+    //         ->addFormItems([ // 批量添加表单项
+    //             ['text', 'order_sn', '订单号'],
+    //             ['text', 'product_id', '商品'],
+    //             ['text', 'order_price', '订单金额'],
+    //             ['text', 'shipping_fee', '运费'],
+    //             ['text', 'buyer', '收货人'],
+    //             ['text', 'buyer_address', '收货地址'],
+    //             ['radio', 'order_status', '状态', '', ['禁用', '启用'], 1]
+    //         ])
+    //         ->fetch();
+    // }
 
     /**
      * 编辑
@@ -128,14 +128,9 @@ class Order extends Admin
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 
-            // 如果没有填写密码，则不更新密码
-            if ($data['password'] == '') {
-                unset($data['password']);
-            }
-
             if ($order = OrderModel::update($data)) {
                 // 记录行为
-                action_log('order_edit', 'admin_order', $order['id'], UID, get_nickname($order['id']));
+                // action_log('order_edit', 'admin_order', $order['id'], UID, get_nickname($order['id']));
                 return $this->success('编辑成功', cookie('__forward__'));
             } else {
                 return $this->error('编辑失败');
@@ -154,9 +149,9 @@ class Order extends Admin
                 ['static', 'product_id', '商品'],
                 ['text', 'order_price', '订单金额'],
                 ['text', 'shipping_fee', '运费'],
-                ['text', 'buyer', '收货人'],
-                ['text', 'buyer_address', '收货地址'],
-                ['radio', 'status', '状态', '', ['禁用', '启用']]
+                // ['text', 'buyer', '收货人'],
+                // ['text', 'buyer_address', '收货地址'],
+                ['radio', 'order_status', '订单状态', '', config('order.order_status')]
             ])
             ->setFormData($info) // 设置表单数据
             ->fetch();
