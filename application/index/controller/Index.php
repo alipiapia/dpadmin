@@ -32,11 +32,6 @@ class Index extends Common
             $this->redirect(config('home_default_module'). '/index/index');
         }
 
-        //是否为移动设备
-        if(!is_mobile()){
-        	return "提示：请使用手机访问！";
-        }
-
         $map = $this->getMap();
         $map['status'] = 1;
         // $map['group_end_time'] = ['gt', time()];

@@ -32,20 +32,11 @@ class Cart extends Home
         $this->userInfo = session('user_auth_index');
         $this->product = new ProductModel;
         $this->cart = new CartModel;
-
-        if(!has_signin()){
-            $this->redirect(url('index/index/loginpatch'));
-            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
-        }
     }
 
     //我的购物车首页
     public function index()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         $map = [
             'uid' => $this->userInfo['id'],
         ];
@@ -66,10 +57,6 @@ class Cart extends Home
     //我的购物车
     public function ulist()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         //获取用户信息
         $sessionUser =session('user_auth_index');
         $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
@@ -88,9 +75,6 @@ class Cart extends Home
      */
     public function udetail()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
         if(request()->isPost()){
             //
         }else{

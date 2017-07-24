@@ -34,10 +34,6 @@ class Product extends Common
     //列表页
     public function index()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         $map = $this->getMap();
         $map['status'] = 1;
         // $map['group_end_time'] = ['gt', time()];
@@ -57,10 +53,6 @@ class Product extends Common
     //详情
     public function detail()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         $pid = input('pid');
         // $productDetail = Db::name('Product')->find($pid);
         $productDetail = (new ProductModel)->getOneDarry(['id' => $pid]);

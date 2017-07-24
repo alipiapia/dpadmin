@@ -30,20 +30,11 @@ class UserAccount extends Home
         $this->user = controller('common/User', 'model');
         $this->userInfo = session('user_auth_index');
         $this->userAccount = new UserAccountModel;
-
-        if(!has_signin()){
-            $this->redirect(url('index/index/loginpatch'));
-            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
-        }
     }
 
     //个人中心-我的资金明细
     public function ulist()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         //获取用户信息
         $map = ['uid' => $this->userInfo['id']];
         // $uid = $this->user->getValue(['id' => $this->userInfo['id']], 'id');
@@ -65,10 +56,6 @@ class UserAccount extends Home
      */
     public function udetail()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         if(!input('id')){
             $this->error("找不到资金明细");
         }

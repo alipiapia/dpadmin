@@ -45,11 +45,6 @@ class Order extends Home
         $this->userAddress = new UserAddressModel;
         $this->userAccount = new UserAccountModel;
         $this->cart = new CartModel;
-
-        if(!has_signin()){
-            $this->redirect(url('index/index/loginpatch'));
-            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
-        }
     }
 
     /**
@@ -58,10 +53,6 @@ class Order extends Home
      */
     public function checkOrder()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         $gets = request()->get();
         $data = json_decode($gets['products'],true);
         // pp($data);
@@ -158,10 +149,7 @@ class Order extends Home
      * 检查支付密码
      * @author pp
      */
-    public function checkPay(){        
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
+    public function checkPay(){
         $order_sn = input('order_sn') ? input('order_sn'): 0;
         $orderInfo = $this->order->getOneDarry(['order_sn' => $order_sn]);
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
@@ -250,10 +238,6 @@ class Order extends Home
     //个人中心-我的订单
     public function ulist()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         $map = ['buyer' => $this->userInfo['id']];
 
         if((input('order_status') !== null)){
@@ -287,10 +271,6 @@ class Order extends Home
      */
     public function udetail()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         if(!input('order_sn')){
             $this->error("订单不存在");
         }

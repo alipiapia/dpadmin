@@ -37,7 +37,12 @@ class Home extends Common
 
         //是否为移动设备
         if(!is_mobile()){
-            return "提示：请使用手机访问！";
+            echo "提示：请使用手机访问！";die;
+        }
+
+        if(!has_signin()){
+            $this->redirect(url('index/index/loginpatch'));
+            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
         }
 
         // 判断是否登录，并定义用户ID常量

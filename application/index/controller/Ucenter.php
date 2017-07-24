@@ -36,20 +36,11 @@ class Ucenter extends Home
         // pp($_COOKIE);
         // session(null);
         // pp($_SESSION);
-
-        if(!has_signin()){
-            $this->redirect(url('index/index/loginpatch'));
-            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
-        }
     }
 
     //首页
     public function index()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         //获取用户信息
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
 

@@ -30,11 +30,6 @@ class UserAddress extends Home
         $this->user = controller('common/User', 'model');
         $this->userInfo = session('user_auth_index');
         $this->userAddress = new UserAddressModel;
-
-        if(!has_signin()){
-            $this->redirect(url('index/index/loginpatch'));
-            // $this->error("您必须先登录，才能进行此操作", url('index/user/login'));
-        }
     }
 
     /**
@@ -43,10 +38,6 @@ class UserAddress extends Home
      */
     public function selectAddress()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         $map = ['uid' => $this->userInfo['id']];
         $userAddress = $this->userAddress->getColumn($map, 'id,uid,username,mobile,address');
         // pp($userAddress);
@@ -64,10 +55,6 @@ class UserAddress extends Home
     //个人中心-我的收货地址
     public function ulist()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         //获取用户信息
         // $uid = $this->user->getValue(['id' => $this->userInfo['id']], 'id');
         $userAddress = $this->userAddress->getColumn(['uid' => $this->userInfo['id']], 'id,uid,username,mobile,address');
@@ -85,10 +72,7 @@ class UserAddress extends Home
      * @author pp
      */
     public function uadd()
-    {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
+    {   
         if(request()->isPost()){
             $data = request()->post();
             $data['uid'] = $this->userInfo['id'];
@@ -120,10 +104,6 @@ class UserAddress extends Home
      */
     public function uedit()
     {
-        if(!is_mobile()){
-            return "提示：请使用手机访问！";
-        }
-
         $addressInfo = $this->userAddress->getOneDarry(['id' => input('id')]);
         // pp($addressInfo);
 

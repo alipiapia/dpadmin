@@ -11,9 +11,9 @@
         <script src="__HOME_JS__/jquery-v1.10.2.min.js" type="text/javascript"></script>
         
         <script type="text/javascript" src="__HOME_JS__/jquery.event.drag-1.5.min.js"></script>
-        <script type="text/javascript" src="__HOME_JS__/jquery.touchSlider.js"></script>
+		<script type="text/javascript" src="__HOME_JS__/jquery.touchSlider.js"></script>
 
-        <script type="text/javascript" src="__HOME_JS__/jquery.flexslider-min.js"></script>
+		<script type="text/javascript" src="__HOME_JS__/jquery.flexslider-min.js"></script>
 
         
     </head>
@@ -21,10 +21,10 @@
 
     <!--隐藏浮层-->
     <div class="hidebox-w" style="display:none;">
-        <div class="hidebox">
-            <div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
-            提示文字信息
-            
+    	<div class="hidebox">
+        	<div class="hidebox-close"><img src="__HOME_IMG__/close1.png" /></div>
+        	提示文字信息
+        	
         </div>
     </div>
     <header class="toptit">{$title}
@@ -40,33 +40,45 @@
         </a>
     </header>
 
-    <form id="find_pass_form" action="{url('index/user/findpassword')}" method="post">
+    <form id="reg_form" action="{url('index/member/register')}" method="post">
     <div class="inputbox-o">
-        <div class="inputbox">
-            <div class="one-input inputbg1">
-                <input type="text" name="username"  placeholder="请输入用户名" />
+    	<div class="inputbox">
+        	<div class="one-input inputbg1">
+            	<input type="text" name="username"  placeholder="请输入用户名" />
             </div>
             <div class="one-input inputbg2">
-                <input type="password" name="findpass"  placeholder="请输入密码" />
-            </div>
-            <div class="one-input inputbg2-1">
-                <input type="password" name="re_findpass"  placeholder="请再次输入密码" />
+            	<input type="password" name="password"  placeholder="请输入密码" />
             </div>
             <div class="one-input inputbg5">
-                <input type="text" name="mobile"  placeholder="请输入手机号码" />
+            	<input type="text" name="mobile"  placeholder="请输入手机号码" />
+            </div>
+            <div class="one-input inputbg5">
+            	<input type="text" name="ref_mobile"  placeholder="请输入推荐人手机号码" />
+            </div>
+            <div class="one-input inputbg5">
+                <input type="text" name="group_mobile"  placeholder="请输入团队手机号码" />
+            </div>
+            <div class="one-input inputbg3">
+            	<input type="text" name="captcha" class=" input-yzm" placeholder="请输入验证码"  />
+                <!-- <div class="button-yzm">1111</div> -->
+                <!-- <div class="button-yzm">{:captcha_img()}</div> -->
+                <div class="button-yzm"><img src="{:captcha_src()}" onclick="this.src='{:captcha_src()}?x='+Math.random();" /></div>
             </div>
         </div>
+        <div class="steptext">&nbsp;</div>
     </div>
     <div class="page-box"><div class="button-tj">提交</div></div>
     </form>
 
     <script type="text/javascript">
-        $(function(){
-            $('.i-gametit').animate({'top':'0'});
-        });
+    	$(function(){
+    			$('.i-gametit').animate({'top':'0'});
+    	});
 
         $('.button-tj').click(function(){
-            $("#find_pass_form").submit();
+            // $('.hidebox-w').css('display', 'block');
+            $("#reg_form").submit();
+            // alert("pp");
         });
 
         $('input').keydown(function(e){
