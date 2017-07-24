@@ -53,6 +53,45 @@ class Order extends Home
      */
     public function checkOrder()
     {
+        $data = request()->get();
+        if(empty($data['product_id'])){
+            $this->error("商品不存在");
+        }
+        //添加到购物车
+        $data['uid'] = $this->userInfo['id'];
+        $cartMap = ['uid' => $data['uid'], 'product_id' => $data['product_id'], 'product_spec' => $data['product_spec']];//检查是否为同一规格商品
+        $cartCheck = $this->cart->getOneDarry($cartMap);
+        if($cartCheck){
+            $this->cart->where($cartMap)->setInc('product_count', $data['product_count']);
+        }else{
+            $checkResult = $this->validate($data, 'Cart');
+            if(true !== $checkResult) return $this->error($checkResult);
+            $this->cart->create($data);            
+        }
+
+        $orderInfo['product_id'] = $data['product_id'];
+        $orderInfo['product_spec'] = $data['product_spec'];
+        $orderInfo['product_spec_name'] = $this->spec->getValue(['id' => $data['product_spec']], 'name');
+        $orderInfo['product_count'] = $data['product_count'];
+        $orderInfo['product'] = $this->product->getOneDarry(['id' => $data['product_id']]);//商品
+        $defaultAddress = $this->userAddress->getOneDarry(['uid' => $this->userInfo['id'], 'is_default' => 1]);//默认收货地址
+        $latestAddress = $this->userAddress->getLists(['uid' => $this->userInfo['id']], 'update_time DESC', '', 1);//最近更新地址
+        $orderInfo['address'] = $defaultAddress ? $defaultAddress : (isset($latestAddress[0]) ? $latestAddress[0] : []);//收货地址
+        // $orderInfo['address'] = $this->userAddress->getColumn(['uid' => $this->userInfo['id']]);//收货地址
+        // pp($orderInfo);
+        return view('checkorder', [
+                'title' => '确认订单',
+                'order' => $orderInfo,
+                'session_user' => session('user_auth_index'),
+        ]);
+    }
+
+    /**
+     * 确认购物车订单
+     * @author pp
+     */
+    public function checkCartOrder()
+    {
         $gets = request()->get();
         $data = json_decode($gets['products'],true);
         // pp($data);
@@ -78,7 +117,7 @@ class Order extends Home
         // $orderInfo['address'] = $this->userAddress->getColumn(['uid' => $this->userInfo['id']]);//收货地址
         // pp($orderInfo);
 
-        return view('checkorder', [
+        return view('checkcartorder', [
                 'title' => '确认订单',
                 'session_user' => session('user_auth_index'),
                 'order' => $orderInfo,
@@ -106,7 +145,12 @@ class Order extends Home
             $v['buyer'] = $v[3];unset($v[3]);
             $v['buyer_address'] = $v[4];unset($v[4]);
             $v['order_note'] = $v[5];unset($v[5]);
-            $cart_id = $v[6];unset($v[6]);
+            if(isset($v[6])){
+                $cart_id = $v[6];
+                unset($v[6]);
+            }else{
+                $cart_id = 0;
+            }
             $productInfo = $this->product->getOneDarry(['id' => $v['product_id']]);
             $v['product_price'] = $productInfo['price'];
 
