@@ -41,8 +41,9 @@
             </a>
         </header>
         
+        <div class="probox">
         {volist name="cart" id="c"}
-        <div class="probox shop-group-item">
+        <div class="shop-group-item">
         	<div class="oneprobox oneprobox1 shop-info">
             	<div class="chechbox"><input class="goods-check goodsCheck" type="checkbox" data-oid="{$c.id}" data-pid="{$c.product.id}" data-spec="{$c.product_spec}" data-count="{$c.product_count}" data-price="{$c.product.price}" data-stock="{$c.product.stock}" /></div>
             	<div class="proimg">
@@ -75,7 +76,8 @@
             </div>
         </div>
         {/volist}
-
+        </div>
+        
         <div class=""><input type="checkbox" class="goods-check" id="AllCheck">全选</div>
         <div class="fix-buybtn1">
             <div class="zi">
@@ -122,9 +124,9 @@
 
                 // 点击商品按钮
                 $(".goodsCheck").click(function() {
-                var goods = $(this).closest(".shop-group-item").find(".goodsCheck"); //获取本店铺的所有商品
-                var goodsC = $(this).closest(".shop-group-item").find(".goodsCheck:checked"); //获取本店铺所有被选中的商品
-                var Shops = $(this).closest(".shop-group-item").find(".shopCheck"); //获取本店铺的全选按钮
+                var goods = $(this).closest(".probox").find(".goodsCheck"); //获取本店铺的所有商品
+                var goodsC = $(this).closest(".probox").find(".goodsCheck:checked"); //获取本店铺所有被选中的商品
+                var Shops = $(this).closest(".probox").find(".shopCheck"); //获取本店铺的全选按钮
                 // alert(goodsC.length);
                 if (goods.length == goodsC.length) { //如果选中的商品等于所有商品
                   // Shops.prop('checked', true); //店铺全选按钮被选中
