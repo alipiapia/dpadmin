@@ -130,18 +130,33 @@ class Member extends Common
                 };
             // }
 
-            // $this->validate($verify,[
-            //     'captcha|验证码'=>'require|captcha'
-            // ]);
+            //分销等级检查
+            $refUser = $this->user->getOneDarry(['mobile' => $data['ref_mobile']]);
+            if($refUser){
+                if(($refUser['pro_level'] != null) && ($refUser['pro_level'] > 0)){
+                    
+                    //获取当前分销等级
+                    $data['pro_level'] = $refUser['pro_level'] + 1;
 
-            // $res = $this->user->addData($data);
-            $res = UserModel::create($data);
-            if ($res) {
-                // $this->login($data['username'], $data['password']);
-                $this->user->login($data['username'], $data['password']);
-                $this->success('注册成功，自动登录中...', url('index/ucenter/index'));
-            } else {
-                $this->error($res);
+                    //屏蔽一级代理注册
+                    if($data['pro_level'] == 1){
+                        $this->error("该操作暂无权限，请联系管理员");
+                    }
+
+                    //添加数据
+                    $res = UserModel::create($data);
+                    if ($res) {
+                        // $this->login($data['username'], $data['password']);
+                        $this->user->login($data['username'], $data['password']);
+                        $this->success('注册成功，自动登录中...', url('index/ucenter/index'));
+                    } else {
+                        $this->error($res);
+                    }
+                }else{
+                    $this->error("找不到推荐人");
+                }
+            }else{
+                $this->error("找不到推荐人");
             }
         } else {
             // return is_signin() ? $this->redirect('index/ucenter/index') : $this->fetch();

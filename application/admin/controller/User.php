@@ -51,6 +51,7 @@ class User extends Admin
                 ['nickname', '昵称'],
                 ['email', '邮箱'],
                 ['mobile', '手机号'],
+                ['ref_mobile', '推荐人手机号'],
                 ['balance', '余额'],
                 ['score', '积分'],
                 ['create_time', '创建时间', 'datetime'],
