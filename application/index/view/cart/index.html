@@ -43,7 +43,7 @@
         
         <div class="probox">
         {volist name="cart" id="c"}
-        <div class="shop-group-item">
+        <div class="probox shop-group-item">
         	<div class="oneprobox oneprobox1 shop-info">
             	<div class="chechbox"><input class="goods-check goodsCheck" type="checkbox" data-oid="{$c.id}" data-pid="{$c.product.id}" data-spec="{$c.product_spec}" data-count="{$c.product_count}" data-price="{$c.product.price}" data-stock="{$c.product.stock}" /></div>
             	<div class="proimg">
@@ -77,7 +77,7 @@
         </div>
         {/volist}
         </div>
-        
+
         <div class=""><input type="checkbox" class="goods-check" id="AllCheck">全选</div>
         <div class="fix-buybtn1">
             <div class="zi">
