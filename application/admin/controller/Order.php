@@ -44,6 +44,7 @@ class Order extends Admin
         return ZBuilder::make('table')
             ->setPageTitle('订单管理') // 设置页面标题
             ->setTableName('Order') // 设置数据表名
+            ->addTimeFilter('create_time')
             ->setSearch(['order_sn' => '订单号']) // 设置搜索参数
             ->addOrder('id,order_sn') // 添加排序
             ->addFilter('id,order_sn') // 添加筛选
@@ -52,7 +53,7 @@ class Order extends Admin
                 ['product_id', '商品名称', 'callback', 'get_product_value', 'name'],
                 ['product_count', '商品数量'],
                 ['order_price', '订单金额'],
-                ['shipping_fee', '运费', 'text.edit'],
+                // ['shipping_fee', '运费', 'text.edit'],
                 ['buyer', '收货人', 'callback', 'get_user_value', 'username'],
                 // ['buyer_address', '收货地址'],
                 ['pay_status', '支付状态', 'status', '', config('order.pay_status')],
@@ -62,7 +63,6 @@ class Order extends Admin
                 ['right_button', '操作', 'btn']
             ])
             // ->addValidate('Order', 'order_sn')
-            ->addTimeFilter('create_time')
             ->addTopButtons('delete') // 批量添加顶部按钮
             ->addRightButtons('edit,delete') // 批量添加右侧按钮
             ->setRowList($data_list) // 设置表格数据
@@ -117,28 +117,33 @@ class Order extends Admin
      */
     public function edit($id = null)
     {
-        if ($id === null) return $this->error('缺少参数');
+        if ($id === null) return $this->error('参数错误');
+
+        // 获取数据
+        $info = OrderModel::where('id', $id)->field('password', true)->find();
+        if($info['order_status'] != 1)return $this->error('参数错误');
 
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
 
             // 验证
-            $result = $this->validate($data, 'Order.update');
+            $result = $this->validate($data, 'Order.shipping');
             // 验证失败 输出错误信息
             if(true !== $result) return $this->error($result);
 
             if ($order = OrderModel::update($data)) {
                 // 记录行为
                 // action_log('order_edit', 'admin_order', $order['id'], UID, get_nickname($order['id']));
+
+                //更新订单状态
+                $data['order_status'] = 2;
+                $upOrderStatus = OrderModel::update($data);
                 return $this->success('编辑成功', cookie('__forward__'));
             } else {
                 return $this->error('编辑失败');
             }
         }
-
-        // 获取数据
-        $info = OrderModel::where('id', $id)->field('password', true)->find();
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
@@ -146,13 +151,18 @@ class Order extends Admin
             ->addFormItems([ // 批量添加表单项
                 ['hidden', 'id'],
                 ['static', 'order_sn', '订单号'],
-                ['static', 'product_id', '商品'],
-                ['text', 'order_price', '订单金额'],
-                ['text', 'shipping_fee', '运费'],
-                // ['text', 'buyer', '收货人'],
-                // ['text', 'buyer_address', '收货地址'],
-                ['radio', 'order_status', '订单状态', '', config('order.order_status')]
+                // ['static', 'product_id', '商品'],
+                ['static', 'order_price', '订单金额'],
+                // ['text', 'shipping_fee', '运费'],
+                ['static', 'buyer', '收货人'],
+                ['static', 'buyer_address', '收货地址'],
+                // ['radio', 'order_status', '订单状态', '', config('order.order_status')]
+                // ['Bmap', '111','CAf9a5889147c3b2b9ca3e3cdad0ca2a']
+                ['text', 'shipping_name', '物流公司'],
+                ['text', 'shipping_num', '物流单号'],
             ])
+            ->setBtnTitle('submit', '确认发货')
+            ->submitConfirm()
             ->setFormData($info) // 设置表单数据
             ->fetch();
     }

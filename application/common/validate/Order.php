@@ -32,6 +32,8 @@ class Order extends Validate
         // 'seller|卖家' => 'require',
         'buyer|收货人' => 'require',
         'buyer_address|收货地址' => 'require',
+        'shipping_name|物流公司' => 'require',
+        'shipping_num|物流单号' => 'require',
         // 'pay_type|支付类型' => 'require',
     ];
 
@@ -44,8 +46,10 @@ class Order extends Validate
     protected $scene = [
         'order_sn' => ['order_sn'],
         //添加
-        'add'  =>  ['order_sn' => 'require', 'product_id' => 'require', 'product_price' => 'require', 'product_spec' => 'require', 'product_count' => 'require', 'order_price' => 'require'],
+        'add'  =>  ['order_sn' => 'require', 'product_id' => 'require', 'product_price' => 'require', 'product_spec' => 'require', 'product_count' => 'require', 'buyer' => 'require', 'buyer_address' => 'require'],
         //更新
         'update'  =>  ['order_price' => 'require'],
+        //发货
+        'shipping'  =>  ['shipping_name' => 'require', 'shipping_num' => 'require'],
     ];
 }

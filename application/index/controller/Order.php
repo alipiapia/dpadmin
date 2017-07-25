@@ -159,7 +159,7 @@ class Order extends Home
             $v['order_sn'] = $orderCheck ? $this->order->buildOrderNo() : $newOrderNo;
 
             $v['order_price'] = $v['product_count'] * $v['product_price'];
-            $checkResult = $this->validate($v, 'Order');
+            $checkResult = $this->validate($v, 'Order.add');
             // pp($addOrder);
 
             if(true !== $checkResult) return $this->error($checkResult);

@@ -133,8 +133,8 @@ class Member extends Common
             //分销等级检查
             $refUser = $this->user->getOneDarry(['mobile' => $data['ref_mobile']]);
             if($refUser){
-                if(($refUser['pro_level'] != null) && ($refUser['pro_level'] > 0)){
-                    
+                if(is_numeric($refUser['pro_level']) && ($refUser['pro_level'] > 0)){
+
                     //获取当前分销等级
                     $data['pro_level'] = $refUser['pro_level'] + 1;
 
@@ -153,10 +153,10 @@ class Member extends Common
                         $this->error($res);
                     }
                 }else{
-                    $this->error("找不到推荐人");
+                    $this->error("无效的推荐人");
                 }
             }else{
-                $this->error("找不到推荐人");
+                $this->error("无效的推荐人");
             }
         } else {
             // return is_signin() ? $this->redirect('index/ucenter/index') : $this->fetch();
