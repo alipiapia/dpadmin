@@ -63,7 +63,7 @@ class Spec extends Admin
                 ['stock', '库存', 'text.edit'],
                 ['product_id', '商品', 'callback', 'get_product_value', 'name'],
                 ['sort', '排序', 'text.edit'],
-                ['create_time', '创建时间', 'datetime'],
+                ['create_time', '创建时间'],
                 ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
@@ -92,7 +92,7 @@ class Spec extends Admin
 
             if ($spec = SpecModel::create($data)) {
                 // 记录行为
-                action_log('spec_add', 'spec', $spec['id'], UID);
+                // action_log('spec_add', 'spec', $spec['id'], UID);
                 return $this->success('新增成功', url('index'));
             } else {
                 return $this->error('新增失败');
@@ -136,7 +136,7 @@ class Spec extends Admin
 
             if ($spec = SpecModel::update($data)) {
                 // 记录行为
-                action_log('spec_edit', 'spec', $spec['id'], UID, get_nickname($spec['id']));
+                // action_log('spec_edit', 'spec', $spec['id'], UID, get_nickname($spec['id']));
                 return $this->success('编辑成功', cookie('__forward__'));
             } else {
                 return $this->error('编辑失败');

@@ -144,7 +144,7 @@
 			  `name` varchar(255) NOT NULL DEFAULT '' COMMENT '规格名称',
 			  `desc` text NOT NULL COMMENT '详情',
 			  `product_id` int(11) NOT NULL DEFAULT '0' COMMENT '商品id',
-			  `stock` int(11) NOT NULL DEFAULT '0' COMMENT '商品库存',
+			  `stock` int(11) NOT NULL DEFAULT '0' COMMENT '商品+规格库存',
 			  `sort` int(11) NOT NULL DEFAULT '100' COMMENT '排序',
 			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
 			  `create_time` int(11) NOT NULL COMMENT '添加时间',

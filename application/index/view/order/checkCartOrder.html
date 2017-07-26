@@ -54,7 +54,7 @@
                         <div class="pro-else">
                         	<div class="else-l">规格：</div>
                             <div class="else-r">
-                            	<div class="gg">{$o.product_spec_name}</div>
+                            	<div class="gg" data-stock="{$o.product_spec_stock}">{$o.product_spec_name}</div>
                             </div>
                         </div>
                         <div class="pro-else">
@@ -139,10 +139,11 @@
                 // 数量加
                 $(".plus").click(function() {
                     var t = $(this).parent().find('.num');
-                    var stock = parseInt($(this).parents(".shop-info").find(".goodsCheck").attr('data-stock'));
+                    // var stock = parseInt($(this).parents(".shop-info").find(".goodsCheck").attr('data-stock'));
+                    var stock = $(this).closest(".shop-info").find(".gg").attr('data-stock');
                     t.text(parseInt(t.text()) + 1);
-                    if(t.text() >= stock){
-                        t.text(stock);
+                    if(t.text() >= parseInt(stock)){
+                        t.text(parseInt(stock));
                     }
                     if (t.text() <= 1) {
                         t.text(1);
@@ -217,7 +218,8 @@
                         var product_id = parseInt($(this).attr('data-pid'));
                         var product_spec = parseInt($(this).attr('data-spec'));
                         var product_count = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
-                        var product_stock = parseInt($(this).attr('data-stock'));
+                        // var product_stock = parseInt($(this).attr('data-stock'));
+                        var product_stock = $(this).closest("body").find(".gg").attr('data-stock');
                         var cart_id = parseInt($(this).attr('data-oid'));                        
                         var eachPost = [product_id,product_spec,product_count,uid,buyer_address,order_note,cart_id];
                         postProducts.push(eachPost);

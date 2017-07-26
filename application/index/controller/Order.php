@@ -72,6 +72,7 @@ class Order extends Home
         $orderInfo['product_id'] = $data['product_id'];
         $orderInfo['product_spec'] = $data['product_spec'];
         $orderInfo['product_spec_name'] = $this->spec->getValue(['id' => $data['product_spec']], 'name');
+        $orderInfo['product_spec_stock'] = $this->spec->getValue(['id' => $data['product_spec']], 'stock');
         $orderInfo['product_count'] = $data['product_count'];
         $orderInfo['product'] = $this->product->getOneDarry(['id' => $data['product_id']]);//商品
         $defaultAddress = $this->userAddress->getOneDarry(['uid' => $this->userInfo['id'], 'is_default' => 1]);//默认收货地址
@@ -105,6 +106,7 @@ class Order extends Home
             $orderInfo[$k]['product_id'] = $v[0];
             $orderInfo[$k]['product_spec'] = $v[1];
             $orderInfo[$k]['product_spec_name'] = $this->spec->getValue(['id' => $v[1]], 'name');
+            $orderInfo[$k]['product_spec_stock'] = $this->spec->getValue(['id' => $v[1]], 'stock');
             $orderInfo[$k]['product_count'] = $v[2];
             $orderInfo[$k]['cart_id'] = $v[3];
             $orderInfo[$k]['product'] = $this->product->getOneDarry(['id' => $v[0]]);//商品
@@ -167,10 +169,11 @@ class Order extends Home
             if($creatOrder){
                 $this->cart->where(['id' => $cart_id])->delete();
                 $upData = [
-                    'stock' => ($productInfo['stock'] - $v['product_count']),//更新库存
+                    // 'stock' => ($productInfo['stock'] - $v['product_count']),//更新库存
                     'sales' => ($productInfo['sales'] + $v['product_count']),//更新销售数量
                 ];
                 $upProduct = $this->product->upData($upData, ['id' => $productInfo['id']]);
+                $upSpecStock = $this->spec->where(['id' => $v['product_spec']])->setDec('stock', $v['product_count']);
                 // return 1;
                 // $this->redirect('index/order/ulist');
                 continue;
@@ -217,7 +220,12 @@ class Order extends Home
      */
     public function payOrder(){
         $data = request()->post();
-        $orderInfo = $this->order->getOneDarry(['order_sn' => $data['order_sn']]);
+        $orderInfo = $this->order->getOneDarry(['order_sn' => $data['order_sn']]);//订单详情
+        $productInfo = $this->product->getOneDarry(['id' => $orderInfo['product_id']]);//商品详情
+        $curUser = $this->user->getOnDarry(['id' => $orderInfo['buyer']]);//当前用户
+        $refUser = $this->user->getOnDarry(['mobile' => $curUser['ref_mobile']]);//直属上级用户
+        $groupTopUser = $this->user->getOnDarry(['mobile' => $curUser['group_mobile']]);//团队队长用户
+
         //添加 除待付款以外状态不允许付款
         if($orderInfo['order_status'] != 0){
             // $this->error("订单已支付或被删除");
@@ -232,24 +240,43 @@ class Order extends Home
             //更新订单信息
             $upUserOrder = $this->order->upData(['order_status' => 1, 'pay_status' => 1], ['order_sn' => $data['order_sn']]);
 
-            //更新账户信息
-            $upUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+            //更新当前账户信息
+            // $upCurUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+            $upCurUser = $this->user->where(['id' => $this->userInfo['id']])->setDec('balance', $orderInfo['order_price']);
 
-            //返利开始
-            //找到上级
-            // $proPercent = config('order.')
-            $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
-
-            //添加账户明细记录
-            $accountData = [
+            //添加当前账户明细记录
+            $curAccountData = [
                 'uid' => $this->userInfo['id'],
                 'sign' => 1,
                 'count' => $orderInfo['order_price'],
                 'type' => 0,
             ];
-            // $addUserAccount = UserAccountModel::create($accountData);
-            $addUserAccount = add_user_account($accountData);
-            //
+            // $addCurUserAccount = UserAccountModel::create($curAccountData);
+            $addCurUserAccount = add_user_account($curAccountData);
+
+            //团队奖励（返利）开始
+            $proPercent = 2;//团队奖励
+            // $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+            $upRefUser = $this->user->where(['id' => $refUser['id']])->setInc('balance', $proPercent);
+            $refAccountData = [
+                'uid' => $upRefUser['id'],
+                'sign' => 2,
+                'count' => $proPercent,
+                'type' => 2,
+            ];
+            $addRefUserAccount = add_user_account($refAccountData);
+
+            //差价
+            $chajia = 10;//差价
+            $upGroupTopUser = $this->user->where(['id' => $upGroupTopUser['id']])->setDec('balance', $chajia);
+            $groupTopAccountData = [
+                'uid' => $upGroupTopUser['id'],
+                'sign' => 2,
+                'count' => $chajia,
+                'type' => 3,
+            ];
+            $addGroupTopUserAccount = add_user_account($groupTopAccountData);
+
             return 1;
         }else{
             return 0;

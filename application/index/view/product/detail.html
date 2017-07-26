@@ -77,7 +77,10 @@
                 <div class="else-r">
                     {volist name="spec" id="s"}
                 	   <!-- <div class="gg" data-select="n" data-id="{$s.id}">{$s.name}</div> -->
-                       <input type="radio" name="spec" value="{$s.id}" />{$s.name}
+                       {eq name="s.is_able" value="true"}
+                       <input type="radio" name="spec" value="{$s.id}" data-stock="{$s.stock}" />{$s.name}
+                       {else /}
+                       {/eq}
                     {/volist}
                 </div>
             </div>
@@ -100,7 +103,7 @@
             </div>
             <div class="pro-else">
                 <div class="else-l">库存：</div>
-                <div class="else-r">
+                <div class="else-r stock">
                     {$product.stock}
                 </div>
             </div>
@@ -134,7 +137,8 @@
                     //获得文本框对象
                     var t = $("#product_count");
                     var price = "{$product.price}";
-                    var max_num = "{$product.stock}";
+                    // var max_num = "{$product.stock}";
+                    var max_num = $('.stock').text();
 
                     //数量增加操作
                     $("#add").click(function(){
@@ -142,8 +146,11 @@
                         if (parseInt(t.val()) != 1){
                             $('#min').attr('disabled',false);
                         }
+
+                        var stock = $(this).closest(".prod-infobox").find(".stock").text();
+                        // alert(parseInt(stock));return false;
                         //不能超过库存
-                        if(parseInt(t.val()) >= max_num){
+                        if(parseInt(t.val()) >= parseInt(stock)){
                             $('#add').attr('disabled',true);
                         }
                         setTotal();
@@ -170,6 +177,12 @@
 
         		$(function(){
 
+                    $("input:radio[name='spec']").on('click', function(){
+                        var eachStock = $(this).attr('data-stock');
+                        var ppStock = $(this).parents(".prod-infobox").find(".stock").text(eachStock);
+                        // alert(eachStock);return false;
+                    });
+
                     //立即购买
                     $("#justbuy").on('click', function(d){
                         var uid = "{$session_user.id}";
@@ -177,8 +190,10 @@
                         var product_price = "{$product.price}";
                         var product_spec =  $("input:radio[name='spec']:checked").val();
                         var product_count = $("#product_count").val();
-                        var stock = "{$product.stock}";
+                        // var stock = "{$product.stock}";
+                        var stock = $(this).closest("body").find(".stock").text();
                         var group_end_time = "{$product.group_end_time}";
+                        // alert(parseInt(stock));return false;
 
                         //登录判断
                         if(!uid){
@@ -190,7 +205,7 @@
                         }
 
                         //商品有效性判断
-                        if((1 > stock) || (Number(product_count) > Number(stock))){
+                        if((1 > stock) || (parseInt(product_count) > parseInt(stock))){
                             alert("商品库存不足");return false;
                         }
 

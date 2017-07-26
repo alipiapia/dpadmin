@@ -48,7 +48,7 @@
                         <div class="pro-else">
                             <div class="else-l">规格：</div>
                             <div class="else-r">
-                                <div class="gg">{$order.product_spec_name}</div>
+                                <div class="gg" data-stock="{$order.product_spec_stock}">{$order.product_spec_name}</div>
                             </div>
                         </div>
                         <div class="pro-else">
@@ -112,7 +112,9 @@
                 //获得文本框对象
                 var t = $("#product_count");
                 var price = "{$order.product.price}";
-                var max_num = "{$order.product.stock}";
+                // var max_num = "{$order.product.stock}";
+                var max_num = $(".gg").attr('data-stock');
+                // alert(parseInt(max_num));return false;
                 //数量增加操作
                 $("#add").click(function(){
                     t.val(parseInt(t.val()) + 1)
@@ -120,7 +122,7 @@
                         $('#min').attr('disabled',false);
                     }
                     //不能超过库存
-                    if(parseInt(t.val()) >= max_num){
+                    if(parseInt(t.val()) >= parseInt(max_num)){
                         $('#add').attr('disabled',true);
                     }
                     setTotal();
@@ -155,7 +157,8 @@
                     var product_spec =  "{$order.product_spec}";
                     var product_count = $("#product_count").val();
                     // var order_price = product_price * product_count;
-                    var stock = "{$order.product.stock}";
+                    // var stock = "{$order.product.stock}";
+                    var stock = $(this).closest("body").find(".gg").attr('data-stock');
                     var group_end_time = "{$order.product.group_end_time}";
                     var buyer_address = $("#address_id").attr("data-id");
                     var order_note = $("#order_note").val();

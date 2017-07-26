@@ -31,9 +31,9 @@ class Product extends Common
         parent::_initialize();
 
         //是否为移动设备
-        if(!is_mobile()){
-            echo "提示：请使用手机访问！";die;
-        }
+        // if(!is_mobile()){
+        //     echo "提示：请使用手机访问！";die;
+        // }
     }
 
     //列表页
@@ -58,11 +58,23 @@ class Product extends Common
     //详情
     public function detail()
     {
-        $pid = input('pid');
-        // $productDetail = Db::name('Product')->find($pid);
-        $productDetail = (new ProductModel)->getOneDarry(['id' => $pid]);
+        if(!input('pid'))$this->error("找不到商品");
+        // $productDetail = Db::name('Product')->find(input('pid'));
+        $productDetail = (new ProductModel)->getOneDarry(['id' => input('pid')]);
         $pictures = (new AdminAttachmentModel)->getColumn(['id' => ['in', explode(',', $productDetail['pictures'])]], 'id,name,path');
-        $spec = (new SpecModel)->getColumn(['id' => ['in', explode(',', $productDetail['spec'])]], 'id,name,product_id');
+        // $spec = (new SpecModel)->getColumn(['id' => ['in', explode(',', $productDetail['spec'])]], 'id,name,product_id');
+        $oriSpec = (new SpecModel)->getColumn(['product_id' => input('pid')], 'id,name,product_id,stock');
+        $spec = $oriSpec;
+        $productDetail['stock'] = 0;
+        if($oriSpec){
+            foreach ($oriSpec as $k => $v) {
+                $spec[$k]['is_able'] = false;
+                if($v['stock'] > 0){
+                    $spec[$k]['is_able'] = true;
+                }
+                $productDetail['stock'] += $v['stock'];
+            }
+        }
         // pp($spec);
 
         // return $this->fetch();

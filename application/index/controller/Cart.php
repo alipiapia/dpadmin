@@ -13,6 +13,7 @@ namespace app\index\controller;
 
 use app\common\model\Product as ProductModel;
 use app\common\model\Cart as CartModel;
+use app\common\model\Spec as SpecModel;
 
 /**
  * 前台购物车控制器
@@ -25,6 +26,7 @@ class Cart extends Home
     protected $userInfo;
     protected $product;
     protected $cart;
+    protected $spec;
 
     protected function _initialize(){
         parent::_initialize();
@@ -32,6 +34,7 @@ class Cart extends Home
         $this->userInfo = session('user_auth_index');
         $this->product = new ProductModel;
         $this->cart = new CartModel;
+        $this->spec = new SpecModel;
     }
 
     //我的购物车首页
@@ -44,6 +47,7 @@ class Cart extends Home
         $newCartLists = $cartLists;
         foreach ($cartLists as $k => $v) {
             $newCartLists[$k]['product'] = $this->product->getOneDarry(['id' => $v['product_id']]);
+            $newCartLists[$k]['product_spec_stock'] = $this->spec->getValue(['id' => $v['product_spec']], 'stock');
         }
         // pp($newCartLists);
         $view = count($newCartLists) ? 'index' : 'empty';

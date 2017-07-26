@@ -25,13 +25,14 @@ class Product extends Validate
         'name|商品名称' => 'require|chsDash',
         'cate|分类' => 'require',
         'brand|品牌' => 'require',
-        'spec|规格' => 'require',
+        // 'spec|规格' => 'require',
         'desc|详情' => 'require',
         'market_price|市场价' => 'require|float',
         'cost_price|成本价' => 'require',
         'price|销售价' => 'require',
         'promotion_price|代理价' => 'require',
-        'stock|库存' => 'require|number|min:1',
+        // 'stock|库存' => 'require|number|min:1',
+        'group_end_time|团购截止日期' => 'require',
     ];
 
     //定义验证提示

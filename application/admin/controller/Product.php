@@ -28,7 +28,6 @@ class Product extends Admin
 {
         
     protected $spec;
-    protected $specs;
 
     protected function _initialize(){
         parent::_initialize();
@@ -53,7 +52,7 @@ class Product extends Admin
 
         $cate = (new CateModel())->getColumn('', 'id,name');//分类
         $brand = (new BrandModel())->getColumn('', 'id,name');//品牌
-        $spec = (new SpecModel())->getColumn('', 'id,name');//规格
+        // $spec = (new SpecModel())->getColumn('', 'id,name');//规格
         // pp($cate);
 
         // 使用ZBuilder快速创建数据表格
@@ -93,7 +92,7 @@ class Product extends Admin
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
-            $data['spec'] = implode(',', $data['spec']);
+            // $data['spec'] = implode(',', $data['spec']);
             // $data['spec'] = input('post.spec/a');
             // pp($data);
             
@@ -114,7 +113,7 @@ class Product extends Admin
 
         $cate = (new CateModel())->getColumn('', 'id,name');//分类
         $brand = (new BrandModel())->getColumn('', 'id,name');//品牌
-        $spec = (new SpecModel())->getColumn('', 'id,name');//规格
+        // $spec = (new SpecModel())->getColumn('', 'id,name');//规格
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
@@ -123,7 +122,7 @@ class Product extends Admin
                 ['text', 'name', '商品名称', '必填'],
                 ['select', 'cate', '分类', '', $cate],
                 ['select', 'brand', '品牌', '', $brand],
-                ['select', 'spec', '规格', '', $spec, '', 'multiple'],
+                // ['select', 'spec', '规格', '', $spec, '', 'multiple'],
                 ['image', 'picture', '商品封面'],
                 ['images', 'pictures', '商品图片', '详情多图'],
                 ['textarea', 'desc', '详情'],
@@ -131,7 +130,7 @@ class Product extends Admin
                 ['text', 'cost_price', '成本价'],
                 ['text', 'price', '销售价'],
                 ['text', 'promotion_price', '代理价'],
-                ['text', 'stock', '商品库存'],
+                // ['text', 'stock', '商品库存'],
                 ['date', 'group_end_time', '团购截止日期'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
@@ -151,7 +150,7 @@ class Product extends Admin
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
-            $data['spec'] = implode(',', $data['spec']);
+            // $data['spec'] = implode(',', $data['spec']);
             // $data['spec'] = input('post.spec/a');
             // pp($data);
 
@@ -173,7 +172,7 @@ class Product extends Admin
         $cate = (new CateModel())->getColumn('', 'id,name');//分类
         $brand = (new BrandModel())->getColumn('', 'id,name');//品牌
         // $spec = (new SpecModel())->getColumn('', 'id,name');//规格
-        $spec = $this->spec->getColumn(['product_id' => $id, 'status' => 1], 'id,name');
+        // $spec = $this->spec->getColumn(['product_id' => $id, 'status' => 1], 'id,name');
         // pp($spec);
 
         // 获取数据
@@ -187,7 +186,7 @@ class Product extends Admin
                 ['text', 'name', '商品名称', '必填'],
                 ['select', 'cate', '分类', '', $cate],
                 ['select', 'brand', '品牌', '', $brand],
-                ['select', 'spec', '规格', '', $spec, '', 'multiple'],
+                // ['select', 'spec', '规格', '', $spec, '', 'multiple'],
                 ['image', 'picture', '商品封面'],
                 ['images', 'pictures', '商品图片', '详情多图'],
                 ['textarea', 'desc', '详情'],
@@ -195,7 +194,7 @@ class Product extends Admin
                 ['text', 'cost_price', '成本价'],
                 ['text', 'price', '销售价'],
                 ['text', 'promotion_price', '代理价'],
-                ['text', 'stock', '商品库存'],
+                // ['text', 'stock', '商品库存'],
                 ['date', 'group_end_time', '团购截止日期'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])

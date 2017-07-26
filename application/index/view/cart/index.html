@@ -45,7 +45,7 @@
         {volist name="cart" id="c"}
         <div class="shop-group-item">
         	<div class="oneprobox oneprobox1 shop-info">
-            	<div class="chechbox"><input class="goods-check goodsCheck" type="checkbox" data-oid="{$c.id}" data-pid="{$c.product.id}" data-spec="{$c.product_spec}" data-count="{$c.product_count}" data-price="{$c.product.price}" data-stock="{$c.product.stock}" /></div>
+            	<div class="chechbox"><input class="goods-check goodsCheck" type="checkbox" data-oid="{$c.id}" data-pid="{$c.product.id}" data-spec="{$c.product_spec}" data-count="{$c.product_count}" data-price="{$c.product.price}" data-stock="{$c.product_spec_stock}" /></div>
             	<div class="proimg">
                 	<img src="{$c.product.picture|get_file_path}" />
                 </div>
@@ -111,6 +111,7 @@
 
                 // 数量加
                 $(".plus").click(function() {
+                  // alert(parseInt($(this).parent().find('.num').text()));return false;
                     var t = $(this).parent().find('.num');
                     t.text(parseInt(t.text()) + 1);
                     var stock = parseInt($(this).parents(".shop-info").find(".goodsCheck").attr('data-stock'));
@@ -220,21 +221,21 @@
        //              // setTotals();
        //          });
 
-       //          //删除
-       //          $("button[id^='delCart_']").on('click', function(){
-       //              var d = $(this);
-       //              var id = d.attr('data-id');
-       //              // alert(id);return false;
-       //              if(confirm("确认删除该商品？")){
-       //                  // location.href = 'index/cart/delete?id=' + id;
-       //                  $.post('/index/cart/delete',{id:id},function(j){
-       //                      // alert(j);
-       //                      window.location.reload();
-       //                  });
-       //              }else{
-       //                  window.location.reload();
-       //              }
-       //          });
+                //删除
+                $("button[id^='delCart_']").on('click', function(){
+                    var d = $(this);
+                    var id = d.attr('data-id');
+                    // alert(id);return false;
+                    if(confirm("确认删除该商品？")){
+                        // location.href = 'index/cart/delete?id=' + id;
+                        $.post('/index/cart/delete',{id:id},function(j){
+                            // alert(j);
+                            window.location.reload();
+                        });
+                    }else{
+                        window.location.reload();
+                    }
+                });
 
        //          //计算操作
        //          function setTotals(){
