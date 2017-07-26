@@ -27,7 +27,7 @@ class User extends Validate
         'password|密码'  => 'require|length:6,20',
         'mobile|手机号'   => 'require|regex:^1\d{10}|unique:User',
         'ref_mobile|推荐人手机号'      => 'require|regex:^1\d{10}',
-        // 'group_mobile|团队手机号'      => 'require|regex:^1\d{10}',
+        'group_mobile|团队手机号'      => 'require|regex:^1\d{10}',
     ];
 
     //定义验证提示
@@ -45,8 +45,8 @@ class User extends Validate
         'mobile.unique'     => '该手机号已存在',
         'ref_mobie.require'    => '推荐人手机号不能为空',
         'ref_mobie.regex'     => '推荐人手机号不正确',
-        // 'group_mobile.require'    => '团队手机号不能为空',
-        // 'group_mobile.regex'     => '团队手机号不正确',
+        'group_mobile.require'    => '团队手机号不能为空',
+        'group_mobile.regex'     => '团队手机号不正确',
     ];
 
     //定义验证场景

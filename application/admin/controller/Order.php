@@ -154,8 +154,8 @@ class Order extends Admin
                 // ['static', 'product_id', '商品'],
                 ['static', 'order_price', '订单金额'],
                 // ['text', 'shipping_fee', '运费'],
-                ['static', 'buyer', '收货人'],
-                ['static', 'buyer_address', '收货地址'],
+                // ['static', 'buyer', '收货人'],
+                // ['static', 'buyer_address', '收货地址'],
                 // ['radio', 'order_status', '订单状态', '', config('order.order_status')]
                 // ['Bmap', '111','CAf9a5889147c3b2b9ca3e3cdad0ca2a']
                 ['text', 'shipping_name', '物流公司'],

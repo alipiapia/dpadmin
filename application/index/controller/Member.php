@@ -138,6 +138,9 @@ class Member extends Common
                     //获取当前分销等级
                     $data['pro_level'] = $refUser['pro_level'] + 1;
 
+                    //找到团队队长
+                    $data['group_mobile'] = $this->user->getGroupTopUser($data['ref_mobile']);
+
                     //屏蔽一级代理注册
                     if($data['pro_level'] == 1){
                         $this->error("该操作暂无权限，请联系管理员");

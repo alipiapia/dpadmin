@@ -14,6 +14,7 @@ namespace app\admin\controller;
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
 use app\common\model\Spec as SpecModel;
+use app\common\model\Product as ProductModel;
 use util\Tree;
 use think\Db;
 
@@ -23,6 +24,16 @@ use think\Db;
  */
 class Spec extends Admin
 {
+        
+    protected $product;
+    protected $products;
+
+    protected function _initialize(){
+        parent::_initialize();
+        $this->product = controller('common/Product', 'model');
+        $this->products = $this->product->getColumn(['status' => 1], 'id,name');
+    }
+
     /**
      * 用户首页
      * @return mixed
@@ -49,6 +60,8 @@ class Spec extends Admin
                 ['id', 'ID'],
                 ['name', '名称', 'text.edit'],
                 ['desc', '描述', 'text.edit'],
+                ['stock', '库存', 'text.edit'],
+                ['product_id', '商品', 'callback', 'get_product_value', 'name'],
                 ['sort', '排序', 'text.edit'],
                 ['create_time', '创建时间', 'datetime'],
                 ['status', '状态', 'switch'],
@@ -86,12 +99,16 @@ class Spec extends Admin
             }
         }
 
+        // pp($this->products);
+
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
             ->setPageTitle('新增规格') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
+                ['select', 'product_id', '商品', '', $this->products],
                 ['text', 'name', '规格名称', '必填'],
                 ['text', 'desc', '描述'],
+                ['text', 'stock', '库存'],
                 ['text', 'sort', '排序'],
                 ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
             ])
@@ -134,8 +151,10 @@ class Spec extends Admin
             ->setPageTitle('编辑') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
                 ['hidden', 'id'],
+                ['select', 'product_id', '商品', '', $this->products],
                 ['text', 'name', '规格名称', '必填'],
                 ['text', 'desc', '描述'],
+                ['text', 'stock', '库存'],
                 ['text', 'sort', '排序'],
                 ['radio', 'status', '状态', '', ['禁用', '启用']]
             ])

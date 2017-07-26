@@ -40,6 +40,23 @@ class Spec extends Model
     //     return date("Y-m-d H:i:s", time());
     // }
 
+    public function setCreateTimeAttr($value)
+    {
+        return $value != '' ? strtotime($value) : 0;
+    }
+    public function getCreateTimeAttr($value)
+    {
+        return $value != 0 ? date('Y-m-d H:i:s', $value) : '';
+    }
+    public function setUpdateTimeAttr($value)
+    {
+        return $value != '' ? strtotime($value) : 0;
+    }
+    public function getUpdateTimeAttr($value)
+    {
+        return $value != 0 ? date('Y-m-d H:i:s', $value) : '';
+    }
+
     public function getValue($where, $field="name"){
         return $this->where($where)->value($field);
     }

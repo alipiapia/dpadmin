@@ -175,6 +175,24 @@ class User extends Model
         return $check ? 1 : 0;
     }
 
+    //获取团队队长
+    public function getGroupTopUser($mobile){
+        $curUser = $this->getOneDarry(['mobile' => $mobile]);
+        if($curUser){
+            if($curUser['pro_level'] == 2){
+                return $curUser['mobile'];
+            }
+            $refUser = $this->getOneDarry(['mobile' => $curUser['ref_mobile']]);
+            if($refUser && ($refUser['pro_level'] >= 2)){
+                if($refUser['pro_level'] == 2){
+                    return $refUser['mobile'];
+                }else{
+                    return $this->getGroupTopUser($refUser['mobile']); 
+                }   
+            }            
+        }
+    }
+
     /**
      * 用户登录
      * @param string $username 用户名

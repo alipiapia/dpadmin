@@ -26,6 +26,14 @@ use think\Db;
  */
 class Product extends Admin
 {
+        
+    protected $spec;
+    protected $specs;
+
+    protected function _initialize(){
+        parent::_initialize();
+        $this->spec = controller('common/Spec', 'model');
+    }
     /**
      * 用户首页
      * @return mixed
@@ -138,7 +146,7 @@ class Product extends Admin
      */
     public function edit($id = null)
     {
-        if ($id === null) return $this->error('缺少参数');
+        if ($id < 1) return $this->error('缺少参数');
 
         // 保存数据
         if ($this->request->isPost()) {
@@ -164,7 +172,9 @@ class Product extends Admin
 
         $cate = (new CateModel())->getColumn('', 'id,name');//分类
         $brand = (new BrandModel())->getColumn('', 'id,name');//品牌
-        $spec = (new SpecModel())->getColumn('', 'id,name');//规格
+        // $spec = (new SpecModel())->getColumn('', 'id,name');//规格
+        $spec = $this->spec->getColumn(['product_id' => $id, 'status' => 1], 'id,name');
+        // pp($spec);
 
         // 获取数据
         $info = ProductModel::where('id', $id)->find();

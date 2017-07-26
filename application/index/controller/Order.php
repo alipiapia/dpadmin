@@ -228,11 +228,17 @@ class Order extends Home
 
         //密码验证通过，进行资金变动等操作
         if($payCheck){
+
             //更新订单信息
             $upUserOrder = $this->order->upData(['order_status' => 1, 'pay_status' => 1], ['order_sn' => $data['order_sn']]);
 
             //更新账户信息
             $upUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+
+            //返利开始
+            //找到上级
+            // $proPercent = config('order.')
+            $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
 
             //添加账户明细记录
             $accountData = [
