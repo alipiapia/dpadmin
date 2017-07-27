@@ -19,7 +19,7 @@ use util\Tree;
 use think\Db;
 
 /**
- * 规格控制器
+ * 规格库存控制器
  * @package app\admin\controller
  */
 class Spec extends Admin
@@ -53,7 +53,7 @@ class Spec extends Admin
 
         // 使用ZBuilder快速创建数据表格
         return ZBuilder::make('table')
-            ->setPageTitle('规格管理') // 设置页面标题
+            ->setPageTitle('规格库存管理') // 设置页面标题
             ->setTableName('Spec') // 设置数据表名
             ->setSearch(['id' => 'ID', 'name' => '规格名称']) // 设置搜索参数
             ->addColumns([ // 批量添加列
@@ -148,7 +148,7 @@ class Spec extends Admin
 
         // 使用ZBuilder快速创建表单
         return ZBuilder::make('form')
-            ->setPageTitle('编辑') // 设置页面标题
+            ->setPageTitle('编辑规格') // 设置页面标题
             ->addFormItems([ // 批量添加表单项
                 ['hidden', 'id'],
                 ['select', 'product_id', '商品', '', $this->products],

@@ -12,6 +12,7 @@
 namespace app\index\controller;
 // use think\Controller;
 use app\common\controller\Common;
+use app\common\model\User as UserModel;
 use app\common\model\Product as ProductModel;
 use app\common\model\Cate as CateModel;
 
@@ -53,6 +54,30 @@ class Index extends Common
         // $cateList = (new CateModel)->getColumn('', 'id,name,picture,icon');//分类
         $productList = (new ProductModel)->getLists($map, 'sales desc', '', 5);//热卖商品
         $cateList = (new CateModel)->getLists('', 'sort', 'id,name,picture,icon', 8);//首页分类
+
+        foreach ($productList as $k => $v) {
+            $userInfo = [];
+            if(session('user_auth_index')){
+                $user = session('user_auth_index');
+                $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);
+                if(isset($userInfo['pro_level'])){
+                    switch ($userInfo['pro_level']) {
+                        case '1':
+                            $productList[$k]['price'] = $v['cost_price'];
+                            break;
+                        case '2':
+                            $productList[$k]['price'] = $v['promotion_price'];
+                            break;
+                        
+                        default:
+                            $productList[$k]['price'] = $v['member_price'];
+                            break;
+                    }            
+                }
+            }else{
+                $productList[$k]['price'] = $v['price'];
+            }
+        }
         // pp($productList);
 
         // return $this->fetch();

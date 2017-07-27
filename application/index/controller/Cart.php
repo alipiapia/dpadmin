@@ -47,6 +47,29 @@ class Cart extends Home
         $newCartLists = $cartLists;
         foreach ($cartLists as $k => $v) {
             $newCartLists[$k]['product'] = $this->product->getOneDarry(['id' => $v['product_id']]);
+
+            $userInfo = [];
+            if(session('user_auth_index')){
+                $user = session('user_auth_index');
+                $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
+                if(isset($userInfo['pro_level'])){
+                    switch ($userInfo['pro_level']) {
+                        case '1':
+                            $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['cost_price'];
+                            break;
+                        case '2':
+                            $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['promotion_price'];
+                            break;
+                        
+                        default:
+                            $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['member_price'];
+                            break;
+                    }            
+                }
+            }else{
+                $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['price'];
+            }
+
             $newCartLists[$k]['product_spec_stock'] = $this->spec->getValue(['id' => $v['product_spec']], 'stock');
         }
         // pp($newCartLists);

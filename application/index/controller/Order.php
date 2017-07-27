@@ -75,6 +75,29 @@ class Order extends Home
         $orderInfo['product_spec_stock'] = $this->spec->getValue(['id' => $data['product_spec']], 'stock');
         $orderInfo['product_count'] = $data['product_count'];
         $orderInfo['product'] = $this->product->getOneDarry(['id' => $data['product_id']]);//商品
+
+        $userInfo = [];
+        if(session('user_auth_index')){
+            $user = session('user_auth_index');
+            $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
+            if(isset($userInfo['pro_level'])){
+                switch ($userInfo['pro_level']) {
+                    case '1':
+                        $orderInfo['product']['price'] = $orderInfo['product']['cost_price'];
+                        break;
+                    case '2':
+                        $orderInfo['product']['price'] = $orderInfo['product']['promotion_price'];
+                        break;
+                    
+                    default:
+                        $orderInfo['product']['price'] = $orderInfo['product']['member_price'];
+                        break;
+                }            
+            }
+        }else{
+            $orderInfo['product']['price'] = $orderInfo['product']['price'];
+        }
+
         $defaultAddress = $this->userAddress->getOneDarry(['uid' => $this->userInfo['id'], 'is_default' => 1]);//默认收货地址
         $latestAddress = $this->userAddress->getLists(['uid' => $this->userInfo['id']], 'update_time DESC', '', 1);//最近更新地址
         $orderInfo['address'] = $defaultAddress ? $defaultAddress : (isset($latestAddress[0]) ? $latestAddress[0] : []);//收货地址
@@ -110,6 +133,28 @@ class Order extends Home
             $orderInfo[$k]['product_count'] = $v[2];
             $orderInfo[$k]['cart_id'] = $v[3];
             $orderInfo[$k]['product'] = $this->product->getOneDarry(['id' => $v[0]]);//商品
+            
+            $userInfo = [];
+            if(session('user_auth_index')){
+                $user = session('user_auth_index');
+                $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
+                if(isset($userInfo['pro_level'])){
+                    switch ($userInfo['pro_level']) {
+                        case '1':
+                            $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['cost_price'];
+                            break;
+                        case '2':
+                            $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['promotion_price'];
+                            break;
+                        
+                        default:
+                            $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['member_price'];
+                            break;
+                    }            
+                }
+            }else{
+                $orderInfo[$k]['product']['price'] = $orderInfo['product']['price'];
+            }
         }
 
         $defaultAddress = $this->userAddress->getOneDarry(['uid' => $this->userInfo['id'], 'is_default' => 1]);//默认收货地址
@@ -154,7 +199,29 @@ class Order extends Home
                 $cart_id = 0;
             }
             $productInfo = $this->product->getOneDarry(['id' => $v['product_id']]);
-            $v['product_price'] = $productInfo['price'];
+
+            $userInfo = [];
+            if(session('user_auth_index')){
+                $user = session('user_auth_index');
+                $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
+                if(isset($userInfo['pro_level'])){
+                    switch ($userInfo['pro_level']) {
+                        case '1':
+                            $v['product_price'] = $productInfo['cost_price'];
+                            break;
+                        case '2':
+                            $v['product_price'] = $productInfo['promotion_price'];
+                            break;
+                        
+                        default:
+                            $v['product_price'] = $productInfo['member_price'];
+                            break;
+                    }            
+                }
+            }else{
+                $v['product_price'] = $productInfo['price'];
+            }
+            // $v['product_price'] = $productInfo['price'];
 
             //检查订单号唯一性
             $orderCheck = $this->order->getValue(['order_sn' => $newOrderNo], 'order_sn');
@@ -255,27 +322,31 @@ class Order extends Home
             $addCurUserAccount = add_user_account($curAccountData);
 
             //团队奖励（返利）开始
-            $proPercent = 2;//团队奖励
-            // $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
-            $upRefUser = $this->user->where(['id' => $refUser['id']])->setInc('balance', $proPercent);
-            $refAccountData = [
-                'uid' => $upRefUser['id'],
-                'sign' => 2,
-                'count' => $proPercent,
-                'type' => 2,
-            ];
-            $addRefUserAccount = add_user_account($refAccountData);
+            if($refUser){
+                $proPercent = 2;//团队奖励
+                // $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+                $upRefUser = $this->user->where(['id' => $refUser['id']])->setInc('balance', $proPercent);
+                $refAccountData = [
+                    'uid' => $refUser['id'],
+                    'sign' => 2,
+                    'count' => $proPercent,
+                    'type' => 2,
+                ];
+                $addRefUserAccount = add_user_account($refAccountData);                
+            }
 
-            //差价
-            $chajia = 10;//差价
-            $upGroupTopUser = $this->user->where(['id' => $upGroupTopUser['id']])->setDec('balance', $chajia);
-            $groupTopAccountData = [
-                'uid' => $upGroupTopUser['id'],
-                'sign' => 2,
-                'count' => $chajia,
-                'type' => 3,
-            ];
-            $addGroupTopUserAccount = add_user_account($groupTopAccountData);
+            //差价（提成）开始
+            if($groupTopUser){
+                $chajia = 10;//差价
+                $upGroupTopUser = $this->user->where(['id' => $groupTopUser['id']])->setInc('balance', $chajia);
+                $groupTopAccountData = [
+                    'uid' => $groupTopUser['id'],
+                    'sign' => 2,
+                    'count' => $chajia,
+                    'type' => 3,
+                ];
+                $addGroupTopUserAccount = add_user_account($groupTopAccountData);                
+            }
 
             return 1;
         }else{

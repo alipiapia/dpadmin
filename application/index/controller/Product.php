@@ -12,6 +12,7 @@
 namespace app\index\controller;
 
 use app\common\controller\Common;
+use app\common\model\User as UserModel;
 use app\common\model\Product as ProductModel;
 use app\common\model\Spec as SpecModel;
 use app\common\model\AdminAttachment as AdminAttachmentModel;
@@ -31,9 +32,9 @@ class Product extends Common
         parent::_initialize();
 
         //是否为移动设备
-        // if(!is_mobile()){
-        //     echo "提示：请使用手机访问！";die;
-        // }
+        if(!is_mobile()){
+            echo "提示：请使用手机访问！";die;
+        }
     }
 
     //列表页
@@ -45,6 +46,29 @@ class Product extends Common
         // pp($map);
         // $productList = (new ProductModel)->getColumn($map);
         $productList = (new ProductModel)->getLists($map, 'sales desc', '');//热卖商品
+        foreach ($productList as $k => $v) {
+            $userInfo = [];
+            if(session('user_auth_index')){
+                $user = session('user_auth_index');
+                $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);
+                if(isset($userInfo['pro_level'])){
+                    switch ($userInfo['pro_level']) {
+                        case '1':
+                            $productList[$k]['price'] = $v['cost_price'];
+                            break;
+                        case '2':
+                            $productList[$k]['price'] = $v['promotion_price'];
+                            break;
+                        
+                        default:
+                            $productList[$k]['price'] = $v['member_price'];
+                            break;
+                    }            
+                }
+            }else{
+                $productList[$k]['price'] = $v['price'];
+            }
+        }
         // pp($productList);
 
         // return $this->fetch();
@@ -75,7 +99,29 @@ class Product extends Common
                 $productDetail['stock'] += $v['stock'];
             }
         }
-        // pp($spec);
+
+        $userInfo = [];
+        if(session('user_auth_index')){
+            $user = session('user_auth_index');
+            $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);
+            if(isset($userInfo['pro_level'])){
+                switch ($userInfo['pro_level']) {
+                    case '1':
+                        $productDetail['price'] = $productDetail['cost_price'];
+                        break;
+                    case '2':
+                        $productDetail['price'] = $productDetail['promotion_price'];
+                        break;
+                    
+                    default:
+                        $productDetail['price'] = $productDetail['member_price'];
+                        break;
+                }            
+            }
+        }else{
+            $productDetail['price'] = $productDetail['price'];
+        }
+        // pp($productDetail);
 
         // return $this->fetch();
         return view('detail',[
