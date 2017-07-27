@@ -45,51 +45,20 @@
     <div class="order-d-tc">
         <div class="order-d-alltc">
             总提成：<br />
-            <span>1532.00元</span>
+            <span>{$com_sum}元</span>
         </div>
     </div>
     <div class="u-list-o">
-        <a href="{:url('index/commission/udetail')}">
-        <div class="u-list-tc">
-            <div class="u-list-tc-part1">
-            购买某某商品<span>￥125.00元</span>
+        {volist name="commission" id="com"}
+            <a href="{:url('index/commission/udetail')}">
+            <div class="u-list-tc">
+                <div class="u-list-tc-part1">
+                购买某某商品<span>￥{$com.count}元</span>
+                </div>
+                <div class="u-list-tc-part2">{$com.count}<span>提：{$com.count}元</span></div>
             </div>
-            <div class="u-list-tc-part2">2017-06-25 12:45<span>提：12.00元</span></div>
-        </div>
-        </a>
-        <a href="{:url('index/commission/udetail')}">
-        <div class="u-list-tc">
-            <div class="u-list-tc-part1">
-            购买某某商品<span>￥125.00元</span>
-            </div>
-            <div class="u-list-tc-part2">2017-06-25 12:45<span>提：12.00元</span></div>
-        </div>
-        </a>
-        <a href="{:url('index/commission/udetail')}">
-        <div class="u-list-tc">
-            <div class="u-list-tc-part1">
-            购买某某商品<span>￥125.00元</span>
-            </div>
-            <div class="u-list-tc-part2">2017-06-25 12:45<span>提：12.00元</span></div>
-        </div>
-        </a>
-        <a href="{:url('index/commission/udetail')}">
-        <div class="u-list-tc">
-            <div class="u-list-tc-part1">
-            购买某某商品<span>￥125.00元</span>
-            </div>
-            <div class="u-list-tc-part2">2017-06-25 12:45<span>提：12.00元</span></div>
-        </div>
-        </a>
-        <a href="{:url('index/commission/udetail')}">
-        <div class="u-list-tc">
-            <div class="u-list-tc-part1">
-            购买某某商品<span>￥125.00元</span>
-            </div>
-            <div class="u-list-tc-part2">2017-06-25 12:45<span>提：12.00元</span></div>
-        </div>
-        </a>
-        
+            </a>
+        {/volist}
     </div>
 
     <footer>
@@ -105,8 +74,8 @@
 
     <script type="text/javascript">
             $(function(){
-                    $('.i-gametit').animate({'top':'0'});
-                });
+                $('.i-gametit').animate({'top':'0'});
+            });
     </script>
     </body>
 </html>

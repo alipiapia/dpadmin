@@ -96,6 +96,12 @@ class Product extends Admin
             // $data['spec'] = input('post.spec/a');
             // pp($data);
             
+            //价格验证 成本价<代理价<会员价<市场价
+            if(($data['cost_price'] > $data['promotion_price']) || ($data['cost_price'] > $data['member_price']) || ($data['cost_price'] > $data['price'])
+                 || ($data['promotion_price'] > $data['member_price']) || ($data['promotion_price'] > $data['price']) || ($data['member_price'] > $data['price'])){
+                $this->error("成本价<代理价<会员价<市场价");
+            }
+            
             // 验证
             $result = $this->validate($data, 'Product');
             // 验证失败 输出错误信息
@@ -153,6 +159,12 @@ class Product extends Admin
             // $data['spec'] = implode(',', $data['spec']);
             // $data['spec'] = input('post.spec/a');
             // pp($data);
+
+            //价格验证 成本价<代理价<会员价<市场价
+            if(($data['cost_price'] > $data['promotion_price']) || ($data['cost_price'] > $data['member_price']) || ($data['cost_price'] > $data['price'])
+                 || ($data['promotion_price'] > $data['member_price']) || ($data['promotion_price'] > $data['price']) || ($data['member_price'] > $data['price'])){
+                $this->error("成本价<代理价<会员价<市场价");
+            }
 
             // 验证
             $result = $this->validate($data, 'Product');

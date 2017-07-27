@@ -133,7 +133,7 @@ class Order extends Home
             $orderInfo[$k]['product_count'] = $v[2];
             $orderInfo[$k]['cart_id'] = $v[3];
             $orderInfo[$k]['product'] = $this->product->getOneDarry(['id' => $v[0]]);//商品
-            
+
             $userInfo = [];
             if(session('user_auth_index')){
                 $user = session('user_auth_index');
@@ -289,10 +289,10 @@ class Order extends Home
         $data = request()->post();
         $orderInfo = $this->order->getOneDarry(['order_sn' => $data['order_sn']]);//订单详情
         $productInfo = $this->product->getOneDarry(['id' => $orderInfo['product_id']]);//商品详情
-        $curUser = $this->user->getOnDarry(['id' => $orderInfo['buyer']]);//当前用户
-        $refUser = $this->user->getOnDarry(['mobile' => $curUser['ref_mobile']]);//直属上级用户
-        $groupTopUser = $this->user->getOnDarry(['mobile' => $curUser['group_mobile']]);//团队队长用户
-
+        $curUser = $this->user->getOneDarry(['id' => $orderInfo['buyer']]);//当前用户
+        $refUser = $this->user->getOneDarry(['mobile' => $curUser['ref_mobile']]);//直属上级用户
+        $groupTopUser = $this->user->getOneDarry(['mobile' => $curUser['group_mobile']]);//团队队长用户
+        // pp($groupTopUser);
         //添加 除待付款以外状态不允许付款
         if($orderInfo['order_status'] != 0){
             // $this->error("订单已支付或被删除");
@@ -303,6 +303,12 @@ class Order extends Home
 
         //密码验证通过，进行资金变动等操作
         if($payCheck){
+
+            //账户资金明细type
+            $configAccountType = config('order.account_type');
+
+            //团队奖励
+            $proPercent = (int)config('group_prize');
 
             //更新订单信息
             $upUserOrder = $this->order->upData(['order_status' => 1, 'pay_status' => 1], ['order_sn' => $data['order_sn']]);
@@ -317,35 +323,48 @@ class Order extends Home
                 'sign' => 1,
                 'count' => $orderInfo['order_price'],
                 'type' => 0,
+                'desc' => '购买商品:'.$productInfo['name'].' 产生:'.$configAccountType[0]
             ];
             // $addCurUserAccount = UserAccountModel::create($curAccountData);
             $addCurUserAccount = add_user_account($curAccountData);
 
-            //团队奖励（返利）开始
-            if($refUser){
-                $proPercent = 2;//团队奖励
-                // $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
-                $upRefUser = $this->user->where(['id' => $refUser['id']])->setInc('balance', $proPercent);
-                $refAccountData = [
-                    'uid' => $refUser['id'],
-                    'sign' => 2,
-                    'count' => $proPercent,
-                    'type' => 2,
-                ];
-                $addRefUserAccount = add_user_account($refAccountData);                
-            }
 
-            //差价（提成）开始
-            if($groupTopUser){
-                $chajia = 10;//差价
-                $upGroupTopUser = $this->user->where(['id' => $groupTopUser['id']])->setInc('balance', $chajia);
-                $groupTopAccountData = [
-                    'uid' => $groupTopUser['id'],
-                    'sign' => 2,
-                    'count' => $chajia,
-                    'type' => 3,
-                ];
-                $addGroupTopUserAccount = add_user_account($groupTopAccountData);                
+            //当前用户代理等级pro_level > 2时，进行团队奖励&差价计算
+            if($curUser['pro_level'] > 2){
+
+                //团队奖励（返利）开始
+                if($refUser){
+                    $proPercent = (isset($proPercent) && $proPercent > 0) ? $proPercent : 0;//团队奖励
+                    // $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
+                    if($proPercent){
+                        $upRefUser = $this->user->where(['id' => $refUser['id']])->setInc('balance', $proPercent);
+                        $refAccountData = [
+                            'uid' => $refUser['id'],
+                            'sign' => 2,
+                            'count' => $proPercent,
+                            'type' => 2,
+                            'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 产生:'.$configAccountType[2]
+                        ];
+                        $addRefUserAccount = add_user_account($refAccountData);  
+                    }              
+                }
+
+                //差价（提成）开始
+                if($groupTopUser){
+                    $additionalPrice = $productInfo['member_price'] - $productInfo['promotion_price'];//差价=会员价-代理价
+                    $additionalPrice = ($additionalPrice > 0) ? $additionalPrice : 0;
+                    if($additionalPrice){
+                        $upGroupTopUser = $this->user->where(['id' => $groupTopUser['id']])->setInc('balance', $additionalPrice);
+                        $groupTopAccountData = [
+                            'uid' => $groupTopUser['id'],
+                            'sign' => 2,
+                            'count' => $additionalPrice,
+                            'type' => 3,
+                            'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 产生:'.$configAccountType[3]
+                        ];
+                        $addGroupTopUserAccount = add_user_account($groupTopAccountData);
+                    }
+                }
             }
 
             return 1;

@@ -20,24 +20,30 @@ class Commission extends Home
 {
         
     protected $user;
+    protected $userAccount;
 
     protected function _initialize(){
         parent::_initialize();
+        $this->userInfo = session('user_auth_index');
         $this->user = controller('common/User', 'model');
+        $this->userAccount = controller('common/UserAccount', 'model');
     }
 
     //首页
     public function ulist()
     {
         //获取用户信息
-        $sessionUser =session('user_auth_index');
-        $userInfo = $this->user->getOneDarry(['id' => $sessionUser['id']]);
-        // pp($userInfo);
+        $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
+        $commissions = $this->userAccount->getColumn(['uid' => $this->userInfo['id']]);
+        $com_sum = $this->userAccount->where(['uid' => $this->userInfo['id']])->sum('count');
+        // pp($commissions);
 
         // return $this->fetch();
         return view('ulist', [
                 'title' => '个人中心-我的提成',
                 'user' => $userInfo,
+                'commission' => $commissions,
+                'com_sum' => $com_sum
             ]);
     }
 

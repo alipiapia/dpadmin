@@ -25,7 +25,7 @@ class Cart extends Validate
         'uid|用户id' => 'require',
         'product_id|商品id'   => 'require',
         'product_spec|商品规格' => 'require',
-        'product_count|商品数量' => 'require',
+        'product_count|商品数量' => 'require|>:0',
     ];
 
     //定义验证提示

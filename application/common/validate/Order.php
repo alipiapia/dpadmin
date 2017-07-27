@@ -24,10 +24,10 @@ class Order extends Validate
     protected $rule = [
         'order_sn|订单号' => 'require|unique:Order',
         'product_id|商品' => 'require',
-        'product_price|商品价格' => 'require|float',
+        'product_price|商品价格' => 'require|float|>:0',
         'product_spec|商品规格' => 'require',
-        'product_count|商品数量' => 'require',
-        'order_price|订单总价' => 'require|float',
+        'product_count|商品数量' => 'require|>:0',
+        'order_price|订单总价' => 'require|float|>:0',
         // 'shipping_fee|运费' => 'require|float',
         // 'seller|卖家' => 'require',
         'buyer|收货人' => 'require',

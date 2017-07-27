@@ -25,7 +25,7 @@ class Spec extends Validate
         'product_id|商品' => 'require',
         'name|规格名称' => 'require|chsDash',
         'desc|详情' => 'require',
-        'stock|库存' => 'require',
+        'stock|库存' => 'require|>:0',
     ];
 
     //定义验证提示
