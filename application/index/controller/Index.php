@@ -15,6 +15,7 @@ use app\common\controller\Common;
 use app\common\model\User as UserModel;
 use app\common\model\Product as ProductModel;
 use app\common\model\Cate as CateModel;
+use app\common\model\Spec as SpecModel;
 
 /**
  * 前台首页控制器
@@ -56,7 +57,22 @@ class Index extends Common
         $cateList = (new CateModel)->getLists('', 'sort', 'id,name,picture,icon', 8);//首页分类
 
         foreach ($productList as $k => $v) {
-            $userInfo = [];
+            $proSpec = $userInfo = [];
+            $specStock = 0;
+            $proSpec = (new SpecModel)->getColumn(['product_id' => $v['id']], 'stock');
+            if(!$proSpec){
+                unset($productList[$k]);
+                break;
+            }else{
+                foreach($proSpec as $kk => $vv){
+                    $specStock += $vv;
+                }
+            }
+            if($specStock < 1){
+                unset($productList[$k]);
+                break;
+            }
+
             if(session('user_auth_index')){
                 $user = session('user_auth_index');
                 $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);

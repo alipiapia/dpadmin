@@ -47,7 +47,24 @@ class Product extends Common
         // $productList = (new ProductModel)->getColumn($map);
         $productList = (new ProductModel)->getLists($map, 'sales desc', '');//热卖商品
         foreach ($productList as $k => $v) {
-            $userInfo = [];
+            $proSpec = $userInfo = [];
+            $specStock = 0;
+            $proSpec = (new SpecModel)->getColumn(['product_id' => $v['id']], 'stock');
+            // pp($proSpec);
+            if(!$proSpec){
+                unset($productList[$k]);
+                break;
+            }else{
+                foreach($proSpec as $kk => $vv){
+                    $specStock += $vv;
+                }
+            }
+            // pp($specStock);
+            if($specStock < 1){
+                unset($productList[$k]);
+                break;
+            }
+
             if(session('user_auth_index')){
                 $user = session('user_auth_index');
                 $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);
@@ -88,6 +105,7 @@ class Product extends Common
         $pictures = (new AdminAttachmentModel)->getColumn(['id' => ['in', explode(',', $productDetail['pictures'])]], 'id,name,path');
         // $spec = (new SpecModel)->getColumn(['id' => ['in', explode(',', $productDetail['spec'])]], 'id,name,product_id');
         $oriSpec = (new SpecModel)->getColumn(['product_id' => input('pid')], 'id,name,product_id,stock');
+        if(!$oriSpec)$this->error("商品规格未添加");
         $spec = $oriSpec;
         $productDetail['stock'] = 0;
         if($oriSpec){
@@ -99,7 +117,8 @@ class Product extends Common
                 $productDetail['stock'] += $v['stock'];
             }
         }
-
+        if(!$productDetail['stock'])$this->error("商品库存不足");
+        
         $userInfo = [];
         if(session('user_auth_index')){
             $user = session('user_auth_index');

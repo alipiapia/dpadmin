@@ -50,10 +50,11 @@
     </div>
     <div class="u-list-o">
         {volist name="commission" id="com"}
-            <a href="{:url('index/commission/udetail')}">
+            <a href="{:url('index/commission/udetail', ['id' => $com['id']])}">
             <div class="u-list-tc">
                 <div class="u-list-tc-part1">
-                购买某某商品<span>￥{$com.count}元</span>
+                <!-- 购买某某商品<span>￥{$com.count}元</span> -->
+                {$com.desc}
                 </div>
                 <div class="u-list-tc-part2">{$com.count}<span>提：{$com.count}元</span></div>
             </div>

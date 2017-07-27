@@ -71,7 +71,7 @@ class Product extends Admin
                 // ['spec', '规格', 'select', $spec],
                 ['group_end_time', '团购截止日期'],
                 ['create_time', '创建时间'],
-                ['status', '状态', 'switch'],
+                ['status', '状态', 'status', '', ['已下架', '已上架']],
                 ['right_button', '操作', 'btn']
             ])
             ->addTimeFilter('create_time')
@@ -138,7 +138,7 @@ class Product extends Admin
                 ['text', 'price', '市场价'],
                 // ['text', 'stock', '商品库存'],
                 ['date', 'group_end_time', '团购截止日期'],
-                ['radio', 'status', '状态', '', ['禁用', '启用'], 1]
+                ['radio', 'status', '状态', '', ['下架', '上架'], 1]
             ])
             ->fetch();
     }
@@ -208,7 +208,7 @@ class Product extends Admin
                 ['text', 'price', '市场价'],
                 // ['text', 'stock', '商品库存'],
                 ['date', 'group_end_time', '团购截止日期'],
-                ['radio', 'status', '状态', '', ['禁用', '启用']]
+                ['radio', 'status', '状态', '', ['下架', '上架']]
             ])
             // ->addDatetime('group_end_time', '团购截止日期', '', 'datetime')
             // ->addSelect('spec', '规格', '提示', $spec, '', 'multiple')

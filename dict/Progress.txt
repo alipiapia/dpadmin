@@ -28,9 +28,9 @@
 			
 		b,用户注册;【完の结】
 		c，用户登录;【完の结】
-		d,用户资料修改（昵称、邮箱等）；
-		e,登录密码、支付密码修改；
-		f,收货地址；
+		d,用户资料修改（昵称、邮箱等）；【完の结】
+		e,登录密码、支付密码修改；【完の结】
+		f,收货地址；【完の结】
 			建立收货地址表@dp_user_address
 			DROP TABLE IF EXISTS `dp_user_address`;
 			CREATE TABLE `dp_user_address` (
@@ -47,7 +47,7 @@
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户收货地址表';
 		
-	2,账户变动；
+	2,账户变动；【完の结】
 		a,建立用户资金变动表@dp_user_account;
 			DROP TABLE IF EXISTS `dp_user_account`;
 			CREATE TABLE `dp_user_account` (
@@ -62,10 +62,10 @@
 			PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户资金变动表';
 			
-	3，分销管理【后台】；
+	3，分销管理【后台】；【完の结】
 		a,建表@dp_admin_distribution;
 			
-	4，权限管理【后台】；
+	4，权限管理【后台】；【完の结】
 		a,用户授权；
 		b,角色管理；
 		
@@ -210,54 +210,12 @@
 			  PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='购物车表';
 			
-			
-			DROP TABLE IF EXISTS `dp_order_product`;
-			CREATE TABLE `dp_order_product` (
-			  `order_product_id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '订单项ID',
-			  `order_id` int(11) NOT NULL COMMENT '订单ID',
-			  `product_id` int(11) NOT NULL COMMENT '商品ID',
-			  `product_name` varchar(50) NOT NULL COMMENT '商品名称',
-			  `sku_id` int(11) NOT NULL COMMENT 'skuID',
-			  `sku_name` varchar(50) NOT NULL COMMENT 'sku名称',
-			  `price` decimal(19,2) NOT NULL DEFAULT '0.00' COMMENT '商品价格',
-			  `cost_price` decimal(19,2) NOT NULL DEFAULT '0.00' COMMENT '商品成本价',
-			  `num` varchar(255) NOT NULL DEFAULT '0' COMMENT '购买数量',
-			  `adjust_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '调整金额',
-			  `product_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '商品总价',
-			  `product_picture` int(11) NOT NULL DEFAULT '0' COMMENT '商品图片',
-			  `shop_id` int(11) NOT NULL DEFAULT '1' COMMENT '店铺ID',
-			  `buyer_id` int(11) NOT NULL DEFAULT '0' COMMENT '购买人ID',
-			  `point_exchange_type` int(11) NOT NULL DEFAULT '0' COMMENT '积分兑换类型0.非积分兑换1.积分兑换',
-			  `product_type` varchar(255) NOT NULL DEFAULT '1' COMMENT '商品类型',
-			  `promotion_id` int(11) NOT NULL DEFAULT '0' COMMENT '促销ID',
-			  `promotion_type_id` int(11) NOT NULL DEFAULT '0' COMMENT '促销类型',
-			  `order_type` int(11) NOT NULL DEFAULT '1' COMMENT '订单类型',
-			  `order_status` int(11) NOT NULL DEFAULT '0' COMMENT '订单状态',
-			  `give_point` int(11) NOT NULL DEFAULT '0' COMMENT '积分数量',
-			  `shipping_status` int(11) NOT NULL DEFAULT '0' COMMENT '物流状态',
-			  `refund_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '退款时间',
-			  `refund_type` int(11) NOT NULL DEFAULT '1' COMMENT '退款方式',
-			  `refund_require_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '退款金额',
-			  `refund_reason` varchar(255) NOT NULL DEFAULT '' COMMENT '退款原因',
-			  `refund_shipping_code` varchar(255) NOT NULL DEFAULT '' COMMENT '退款物流单号',
-			  `refund_shipping_company` varchar(255) NOT NULL DEFAULT '0' COMMENT '退款物流公司名称',
-			  `refund_real_money` decimal(10,2) NOT NULL DEFAULT '0.00' COMMENT '实际退款金额',
-			  `refund_status` int(1) NOT NULL DEFAULT '0' COMMENT '退款状态',
-			  `memo` varchar(255) NOT NULL DEFAULT '' COMMENT '备注',
-			  `is_evaluate` smallint(6) NOT NULL DEFAULT '0' COMMENT '是否评价 0为未评价 1为已评价 2为已追评',
-			  `status` tinyint(2) NOT NULL DEFAULT '1' COMMENT '状态：0禁用，1启用',
-			  `create_time` int(11) NOT NULL COMMENT '添加时间',
-			  `update_time` int(11) NOT NULL COMMENT '编辑时间',
-			  PRIMARY KEY (`order_product_id`)
-			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='订单商品表';
-
-
-			
+						
 	2,后台订单增删查改；
 
 【购物车】模块
 	1，建表@admin_cart;
-	2,购物车增删查改；
+	2,购物车增删查改；【完の结】
 
 【其它】
 	1，客户留言@admin_custom_message;

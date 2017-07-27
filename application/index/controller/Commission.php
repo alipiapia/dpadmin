@@ -34,7 +34,7 @@ class Commission extends Home
     {
         //获取用户信息
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
-        $commissions = $this->userAccount->getColumn(['uid' => $this->userInfo['id']]);
+        $commissions = $this->userAccount->getLists(['uid' => $this->userInfo['id'], 'type' => 3], 'create_time DESC');
         $com_sum = $this->userAccount->where(['uid' => $this->userInfo['id']])->sum('count');
         // pp($commissions);
 
@@ -53,12 +53,21 @@ class Commission extends Home
      */
     public function udetail()
     {
-        if(request()->isPost()){
-            //
-        }else{
-            return view('udetail', [
-                    'title' => '个人中心-提成详情',
-            ]);
+        if(!input('id')){
+            $this->error("找不到提成详情");
         }
+
+        $accountInfo = $this->userAccount->getOneDarry(['id' => input('id')]);
+
+        if(!$accountInfo){
+            $this->error("找不到提成详情");
+        }
+
+        return view('udetail', [
+                'title' => '个人中心-提成详情',
+                'accountinfo' => $accountInfo,
+                'balance' => get_user_value($this->userInfo['id'], 'balance'),
+                'config_account_type' => config('order.account_type'),
+        ]);
     }
 }
