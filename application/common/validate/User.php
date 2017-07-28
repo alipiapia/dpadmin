@@ -28,6 +28,8 @@ class User extends Validate
         'mobile|手机号'   => 'require|regex:^1\d{10}|unique:User',
         'ref_mobile|推荐人手机号'      => 'require|regex:^1\d{10}',
         'group_mobile|团队手机号'      => 'require|regex:^1\d{10}',
+        'findpass|密码' => 'require|length:6,20',
+        're_findpass|确认密码' => 'require|length:6,20|confirm:password',
     ];
 
     //定义验证提示
@@ -57,5 +59,7 @@ class User extends Validate
         'login'  =>  ['username' => 'require', 'password' => 'require|length:6,20'],
         //注册
         'register'  =>  ['username' => 'require', 'password' => 'require|length:6,20', 'mobile' => 'require|regex:^1\d{10}|unique:User', 'ref_mobile' => 'require|regex:^1\d{10}'],
+        //找回密码
+        'findpassword'  =>  ['username' => 'require', 'findpass' => 'require|length:6,20', 're_findpass' => 'require|length:6,20|confirm:password', 'mobile' => 'require|regex:^1\d{10}'],
     ];
 }

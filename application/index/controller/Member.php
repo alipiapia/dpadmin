@@ -27,6 +27,11 @@ class Member extends Common
     public function _initialize(){
         parent::_initialize();
         $this->user = controller('common/User', 'model');
+
+        //是否为移动设备
+        if(!is_mobile()){
+            echo "提示：请使用手机访问！";die;
+        }
     }
 
     /**
@@ -171,6 +176,31 @@ class Member extends Common
                         'title' => '注册',
                 ]);                
             }
+        }
+    }
+
+    /**
+     * 找回密码
+     * @author pp
+     */
+    public function findpassword()
+    {
+        if(request()->isPost()){
+            $data = request()->post();
+            // pp($data);
+
+            // 验证数据
+            $result = $this->validate($data, 'User.findpassword');
+            if(true !== $result){
+                // 验证失败 输出错误信息
+                $this->error($result);
+            }
+
+        }else{
+            // return $this->fetch();
+            return view('findpassword', [
+                    'title' => '找回密码',
+            ]);
         }
     }
 }

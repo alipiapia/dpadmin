@@ -151,20 +151,4 @@ class User extends Home
         // return $this->redirect('index/member/login');
         $this->success('退出成功', url('index/member/login'));
     }
-
-    /**
-     * 找回密码
-     * @author pp
-     */
-    public function findpassword()
-    {
-        if(request()->isPost()){
-            //
-        }else{
-            // return $this->fetch();
-            return view('findpassword', [
-                    'title' => '找回密码',
-            ]);
-        }
-    }
 }

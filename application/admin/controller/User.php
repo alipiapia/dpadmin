@@ -53,7 +53,7 @@ class User extends Admin
                 ['ref_mobile', '推荐人手机号'],
                 ['group_mobile', '团队手机号'],
                 ['pro_level', '代理等级'],
-                ['balance', '余额'],
+                ['balance', '余额', 'text.edit'],
                 // ['score', '积分'],
                 ['create_time', '注册时间'],
                 // ['status', '状态', 'switch'],
