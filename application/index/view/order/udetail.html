@@ -117,15 +117,23 @@
                 	
                 </div>
             </div>
+            {notempty name="order.shipping_name"}
+            <div class="order-d">
+                <div class="order-d-one">
+                    物流公司：<span>{$order.shipping_name}</span>
+                </div>
+                <div class="order-d-one">
+                    物流单号：<span>{$order.shipping_num}</span>
+                </div>
+            </div>
+            {/notempty}
         </div>
-        {neq name="order.order_status" value="3"}
         <div class="page-box">
             {eq name="order.order_status" value="0"}
             <div class="button-tj" id="justbuy">立即支付</div>
-            {/eq}
             <div class="button-tj button-tj1" id="justcancel">取消订单</div>
+            {/eq}
         </div>
-        {/neq}
         <footer>
         <div class="space1"></div>
             <div class="bottom-o">

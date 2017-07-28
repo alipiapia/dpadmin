@@ -446,15 +446,15 @@ class Order extends Home
         $orderInfo['picture'] = get_product_value($orderInfo['product_id'], 'picture');
         // pp($orderInfo);
 
-        if(request()->isPost()){
-            pp(input('order_sn'));
-        }else{
+        // if(request()->isPost()){
+        //     pp(input('order_sn'));
+        // }else{
             return view('udetail', [
                     'title' => '个人中心-订单详情',
                     'order' => $orderInfo,
                     'config_order_status' => config('order.order_status'),
                     'config_pay_status' => config('order.pay_status'),
             ]);
-        }
+        // }
     }
 }

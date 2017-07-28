@@ -121,7 +121,8 @@ class Order extends Admin
 
         // 获取数据
         $info = OrderModel::where('id', $id)->field('password', true)->find();
-        if($info['order_status'] != 1)return $this->error('参数错误');
+        // pp($info['order_status']);
+        if(!in_array($info['order_status'], [1,2]))return $this->error('参数错误');
 
         // 保存数据
         if ($this->request->isPost()) {
@@ -145,26 +146,52 @@ class Order extends Admin
             }
         }
 
-        // 使用ZBuilder快速创建表单
-        return ZBuilder::make('form')
-            ->setPageTitle('编辑') // 设置页面标题
-            ->addFormItems([ // 批量添加表单项
-                ['hidden', 'id'],
-                ['static', 'order_sn', '订单号'],
-                // ['static', 'product_id', '商品'],
-                ['static', 'order_price', '订单金额'],
-                // ['text', 'shipping_fee', '运费'],
-                // ['static', 'buyer', '收货人'],
-                // ['static', 'buyer_address', '收货地址'],
-                // ['radio', 'order_status', '订单状态', '', config('order.order_status')]
-                // ['Bmap', '111','CAf9a5889147c3b2b9ca3e3cdad0ca2a']
-                ['text', 'shipping_name', '物流公司'],
-                ['text', 'shipping_num', '物流单号'],
-            ])
-            ->setBtnTitle('submit', '确认发货')
-            ->submitConfirm()
-            ->setFormData($info) // 设置表单数据
-            ->fetch();
+        if($info['order_status'] == 2){
+            // 使用ZBuilder快速创建表单
+            return ZBuilder::make('form')
+                ->setPageTitle('编辑') // 设置页面标题
+                ->addFormItems([ // 批量添加表单项
+                    // ['hidden', 'id'],
+                    ['static', 'order_sn', '订单号'],
+                    // ['static', 'product_id', '商品'],
+                    ['static', 'order_price', '订单金额'],
+                    // ['text', 'shipping_fee', '运费'],
+                    ['static', 'create_time', '下单时间'],
+                    // ['static', 'buyer_address', '收货地址'],
+                    // ['radio', 'order_status', '订单状态', '', config('order.order_status')]
+                    // ['Bmap', '111','CAf9a5889147c3b2b9ca3e3cdad0ca2a']
+                    ['static', 'shipping_name', '物流公司'],
+                    ['static', 'shipping_num', '物流单号'],
+                ])
+                // ->setBtnTitle('submit', '确认发货')
+                // ->submitConfirm()
+                ->hideBtn('submit')
+                ->setFormData($info) // 设置表单数据
+                ->fetch();
+
+        }elseif($info['order_status'] == 1){
+            // 使用ZBuilder快速创建表单
+            return ZBuilder::make('form')
+                ->setPageTitle('编辑') // 设置页面标题
+                ->addFormItems([ // 批量添加表单项
+                    ['hidden', 'id'],
+                    ['static', 'order_sn', '订单号'],
+                    // ['static', 'product_id', '商品'],
+                    ['static', 'order_price', '订单金额'],
+                    // ['text', 'shipping_fee', '运费'],
+                    // ['static', 'buyer', '收货人'],
+                    // ['static', 'buyer_address', '收货地址'],
+                    // ['radio', 'order_status', '订单状态', '', config('order.order_status')]
+                    // ['Bmap', '111','CAf9a5889147c3b2b9ca3e3cdad0ca2a']
+                    ['text', 'shipping_name', '物流公司'],
+                    ['text', 'shipping_num', '物流单号'],
+                ])
+                ->setBtnTitle('submit', '确认发货')
+                ->submitConfirm()
+                ->setFormData($info) // 设置表单数据
+                ->fetch();
+
+        }
     }
 
     /**

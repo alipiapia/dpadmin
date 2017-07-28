@@ -44,18 +44,19 @@ class User extends Admin
         return ZBuilder::make('table')
             ->setPageTitle('用户管理') // 设置页面标题
             ->setTableName('User') // 设置数据表名
-            ->setSearch(['username' => '用户名', 'mobile' => '手机号', 'email' => '邮箱']) // 设置搜索参数
+            ->setSearch(['username' => '用户名', 'email' => '邮箱', 'mobile' => '手机号', 'ref_mobile' => '推荐人手机号', 'group_mobile' => '团队手机号']) // 设置搜索参数
             ->addColumns([ // 批量添加列
                 ['username', '用户名'],
                 ['nickname', '昵称'],
                 ['email', '邮箱'],
                 ['mobile', '手机号'],
                 ['ref_mobile', '推荐人手机号'],
+                ['group_mobile', '团队手机号'],
                 ['pro_level', '代理等级'],
                 ['balance', '余额'],
-                ['score', '积分'],
+                // ['score', '积分'],
                 ['create_time', '注册时间'],
-                ['status', '状态', 'switch'],
+                // ['status', '状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
             ->addTimeFilter('create_time')

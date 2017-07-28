@@ -50,8 +50,14 @@
                 <div class="orderelse">
                 状态：{$o.create_time} {$config_order_status[$o['order_status']]}<br />
                 商品：{$o.product_id|get_product_value='name'}<br />
-                地址：{$o.address}
+                地址：{$o.address}<br />
                 <!-- 地址：{$o.buyer_address|get_user_address_value='address'} -->
+                {notempty name="o.shipping_name"}
+                <!-- <div class="orderelse"> -->
+                物流公司：{$o.shipping_name}<br />
+                物流单号：{$o.shipping_num}<br />
+                <!-- </div> -->
+                {/notempty}
                 </div>
             </div>
             </a>
