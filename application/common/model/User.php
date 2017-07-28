@@ -230,8 +230,10 @@ class User extends Model
         } else {
             if (!Hash::check((string)$password, $userArr['password'])) {
                 $this->error = '密码错误！';
+            } elseif ($userArr['status'] == 0){
+                $this->error = '用户状态异常，请联系管理员';//用户状态判断
             } else {
-                $id = $userArr['id'];
+                $id = $userArr['id'];                
 
                 // 更新登录信息
                 $user->last_login_time = request()->time();

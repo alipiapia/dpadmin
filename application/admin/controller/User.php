@@ -56,7 +56,7 @@ class User extends Admin
                 ['balance', '余额', 'text.edit'],
                 // ['score', '积分'],
                 ['create_time', '注册时间'],
-                // ['status', '状态', 'switch'],
+                ['status', '审核状态', 'switch'],
                 ['right_button', '操作', 'btn']
             ])
             ->addTimeFilter('create_time')
