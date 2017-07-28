@@ -35,7 +35,7 @@ class Commission extends Home
         //获取用户信息
         $userInfo = $this->user->getOneDarry(['id' => $this->userInfo['id']]);
         $commissions = $this->userAccount->getLists(['uid' => $this->userInfo['id'], 'type' => 3], 'create_time DESC');
-        $com_sum = $this->userAccount->where(['uid' => $this->userInfo['id']])->sum('count');
+        $com_sum = $this->userAccount->where(['uid' => $this->userInfo['id'], 'type' => 3])->sum('count');
         // pp($commissions);
 
         // return $this->fetch();
