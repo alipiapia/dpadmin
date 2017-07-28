@@ -26,7 +26,9 @@
 				PRIMARY KEY (`id`)
 			) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT='用户/会员表';
 			
-		b,用户注册;【完の结】18687211878 $2y$10$JdTbfGsLsgJu/T7CBgZ4yu45WXvj7SIVLgTWj0gRI8e.G68lpgNZ6
+		b,用户注册;【完の结】
+			手动添加一级代理：username+password+mobile+ref_mobile+pro_level(1)
+								18687211878 $2y$10$JdTbfGsLsgJu/T7CBgZ4yu45WXvj7SIVLgTWj0gRI8e.G68lpgNZ6 0 0 1
 		c，用户登录;【完の结】
 		d,用户资料修改（昵称、邮箱等）；【完の结】
 		e,登录密码、支付密码修改；【完の结】
@@ -222,4 +224,18 @@
 	2，
 
 【后期测试修复】【周期：一周左右】
+
+	手动添加一级代理：
+		username+password+mobile+ref_mobile+pro_level(1)
+		18687211878 $2y$10$JdTbfGsLsgJu/T7CBgZ4yu45WXvj7SIVLgTWj0gRI8e.G68lpgNZ6 0 0 1
+		
+		
+后台www.2he87.com/admin 
+	管理员账号admin 密码admin
+前台www.2he87.com 
+	一级代理账号18687211878 密码111111 
+	二级代理账号wsc001/15924900001 密码111111
+	
+注：1, 注册二级代理时，推荐人手机号这栏填写一级代理的手机号18687211878
+	2,普通会员注册时，推荐人手机号这栏填写二级代理的手机号15924900001后，就被归属到该手机号的团队下
 	
