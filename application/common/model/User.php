@@ -230,6 +230,8 @@ class User extends Model
         } else {
             if (!Hash::check((string)$password, $userArr['password'])) {
                 $this->error = '密码错误！';
+            } elseif ($userArr['id'] == 1){
+                $this->error = '厂家禁止登录，请联系管理员';//用户状态判断
             } elseif ($userArr['status'] == 0){
                 $this->error = '用户状态异常，请联系管理员';//用户状态判断
             } else {

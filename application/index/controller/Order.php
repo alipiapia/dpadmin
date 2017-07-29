@@ -78,22 +78,23 @@ class Order extends Home
 
         $userInfo = [];
         if(session('user_auth_index')){
-            $user = session('user_auth_index');
-            $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
-            if(isset($userInfo['pro_level'])){
-                switch ($userInfo['pro_level']) {
-                    case '1':
-                        $orderInfo['product']['price'] = $orderInfo['product']['cost_price'];
-                        break;
-                    case '2':
-                        $orderInfo['product']['price'] = $orderInfo['product']['promotion_price'];
-                        break;
+            // $user = session('user_auth_index');
+            // $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
+            // if(isset($userInfo['pro_level'])){
+            //     switch ($userInfo['pro_level']) {
+            //         case '1':
+            //             $orderInfo['product']['price'] = $orderInfo['product']['cost_price'];
+            //             break;
+            //         case '2':
+            //             $orderInfo['product']['price'] = $orderInfo['product']['promotion_price'];
+            //             break;
                     
-                    default:
-                        $orderInfo['product']['price'] = $orderInfo['product']['member_price'];
-                        break;
-                }            
-            }
+            //         default:
+            //             $orderInfo['product']['price'] = $orderInfo['product']['member_price'];
+            //             break;
+            //     }            
+            // }
+            $orderInfo['product']['price'] = $orderInfo['product']['member_price'];
         }else{
             $orderInfo['product']['price'] = $orderInfo['product']['price'];
         }
@@ -136,22 +137,23 @@ class Order extends Home
 
             $userInfo = [];
             if(session('user_auth_index')){
-                $user = session('user_auth_index');
-                $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
-                if(isset($userInfo['pro_level'])){
-                    switch ($userInfo['pro_level']) {
-                        case '1':
-                            $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['cost_price'];
-                            break;
-                        case '2':
-                            $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['promotion_price'];
-                            break;
+                // $user = session('user_auth_index');
+                // $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
+                // if(isset($userInfo['pro_level'])){
+                //     switch ($userInfo['pro_level']) {
+                //         case '1':
+                //             $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['cost_price'];
+                //             break;
+                //         case '2':
+                //             $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['promotion_price'];
+                //             break;
                         
-                        default:
-                            $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['member_price'];
-                            break;
-                    }            
-                }
+                //         default:
+                //             $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['member_price'];
+                //             break;
+                //     }            
+                // }
+                $orderInfo[$k]['product']['price'] = $orderInfo[$k]['product']['member_price'];
             }else{
                 $orderInfo[$k]['product']['price'] = $orderInfo['product']['price'];
             }
@@ -191,10 +193,11 @@ class Order extends Home
             $v['product_count'] = $v[2];unset($v[2]);
             $v['buyer'] = $v[3];unset($v[3]);
             $v['buyer_address'] = $v[4];unset($v[4]);
-            $v['order_note'] = $v[5];unset($v[5]);
-            if(isset($v[6])){
-                $cart_id = $v[6];
-                unset($v[6]);
+            $v['shipping_fee'] = $v[5];unset($v[5]);
+            $v['order_note'] = $v[6];unset($v[6]);
+            if(isset($v[7])){
+                $cart_id = $v[7];
+                unset($v[7]);
             }else{
                 $cart_id = 0;
             }
@@ -202,22 +205,23 @@ class Order extends Home
 
             $userInfo = [];
             if(session('user_auth_index')){
-                $user = session('user_auth_index');
-                $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
-                if(isset($userInfo['pro_level'])){
-                    switch ($userInfo['pro_level']) {
-                        case '1':
-                            $v['product_price'] = $productInfo['cost_price'];
-                            break;
-                        case '2':
-                            $v['product_price'] = $productInfo['promotion_price'];
-                            break;
+                // $user = session('user_auth_index');
+                // $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
+                // if(isset($userInfo['pro_level'])){
+                //     switch ($userInfo['pro_level']) {
+                //         case '1':
+                //             $v['product_price'] = $productInfo['cost_price'];
+                //             break;
+                //         case '2':
+                //             $v['product_price'] = $productInfo['promotion_price'];
+                //             break;
                         
-                        default:
-                            $v['product_price'] = $productInfo['member_price'];
-                            break;
-                    }            
-                }
+                //         default:
+                //             $v['product_price'] = $productInfo['member_price'];
+                //             break;
+                //     }            
+                // }
+                $v['product_price'] = $productInfo['member_price'];
             }else{
                 $v['product_price'] = $productInfo['price'];
             }
@@ -227,7 +231,7 @@ class Order extends Home
             $orderCheck = $this->order->getValue(['order_sn' => $newOrderNo], 'order_sn');
             $v['order_sn'] = $orderCheck ? $this->order->buildOrderNo() : $newOrderNo;
 
-            $v['order_price'] = $v['product_count'] * $v['product_price'];
+            $v['order_price'] = $v['product_count'] * $v['product_price'] + $v['shipping_fee'];
             $checkResult = $this->validate($v, 'Order.add');
             // pp($addOrder);
 
@@ -328,6 +332,23 @@ class Order extends Home
             // $addCurUserAccount = UserAccountModel::create($curAccountData);
             $addCurUserAccount = add_user_account($curAccountData);
 
+
+            //二级代理商差价计算
+            if($curUser['pro_level'] == 2){                
+                $additionalPrice = $productInfo['member_price'] - $productInfo['promotion_price'];//差价=会员价-代理价
+                $additionalPrice = ($additionalPrice > 0) ? $additionalPrice : 0;
+                if($additionalPrice){
+                    $upGroupTopUser = $this->user->where(['id' => $curUser['id']])->setInc('balance', $additionalPrice);
+                    $groupTopAccountData = [
+                        'uid' => $curUser['id'],
+                        'sign' => 2,
+                        'count' => $additionalPrice,
+                        'type' => 3,
+                        'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 产生:'.$configAccountType[3]
+                    ];
+                    $addGroupTopUserAccount = add_user_account($groupTopAccountData);
+                }
+            }
 
             //当前用户代理等级pro_level > 2时，进行团队奖励&差价计算
             if($curUser['pro_level'] > 2){

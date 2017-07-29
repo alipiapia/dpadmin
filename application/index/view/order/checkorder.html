@@ -83,9 +83,10 @@
                         </div>
                     </div>
                     {/notempty}
-<!--                     <div class="postage">
-                        运费：<span>￥<span id="shipping_fee">0</span></span>/件
-                    </div> -->
+                    <div class="postage">
+                        <!-- 运费：<span>￥<span id="shipping_fee">0</span></span>/件 -->
+                        运费：<input type="number" id="shipping_fee" name="shipping_fee" onblur="keyDown(this,event)" placeholder="请输入运费金额" />
+                    </div>
                     <div class="allprice">
                         小计：￥<span id="total">0</span>
                     </div>
@@ -115,6 +116,7 @@
                 // var max_num = "{$order.product.stock}";
                 var max_num = $(".gg").attr('data-stock');
                 // alert(parseInt(max_num));return false;
+
                 //数量增加操作
                 $("#add").click(function(){
                     t.val(parseInt(t.val()) + 1)
@@ -145,10 +147,27 @@
                 //初始化
                 setTotal();
             });
+
+            function keyDown(obj,e) {
+                // var ev= window.event||e;
+                // if (ev.keyCode == 13) {
+                    var t = $("#product_count");
+                    var price = "{$order.product.price}";
+                    var shipping_fee = parseFloat($(obj).val());
+                    // alert(parseFloat(shipping_fee));return false;
+                    if((shipping_fee == NaN) || !shipping_fee){
+                        alert("请填写运费");return false;
+                    }
+                    $("#total").html((parseInt(t.val()) * price + shipping_fee).toFixed(2));//toFixed()是保留小数点的函数很实用哦
+                    $("#order_price").html((parseInt(t.val()) * price + shipping_fee).toFixed(2));
+                // }
+             }
+
             $(function(){
                 $('#home_slider').flexslider({
                     animation : 'slide',                   
                 });
+
                 //立即购买
                 $("#justbuy").on('click', function(d){
                     var uid = "{$session_user.id}";
@@ -161,6 +180,7 @@
                     var stock = $(this).closest("body").find(".gg").attr('data-stock');
                     var group_end_time = "{$order.product.group_end_time}";
                     var buyer_address = $("#address_id").attr("data-id");
+                    var shipping_fee = $("#shipping_fee").val();
                     var order_note = $("#order_note").val();
                     // alert(Number(product_count) > Number(stock));return false;
                     //登录判断
@@ -180,6 +200,9 @@
                     if(buyer_address == undefined){
                         alert("请选择收货地址");return false;                        
                     }
+                    if(!shipping_fee){
+                        alert("请填写运费");return false;                        
+                    }
 
                     //去生成订单
                     // $.ajax({
@@ -196,7 +219,7 @@
                     //         //
                     //     }
                     // });
-                    var postProducts = [[product_id,product_spec,product_count,uid,buyer_address,order_note]];
+                    var postProducts = [[product_id,product_spec,product_count,uid,buyer_address,shipping_fee,order_note]];
                     // alert(postProducts);return false;
                     location.href = '/index/Order/buildOrder?products=' + JSON.stringify(postProducts);
                 });

@@ -66,22 +66,23 @@ class Product extends Common
             }
 
             if(session('user_auth_index')){
-                $user = session('user_auth_index');
-                $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);
-                if(isset($userInfo['pro_level'])){
-                    switch ($userInfo['pro_level']) {
-                        case '1':
-                            $productList[$k]['price'] = $v['cost_price'];
-                            break;
-                        case '2':
-                            $productList[$k]['price'] = $v['promotion_price'];
-                            break;
+                // $user = session('user_auth_index');
+                // $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);
+                // if(isset($userInfo['pro_level'])){
+                //     switch ($userInfo['pro_level']) {
+                //         case '1':
+                //             $productList[$k]['price'] = $v['cost_price'];
+                //             break;
+                //         case '2':
+                //             $productList[$k]['price'] = $v['promotion_price'];
+                //             break;
                         
-                        default:
-                            $productList[$k]['price'] = $v['member_price'];
-                            break;
-                    }            
-                }
+                //         default:
+                //             $productList[$k]['price'] = $v['member_price'];
+                //             break;
+                //     }            
+                // }
+                $productList[$k]['price'] = $v['member_price'];
             }else{
                 $productList[$k]['price'] = $v['price'];
             }
@@ -121,22 +122,23 @@ class Product extends Common
         
         $userInfo = [];
         if(session('user_auth_index')){
-            $user = session('user_auth_index');
-            $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);
-            if(isset($userInfo['pro_level'])){
-                switch ($userInfo['pro_level']) {
-                    case '1':
-                        $productDetail['price'] = $productDetail['cost_price'];
-                        break;
-                    case '2':
-                        $productDetail['price'] = $productDetail['promotion_price'];
-                        break;
+            // $user = session('user_auth_index');
+            // $userInfo = (new UserModel)->getOneDarry(['id' => $user['id']]);
+            // if(isset($userInfo['pro_level'])){
+            //     switch ($userInfo['pro_level']) {
+            //         case '1':
+            //             $productDetail['price'] = $productDetail['cost_price'];
+            //             break;
+            //         case '2':
+            //             $productDetail['price'] = $productDetail['promotion_price'];
+            //             break;
                     
-                    default:
-                        $productDetail['price'] = $productDetail['member_price'];
-                        break;
-                }            
-            }
+            //         default:
+            //             $productDetail['price'] = $productDetail['member_price'];
+            //             break;
+            //     }            
+            // }
+            $productDetail['price'] = $productDetail['member_price'];
         }else{
             $productDetail['price'] = $productDetail['price'];
         }
