@@ -50,22 +50,23 @@ class Cart extends Home
 
             $userInfo = [];
             if(session('user_auth_index')){
-                $user = session('user_auth_index');
-                $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
-                if(isset($userInfo['pro_level'])){
-                    switch ($userInfo['pro_level']) {
-                        case '1':
-                            $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['cost_price'];
-                            break;
-                        case '2':
-                            $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['promotion_price'];
-                            break;
+                // $user = session('user_auth_index');
+                // $userInfo = $this->user->getOneDarry(['id' => $user['id']]);
+                // if(isset($userInfo['pro_level'])){
+                //     switch ($userInfo['pro_level']) {
+                //         case '1':
+                //             $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['cost_price'];
+                //             break;
+                //         case '2':
+                //             $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['promotion_price'];
+                //             break;
                         
-                        default:
-                            $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['member_price'];
-                            break;
-                    }            
-                }
+                //         default:
+                //             $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['member_price'];
+                //             break;
+                //     }            
+                // }
+                $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['member_price'];
             }else{
                 $newCartLists[$k]['product']['price'] = $newCartLists[$k]['product']['price'];
             }

@@ -233,7 +233,7 @@ class User extends Model
             } elseif ($userArr['id'] == 1){
                 $this->error = '厂家禁止登录，请联系管理员';//用户状态判断
             } elseif ($userArr['status'] == 0){
-                $this->error = '用户状态异常，请联系管理员';//用户状态判断
+                $this->error = '用户未通过审核，请联系管理员';//用户状态判断
             } else {
                 $id = $userArr['id'];                
 

@@ -140,9 +140,19 @@
                 });
                 //计算操作
                 function setTotal(){
+                    var shipping_fee;
+                    var shipping_fee = parseFloat($("#shipping_fee").val());
+                    // alert(parseFloat(shipping_fee));return false;
+                    if((shipping_fee != NaN) && shipping_fee){
+                        // alert("请填写运费");return false;
+                        shipping_fee = shipping_fee;
+                    }else{
+                        shipping_fee = 0.00;
+                    }
+                    // alert(shipping_fee);return false;
                     $("#total_num").html(parseInt(t.val()));//商品数量
-                    $("#total").html((parseInt(t.val()) * price).toFixed(2));//toFixed()是保留小数点的函数很实用哦
-                    $("#order_price").html((parseInt(t.val()) * price).toFixed(2));
+                    $("#total").html((parseInt(t.val()) * price + shipping_fee).toFixed(2));//toFixed()是保留小数点的函数很实用哦
+                    $("#order_price").html((parseInt(t.val()) * price + shipping_fee).toFixed(2));
                 }
                 //初始化
                 setTotal();

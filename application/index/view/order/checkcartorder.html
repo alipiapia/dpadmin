@@ -164,8 +164,18 @@
                       oprice += total; //计算该店铺的总价
                       onum += num; //计算该店铺的总价
                     // $(this).closest(".shop-group-item").find(".ShopTotal").text(oprice.toFixed(2)); //显示被选中商品的店铺总价
-                    $("#total").text(oprice.toFixed(2));
-                    $("#AllTotal").text(oprice.toFixed(2));
+                    var shipping_fee;
+                    var shipping_fee = parseFloat($("#shipping_fee").val());
+                    // alert(parseFloat(shipping_fee));return false;
+                    if((shipping_fee != NaN) && shipping_fee){
+                        // alert("请填写运费");return false;
+                        shipping_fee = shipping_fee;
+                    }else{
+                        shipping_fee = 0.00;
+                    }
+                    // alert(shipping_fee);return false;
+                    $("#total").text((oprice + shipping_fee).toFixed(2));
+                    $("#AllTotal").text((oprice + shipping_fee).toFixed(2));
                     $("#AllNum").text(onum);
                   });
             }
