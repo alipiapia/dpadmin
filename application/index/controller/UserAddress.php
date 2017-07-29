@@ -55,15 +55,31 @@ class UserAddress extends Home
     //个人中心-我的收货地址
     public function ulist()
     {
+        $map = $this->getMap();
+        $map['uid'] = $this->userInfo['id'];
+        // pp($map);
+        // if(isset($map['username'])){
+        //     if (preg_match("/^1\d{10}$/", trim($map['username'][1], '%'))) {
+        //         // 手机号登录
+        //         $map['mobile'] = ['like', $map['username'][1]];
+        //     } else {
+        //         // 用户名登录
+        //         $map['username'] = ['like', $map['username'][1]];
+        //     }
+        // }
+        $map['username|mobile'] = $map['username'];unset($map['username']);
+        // pp($map);
+
         //获取用户信息
         // $uid = $this->user->getValue(['id' => $this->userInfo['id']], 'id');
-        $userAddress = $this->userAddress->getColumn(['uid' => $this->userInfo['id']], 'id,uid,username,mobile,address');
+        $userAddress = $this->userAddress->getColumn($map, 'id,uid,username,mobile,address');
         // pp($userAddress);
 
         // return $this->fetch();
         return view('useraddress/ulist', [
                 'title' => '个人中心-我的收货地址',
                 'useraddress' => $userAddress,
+                'keyword' => (input('keyword') !== null) ? input('keyword') : ''
             ]);
     }
 

@@ -46,6 +46,12 @@
         </a>
 
         <div class="probox">
+            <div class="page-box">
+                <input type="text" id="keyword" name="keyword" onkeydown="keyDown(event)" value="{$keyword|default=''}" placeholder="请输入搜索关键字" />
+            </div>
+        </div>
+
+        <div class="probox">
             {volist name="useraddress" id="a"}
             <div class="address-gl">
             	<div class="address-gl-part1">
@@ -83,7 +89,16 @@
                             // });
                         }
                     });
-        		});		
+        		});
+
+            function keyDown(e) {
+                var ev= window.event||e;
+                if (ev.keyCode == 13) {
+                    var keyword = $("#keyword").val();
+                    // alert(keyword);return false;
+                    location.href = 'ulist?search_field=username&keyword=' + keyword;
+                }
+             }	
         		
         </script>
     </body>
