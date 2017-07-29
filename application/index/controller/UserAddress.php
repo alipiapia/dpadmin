@@ -67,7 +67,10 @@ class UserAddress extends Home
         //         $map['username'] = ['like', $map['username'][1]];
         //     }
         // }
-        $map['username|mobile'] = $map['username'];unset($map['username']);
+        if(isset($map['username'])){
+            $map['username|mobile'] = $map['username'];
+            unset($map['username']);
+        }
         // pp($map);
 
         //获取用户信息
