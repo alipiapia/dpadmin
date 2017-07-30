@@ -75,7 +75,7 @@ class UserAddress extends Home
 
         //获取用户信息
         // $uid = $this->user->getValue(['id' => $this->userInfo['id']], 'id');
-        $userAddress = $this->userAddress->getColumn($map, 'id,uid,username,mobile,address');
+        $userAddress = $this->userAddress->getColumn($map);
         // pp($userAddress);
 
         // return $this->fetch();

@@ -62,7 +62,7 @@ class Product extends Model
     }
     public function getGroupEndTimeAttr($value)
     {
-        return $value != 0 ? date('Y-m-d', $value) : '';
+        return $value != 0 ? date('Y-m-d H:i:s', $value) : '';
     }
     public function getValue($where, $field="name"){
         return $this->where($where)->value($field);

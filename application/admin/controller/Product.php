@@ -137,7 +137,7 @@ class Product extends Admin
                 ['text', 'member_price', '会员价'],
                 ['text', 'price', '市场价'],
                 // ['text', 'stock', '商品库存'],
-                ['date', 'group_end_time', '团购截止日期'],
+                ['datetime', 'group_end_time', '团购截止日期'],
                 ['radio', 'status', '状态', '', ['下架', '上架'], 1]
             ])
             ->fetch();
@@ -207,7 +207,7 @@ class Product extends Admin
                 ['text', 'member_price', '会员价'],
                 ['text', 'price', '市场价'],
                 // ['text', 'stock', '商品库存'],
-                ['date', 'group_end_time', '团购截止日期'],
+                ['datetime', 'group_end_time', '团购截止日期'],
                 ['radio', 'status', '状态', '', ['下架', '上架']]
             ])
             // ->addDatetime('group_end_time', '团购截止日期', '', 'datetime')
