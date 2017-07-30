@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="__HOME_JS__/jquery.touchSlider.js"></script>
 
 		<script type="text/javascript" src="__HOME_JS__/jquery.flexslider-min.js"></script>
+        <script type="text/javascript" src="__HOME_JS__/jquery.cityselect.js"></script>
 
         
     </head>
@@ -59,43 +60,37 @@
                 <input type="text" name="mobile" placeholder="请输入手机号码"/>
             </div>
         </div>
-<!--         <div class="address-edit">
+        <div class="address-edit" id="city">
             <div class="address-edit-l">
                 省份：
             </div>
            <div class="address-edit-r">
-                <select>
-                	<option>云南省</option>
-                    <option>云南省</option>
-                    <option>云南省</option>
+                <select name="prov" class="prov">
+                	<option value="">请选择</option>
                 </select>
             </div>
-        </div>
-        <div class="address-edit">
+        <!-- </div> -->
+        <!-- <div class="address-edit"> -->
             <div class="address-edit-l">
                 城市：
             </div>
            <div class="address-edit-r">
-                <select>
-                	<option>昆明市</option>
-                    <option>昆明市</option>
-                    <option>昆明市</option>
+                <select name="city" class="city">
+                    <option value="">请选择</option>
                 </select>
             </div>
-        </div>
+        <!-- </div> -->
 
-        <div class="address-edit" >
+        <!-- <div class="address-edit" > -->
             <div class="address-edit-l">
                 区县：
             </div>
            <div class="address-edit-r">
-                <select>
-                	<option>官渡区</option>
-                    <option>官渡区</option>
-                    <option>官渡区</option>
+                <select name="dist" class="dist">
+                    <option value="">请选择</option>
                 </select>
             </div>
-        </div> -->
+        </div>
         <div class="address-edit" >
             <div class="address-edit-l">
                 详细地址：
@@ -117,6 +112,13 @@
         				animation : 'slide',
         			   
         			});
+
+                    $("#city").citySelect({
+                        prov: null,
+                        city: null,
+                        dist: null,
+                        nodata: "none"
+                    });
         		});
 
                 $('.button-tj').click(function(){
