@@ -33,7 +33,7 @@ class Distribution extends Admin
         // 保存数据
         if ($this->request->isPost()) {
             $data = $this->request->post();
-            if($data['group_prize'] < 0){
+            if($data['group_prize'] <= 0){
                 $this->error("请输入大于零的数");
             }
             // pp($data);

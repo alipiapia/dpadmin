@@ -267,11 +267,12 @@
                 }
                     
                 //倒计时
-                function ShowCountDown(year, month, day, divname) 
+                function ShowCountDown(asd, divname) 
                 { 
                     var now = new Date(); 
-                    var endDate = new Date(year, month-1, day); 
-                    var leftTime = endDate.getTime()-now.getTime();
+                    // var endDate = new Date(year, month-1, day); 
+                    // var leftTime = endDate.getTime()-now.getTime();
+                    var leftTime = asd-now.getTime();
                     var leftsecond = parseInt(leftTime/1000); 
                     //var day1=parseInt(leftsecond/(24*60*60*6)); 
                     var day1 = Math.floor(leftsecond/(60*60*24)); 
@@ -303,10 +304,13 @@
                     // var hour = formatDate(getime, 'hour');
                     // var minute = formatDate(getime, 'minute');
                     // var second = formatDate(getime, 'second');
+                    var getimedate = new Date(getime);
+                    var getimedateatt = getimedate.getTime();
                     // alert(formatDate(getime));return false;
                     // alert(getimeArr[2]);return false;
                     window.setInterval(function(){
-                        ShowCountDown(getimeArr[0], getimeArr[1], getimeArr[2], 'count' + pid);
+                        // ShowCountDown(getimeArr[0], getimeArr[1], getimeArr[2], 'count' + pid);
+                        ShowCountDown(getimedateatt, 'count' + pid);
                     }, 1000);
                 });	
         		
