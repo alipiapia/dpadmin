@@ -27,7 +27,7 @@ class UserAddress extends Validate
         'address|详细地址'      => 'require',
         'prov|省份'      => 'require',
         'city|城市'      => 'require',
-        'dist|区县'      => 'require',
+        // 'dist|区县'      => 'require',
     ];
 
     //定义验证提示

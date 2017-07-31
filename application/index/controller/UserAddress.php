@@ -42,14 +42,58 @@ class UserAddress extends Home
         $userAddress = $this->userAddress->getColumn($map, 'id,uid,username,mobile,address');
         // pp($userAddress);
 
-        if(request()->isPost()){
+        // if(request()->isPost()){
             //
-        }else{
+        // }else{
             return view('useraddress/selectaddress', [
                     'title' => '选择收货人',
                     'useraddress' => $userAddress,
             ]);
+        // }
+    }
+
+    /**
+     * 订单-收货地址-添加
+     * @author pp
+     */
+    public function oadd()
+    {   
+        if(request()->isPost()){
+            $data = request()->post();
+            $data['uid'] = $this->userInfo['id'];
+            // pp($data);
+
+            // 验证数据
+            $result = $this->validate($data, 'UserAddress');
+            if(true !== $result){
+                // 验证失败 输出错误信息
+                $this->error($result);
+            }
+
+            $res = UserAddressModel::create($data);
+            echo '<script>history.go(-2);</script>';die;
+            // if ($res) {
+            //     $this->success('收货地址添加成功', url('index/UserAddress/ulist'));
+            // } else {
+            //     $this->error($res);
+            // }
+        }else{
+            return view('useraddress/oadd', [
+                    'title' => '个人中心-收货地址-添加',
+            ]);
         }
+    }
+
+    /**
+     * 更新默认收货人
+     * @author pp
+     */
+    public function switchDefaultAdd()
+    {
+        if(!input('id'))return 0;
+        $changeId = $this->userAddress->update(['id' => input('id'), 'is_default' => 1]);
+        $changeOtherId = $this->userAddress->update(['id' => ['neq', input('id')], 'is_default' => 0]);
+        return $changeId ? 1 : 0;
     }
 
     //个人中心-我的收货地址
@@ -106,7 +150,7 @@ class UserAddress extends Home
 
             $res = UserAddressModel::create($data);
             if ($res) {
-                $this->success('收货地址添加成功');
+                $this->success('收货地址添加成功', url('index/UserAddress/ulist'));
             } else {
                 $this->error($res);
             }

@@ -426,10 +426,20 @@ class Order extends Home
     //个人中心-我的订单
     public function ulist()
     {
-        $map = ['buyer' => $this->userInfo['id']];
+        $map = $this->getMap();
+        $map['buyer'] = $this->userInfo['id'];
 
         if((input('order_status') !== null)){
             $map['order_status'] = input('order_status');
+        }
+        if(isset($map['order_sn'])){
+            $map['order_sn|shipping_num'] = $addressMap['username|mobile'] = $map['order_sn'];
+            $addrIds = $this->userAddress->getColumn($addressMap, 'id');
+            if($addrIds){
+                $map['buyer_address'] = ['in', $addrIds];
+                unset($map['order_sn|shipping_num']);
+            }
+            unset($map['order_sn']);
         }
 
         // pp($map); 
@@ -450,6 +460,7 @@ class Order extends Home
                 'title' => '个人中心-我的订单',
                 'order' => $newOrders,
                 'config_order_status' => config('order.order_status'),
+                'keyword' => (input('keyword') !== null) ? input('keyword') : ''
             ]);
     }
 

@@ -106,59 +106,59 @@ class User extends Admin
     //         ->fetch();
     // }
 
-    /**
-     * 编辑
-     * @param null $id 用户id
-     * @author thinkphp
-     * @return mixed
-     */
-    public function edit($id = null)
-    {
-        if ($id === null) return $this->error('缺少参数');
+    // /**
+    //  * 编辑
+    //  * @param null $id 用户id
+    //  * @author thinkphp
+    //  * @return mixed
+    //  */
+    // public function edit($id = null)
+    // {
+    //     if ($id === null) return $this->error('缺少参数');
 
-        // 保存数据
-        if ($this->request->isPost()) {
-            $data = $this->request->post();
+    //     // 保存数据
+    //     if ($this->request->isPost()) {
+    //         $data = $this->request->post();
 
-            // 验证
-            $result = $this->validate($data, 'User.update');
-            // 验证失败 输出错误信息
-            if(true !== $result) return $this->error($result);
+    //         // 验证
+    //         $result = $this->validate($data, 'User.update');
+    //         // 验证失败 输出错误信息
+    //         if(true !== $result) return $this->error($result);
 
-            // 如果没有填写密码，则不更新密码
-            if ($data['password'] == '') {
-                unset($data['password']);
-            }
+    //         // 如果没有填写密码，则不更新密码
+    //         if ($data['password'] == '') {
+    //             unset($data['password']);
+    //         }
 
-            if ($user = UserModel::update($data)) {
-                // 记录行为
-                // action_log('user_edit', 'user', $user['id'], UID, get_nickname($user['id']));
-                return $this->success('编辑成功', cookie('__forward__'));
-            } else {
-                return $this->error('编辑失败');
-            }
-        }
+    //         if ($user = UserModel::update($data)) {
+    //             // 记录行为
+    //             // action_log('user_edit', 'user', $user['id'], UID, get_nickname($user['id']));
+    //             return $this->success('编辑成功', cookie('__forward__'));
+    //         } else {
+    //             return $this->error('编辑失败');
+    //         }
+    //     }
 
-        // 获取数据
-        $info = UserModel::where('id', $id)->field('password', true)->find();
+    //     // 获取数据
+    //     $info = UserModel::where('id', $id)->field('password', true)->find();
 
-        // 使用ZBuilder快速创建表单
-        return ZBuilder::make('form')
-            ->setPageTitle('编辑') // 设置页面标题
-            ->addFormItems([ // 批量添加表单项
-                ['hidden', 'id'],
-                ['static', 'username', '用户名', '不可更改'],
-                ['static', 'nickname', '昵称', '可以是中文'],
-                // ['password', 'password', '密码', '必填，6-20位'],
-                ['static', 'email', '邮箱', ''],
-                ['static', 'mobile', '手机号'],
-                ['static', 'ref_mobile', '推荐人手机号'],
-                ['static', 'status', '状态', '', ['禁用', '启用']]
-            ])
-            ->hideBtn('submit')
-            ->setFormData($info) // 设置表单数据
-            ->fetch();
-    }
+    //     // 使用ZBuilder快速创建表单
+    //     return ZBuilder::make('form')
+    //         ->setPageTitle('编辑') // 设置页面标题
+    //         ->addFormItems([ // 批量添加表单项
+    //             ['hidden', 'id'],
+    //             ['static', 'username', '用户名', '不可更改'],
+    //             ['static', 'nickname', '昵称', '可以是中文'],
+    //             // ['password', 'password', '密码', '必填，6-20位'],
+    //             ['static', 'email', '邮箱', ''],
+    //             ['static', 'mobile', '手机号'],
+    //             ['static', 'ref_mobile', '推荐人手机号'],
+    //             ['static', 'status', '状态', '', ['禁用', '启用']]
+    //         ])
+    //         ->hideBtn('submit')
+    //         ->setFormData($info) // 设置表单数据
+    //         ->fetch();
+    // }
 
     /**
      * 删除用户
@@ -225,6 +225,23 @@ class User extends Admin
         $value   = input('post.value', '');
         $config  = UserModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
+        // $this->error(floatval($value));
+        if($field == 'balance'){
+            $abs = floatval($value) - floatval($config);
+            //添加管理员录款记录
+            $configAccountType = config('order.account_type');
+            $curAccountData = [
+                'uid' => $id,
+                // 'sign' => ($abs < 0) ? 1 : 2,
+                'sign' => 2,
+                // 'count' => abs($abs),
+                'count' => $abs,
+                'type' => 1,
+                // 'desc' => $configAccountType[1].' 金额： '. abs($abs).'元'
+                'desc' => $configAccountType[1].' 金额： '. $abs.'元'
+            ];
+            $addCurUserAccount = add_user_account($curAccountData);
+        }
         return parent::quickEdit(['user_edit', 'user', $id, UID, $details]);
     }
 }

@@ -144,7 +144,9 @@ class User extends Home
      */
     public function logout()
     {
-        session(null);
+        // session(null);
+        session('user_auth_index', null);
+        session('user_auth_sign_index', null);
         cookie('id', null);
         cookie('signin_token', null);
 
