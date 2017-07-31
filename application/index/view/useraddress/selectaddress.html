@@ -41,7 +41,7 @@
             </a>
         </header>
 
-        <a href="{:url('index/UserAddress/uadd')}">
+        <a href="{:url('index/UserAddress/oadd')}">
             <div class="page-box"><div class="addaddress addaddress1">添加收件人</div></div>
         </a>
 
@@ -60,7 +60,7 @@
                 	<div class="itemname">手机号：</div>
                 	<div class="iteminfo">{$a.mobile}</div>
                 </div>
-                <div class="surebutton">
+                <div class="surebutton" data-id="{$a.id}">
                 	<button>确定</button>
                 </div>
                 {/volist}	
@@ -78,7 +78,14 @@
         		});
 
                 $('.surebutton').click(function(){
-                    $("form").submit();
+                    var addressId = $(this).attr('data-id');
+                    $.post('switchDefaultAdd', {id:addressId}, function(j){
+                        if(j > 0){
+                            history.go(-1);
+                        }
+                    });
+                    // alert(addressId);return false;
+                    // $("form").submit();
                 });
         		
         </script>

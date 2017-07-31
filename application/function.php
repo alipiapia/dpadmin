@@ -149,6 +149,6 @@ if (!function_exists('add_user_account')) {
      * @return Int
      */
     function add_user_account($data){
-        return model('common/useraccount')->create($data);
+        return model('common/UserAccount')->create($data);
     }
 }

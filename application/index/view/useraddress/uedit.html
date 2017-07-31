@@ -101,8 +101,11 @@
             <div class="address-edit-l">
                 详细地址：
             </div>
-           <div class="address-edit-r" style="height: 50px">
-                <input type="text"name="address" value="{$addressinfo.address}" placeholder="请输入详细地址"/>
+<!--            <div class="address-edit-r">
+                <input type="textarea" name="address" value="{$addressinfo.address}" placeholder="请输入详细地址"/>
+            </div> -->
+            <div class="lm-one-input address-edit-r" style="padding-left:0; padding:5px;">
+                <textarea name="address" rows="3" placeholder="请输入详细地址">{$addressinfo.address|default=''}</textarea>
             </div>
         </div>
 

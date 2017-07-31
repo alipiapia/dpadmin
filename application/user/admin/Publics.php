@@ -77,7 +77,9 @@ class Publics extends Common
      */
     public function signout()
     {
-        session(null);
+        // session(null);
+        session('user_auth', null);
+        session('user_auth_sign', null);
         cookie('uid', null);
         cookie('signin_token', null);
 
