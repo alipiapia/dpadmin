@@ -347,6 +347,12 @@ class Admin extends Common
         $pk = Db::name($table)->getPk(); // 主键名称
         $map[$pk] = ['in', $ids];
 
+        //取消订单
+        if($table == 'Order' && $type == 'cancel'){
+            $result = Db::name($table)->where($map)->setField('order_status', 4);
+            return $result ? $this->success('操作成功') : $this->error('操作失败');
+        }
+
         switch ($type) {
             case 'disable': // 禁用
                 $result = Db::name($table)->where($map)->setField($field, 0);

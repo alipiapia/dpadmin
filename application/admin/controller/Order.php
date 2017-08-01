@@ -13,6 +13,8 @@ namespace app\admin\controller;
 
 use app\admin\controller\Admin;
 use app\common\builder\ZBuilder;
+use app\common\model\User as UserModel;
+use app\common\model\Product as ProductModel;
 use app\common\model\Order as OrderModel;
 use util\Tree;
 use think\Db;
@@ -32,7 +34,33 @@ class Order extends Admin
         cookie('__forward__', $_SERVER['REQUEST_URI']);
 
         // 获取查询条件
-        $map = $this->getMap();
+        // $map = $this->getMap();
+
+        $search_field = input('search_field');
+        $keyword = input('keyword');
+        $keyword_arr = ['like', '%'.$keyword.'%'];
+        $serach_field_arr = explode('|', $search_field);
+        $map = [];
+        if(in_array('order_sn', $serach_field_arr)){
+            $ordIds = (new OrderModel)->getColumn(['order_sn' => $keyword_arr], 'id'); 
+            if($ordIds){
+                $map['order_sn'] = $keyword_arr;
+            }            
+        }
+
+        if(in_array('product_id', $serach_field_arr)){
+            $proIds = (new ProductModel)->getColumn(['name' => $keyword_arr], 'id'); 
+            if($proIds){
+                $map['product_id'] = ['in', $proIds];
+            }           
+        }
+
+        if(in_array('buyer', $serach_field_arr)){
+            $buyerIds = (new UserModel)->getColumn(['username' => $keyword_arr], 'id'); 
+            if($buyerIds){
+                $map['buyer'] = ['in', $buyerIds];
+            }
+        }
         // pp($map);
 
         // 数据列表
@@ -45,7 +73,7 @@ class Order extends Admin
             'title' => '取消订单',
             'icon' => 'fa fa-sign-out',
             'class' => 'btn btn-xs btn-default ajax-get confirm',
-            'href' => url('cancel', ['id' => '__id__', 'table' => 'Order']),
+            'href' => url('cancel', ['ids' => '__id__', 'table' => 'Order']),
             'data-title' => '确定取消该订单吗？',
             'data-tips' => '取消之后就无法恢复了',
         ];
@@ -74,8 +102,8 @@ class Order extends Admin
                 ['right_button', '操作', 'btn']
             ])
             // ->addValidate('Order', 'order_sn')
-            ->addTopButtons('delete') // 批量添加顶部按钮
-            // ->addRightButtons('edit') // 批量添加右侧按钮
+            // ->addTopButtons('custom', $btn_access) // 批量添加顶部按钮
+            ->addRightButtons('edit') // 批量添加右侧按钮
             ->addRightButton('custom', $btn_access)
             // ->addRightButton('edit', ['href' => url('edit', ['id' => '__id__', 'group' => 'index'])])
             ->setRowList($data_list) // 设置表格数据
@@ -207,23 +235,36 @@ class Order extends Admin
         }
     }
 
+    // /**
+    //  * 撤销订单
+    //  * @param array $record 行为日志
+    //  * @author thinkphp
+    //  * @return mixed
+    //  */
+    // public function cancel()
+    // {
+    //     // return input('');
+    //     // $id   = $this->request->isPost() ? input('post.id/a') : input('param.id');
+    //     // $table = input('param.table');
+    //     // $pk = Db::name($table)->getPk(); // 主键名称
+    //     // $map[$pk] = ['in', $id];
+    //     // if(input('id') == null)$this->error('操作失败');
+    //     // $data = ['id' => input('id'), 'order_satus' => 4];
+    //     $result = (new OrderModel)->upData(['order_satus' => 4], ['order_sn' => input('order_sn')]);
+    //     // $result = Db::name($table)->where($map)->setField('order_satus', 4);
+    //     // return $result;
+    //     return $result ? $this->success('操作成功') : $this->error('操作失败');
+    // }
+
     /**
-     * 撤销订单
+     * 删除订单
      * @param array $record 行为日志
      * @author thinkphp
      * @return mixed
      */
-    public function cancel()
+    public function cancel($record = [])
     {
-        $id   = $this->request->isPost() ? input('post.id/a') : input('param.id');
-        $table = input('param.table');
-        $pk = Db::name($table)->getPk(); // 主键名称
-        $map[$pk] = ['in', $id];
-        if(input('id') == null)$this->error('操作失败');
-        $data = ['id' => input('id'), 'order_satus' => 4];
-        // $result = (new OrderModel)->upData(['order_satus' => 4], ['id' => input('id')]);
-        $result = Db::name($table)->where($map)->setField('order_satus', 4);return $result;
-        return $result ? $this->success('操作成功') : $this->error('操作失败');
+        return $this->setStatus('cancel');
     }
 
     /**
