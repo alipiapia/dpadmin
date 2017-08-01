@@ -327,7 +327,7 @@ class Order extends Home
                 'sign' => 1,
                 'count' => $orderInfo['order_price'],
                 'type' => 0,
-                'desc' => '购买商品:'.$productInfo['name'].' 产生:'.$configAccountType[0]
+                'desc' => '购买商品:'.$productInfo['name'].' 数量：'.$orderInfo['product_count'].' 产生:'.$configAccountType[0]
             ];
             // $addCurUserAccount = UserAccountModel::create($curAccountData);
             $addCurUserAccount = add_user_account($curAccountData);
@@ -338,13 +338,14 @@ class Order extends Home
                 $additionalPrice = $productInfo['member_price'] - $productInfo['promotion_price'];//差价=会员价-代理价
                 $additionalPrice = ($additionalPrice > 0) ? $additionalPrice : 0;
                 if($additionalPrice){
+                    $additionalPrice *= $orderInfo['product_count'];
                     $upGroupTopUser = $this->user->where(['id' => $curUser['id']])->setInc('balance', $additionalPrice);
                     $groupTopAccountData = [
                         'uid' => $curUser['id'],
                         'sign' => 2,
                         'count' => $additionalPrice,
                         'type' => 3,
-                        'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 产生:'.$configAccountType[3]
+                        'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 数量：'.$orderInfo['product_count'].' 产生:'.$configAccountType[3]
                     ];
                     $addGroupTopUserAccount = add_user_account($groupTopAccountData);
                 }
@@ -358,13 +359,14 @@ class Order extends Home
                     $proPercent = (isset($proPercent) && $proPercent > 0) ? $proPercent : 0;//团队奖励
                     // $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
                     if($proPercent){
+                        $proPercent *= $orderInfo['product_count'];
                         $upRefUser = $this->user->where(['id' => $refUser['id']])->setInc('balance', $proPercent);
                         $refAccountData = [
                             'uid' => $refUser['id'],
                             'sign' => 2,
                             'count' => $proPercent,
                             'type' => 2,
-                            'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 产生:'.$configAccountType[2]
+                            'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 数量：'.$orderInfo['product_count'].' 产生:'.$configAccountType[2]
                         ];
                         $addRefUserAccount = add_user_account($refAccountData);  
                     }              
@@ -408,7 +410,7 @@ class Order extends Home
         $productInfo = $this->product->getOneDarry(['id' => $orderInfo['product_id']]);
 
         //更新订单信息
-        $upOrder = $this->order->upData(['order_status' => 3], ['order_sn' => input('order_sn')]);
+        $upOrder = $this->order->upData(['order_status' => 4], ['order_sn' => input('order_sn')]);
 
         //更新商品库存信息
         // $upProduct = $this->product->where(['id' => $orderInfo['product_id']])->setInc('stock', $orderInfo['product_count']);

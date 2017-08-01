@@ -33,6 +33,7 @@ class Order extends Admin
 
         // 获取查询条件
         $map = $this->getMap();
+        // pp($map);
 
         // 数据列表
         $data_list = OrderModel::where($map)->order('create_time desc')->paginate();
@@ -40,12 +41,21 @@ class Order extends Admin
         // 分页数据
         $page = $data_list->render();
 
+        $btn_access = [
+            'title' => '取消订单',
+            'icon' => 'fa fa-sign-out',
+            'class' => 'btn btn-xs btn-default ajax-get confirm',
+            'href' => url('cancel', ['id' => '__id__', 'table' => 'Order']),
+            'data-title' => '确定取消该订单吗？',
+            'data-tips' => '取消之后就无法恢复了',
+        ];
+
         // 使用ZBuilder快速创建数据表格
         return ZBuilder::make('table')
             ->setPageTitle('订单管理') // 设置页面标题
             ->setTableName('Order') // 设置数据表名
             ->addTimeFilter('create_time')
-            ->setSearch(['order_sn' => '订单号']) // 设置搜索参数
+            ->setSearch(['order_sn' => '订单号', 'product_id' => '商品名称', 'buyer' => '买家']) // 设置搜索参数
             ->addOrder('id,order_sn') // 添加排序
             ->addFilter('id,order_sn') // 添加筛选
             ->addColumns([ // 批量添加列
@@ -54,17 +64,20 @@ class Order extends Admin
                 ['product_count', '商品数量'],
                 ['order_price', '订单金额'],
                 // ['shipping_fee', '运费', 'text.edit'],
-                ['buyer', '收货人', 'callback', 'get_user_value', 'username'],
+                ['buyer', '买家', 'callback', 'get_user_value', 'username'],
                 // ['buyer_address', '收货地址'],
                 ['pay_status', '支付状态', 'status', '', config('order.pay_status')],
                 ['pay_type', '支付类型', 'status', '', config('order.pay_type')],
                 ['create_time', '下单时间'],
+                // ['order_status', '订单状态', 'status', '', config('order.order_status')],
                 ['order_status', '订单状态', 'status', '', config('order.order_status')],
                 ['right_button', '操作', 'btn']
             ])
             // ->addValidate('Order', 'order_sn')
             ->addTopButtons('delete') // 批量添加顶部按钮
-            ->addRightButtons('edit,delete') // 批量添加右侧按钮
+            // ->addRightButtons('edit') // 批量添加右侧按钮
+            ->addRightButton('custom', $btn_access)
+            // ->addRightButton('edit', ['href' => url('edit', ['id' => '__id__', 'group' => 'index'])])
             ->setRowList($data_list) // 设置表格数据
             ->setPages($page) // 设置分页数据
             ->fetch(); // 渲染页面
@@ -192,6 +205,25 @@ class Order extends Admin
                 ->fetch();
 
         }
+    }
+
+    /**
+     * 撤销订单
+     * @param array $record 行为日志
+     * @author thinkphp
+     * @return mixed
+     */
+    public function cancel()
+    {
+        $id   = $this->request->isPost() ? input('post.id/a') : input('param.id');
+        $table = input('param.table');
+        $pk = Db::name($table)->getPk(); // 主键名称
+        $map[$pk] = ['in', $id];
+        if(input('id') == null)$this->error('操作失败');
+        $data = ['id' => input('id'), 'order_satus' => 4];
+        // $result = (new OrderModel)->upData(['order_satus' => 4], ['id' => input('id')]);
+        $result = Db::name($table)->where($map)->setField('order_satus', 4);return $result;
+        return $result ? $this->success('操作成功') : $this->error('操作失败');
     }
 
     /**

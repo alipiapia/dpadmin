@@ -103,7 +103,7 @@
                 	付款状态：<em>{$config_pay_status[$order['pay_status']]}</em>
                 </div>
                 <div class="order-d-one">
-                	商品金额：<em>{$order.product_price}元</em>
+                	商品金额：<em>{$order.product_price * $order.product_count}元</em>
                 </div>
                 <div class="order-d-one">
                 	运费金额：<em>{$order.shipping_fee}元</em>

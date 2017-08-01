@@ -194,7 +194,7 @@
 				`shipping_num` varchar(255) NOT NULL COMMENT '物流单号',
 				`pay_type` varchar(20) DEFAULT '0' COMMENT '支付类型(0余额 1wxpay 2alipay)',
 				`pay_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '支付状态(0未支付1已支付2支付失败)',
-				`order_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '订单状态(0待付款1已付款2已发货/待确认收货3已签收/已完成/待评价4已评价5已删除)',
+				`order_status` tinyint(2) NOT NULL DEFAULT '0' COMMENT '订单状态(0待付款1已付款2已发货/待确认收货3已签收/已完成/待评价4已删除)',
 				`create_time` int(11) NOT NULL COMMENT '添加时间',
 				`update_time` int(11) NOT NULL COMMENT '编辑时间',
 				PRIMARY KEY (`id`),
