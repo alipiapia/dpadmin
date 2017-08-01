@@ -68,7 +68,8 @@ class Order extends Home
             if(true !== $checkResult) return $this->error($checkResult);
             $this->cart->create($data);            
         }
-
+        $this->redirect(url('index/cart/index'));die;
+        
         $orderInfo['product_id'] = $data['product_id'];
         $orderInfo['product_spec'] = $data['product_spec'];
         $orderInfo['product_spec_name'] = $this->spec->getValue(['id' => $data['product_spec']], 'name');
