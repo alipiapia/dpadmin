@@ -39,7 +39,7 @@ class UserAddress extends Home
     public function selectAddress()
     {
         $map = ['uid' => $this->userInfo['id']];
-        $userAddress = $this->userAddress->getColumn($map, 'id,uid,username,mobile,address');
+        $userAddress = $this->userAddress->getColumn($map);
         // pp($userAddress);
 
         // if(request()->isPost()){
@@ -71,7 +71,7 @@ class UserAddress extends Home
             }
 
             $res = UserAddressModel::create($data);
-            echo '<script>history.go(-1);</script>';die;
+            echo '<script>history.go(-2);</script>';die;
             // if ($res) {
             //     $this->success('收货地址添加成功', url('index/UserAddress/ulist'));
             // } else {

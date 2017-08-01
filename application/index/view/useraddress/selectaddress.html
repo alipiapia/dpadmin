@@ -48,10 +48,6 @@
         <div class="probox">
             {volist name="useraddress" id="a"}
             <div class="select-address">
-            	<div class="oneaddresslist">
-                	<div class="itemname">地址：</div>
-                	<div class="iteminfo">{$a.address}</div>
-                </div>
                 <div class="oneaddresslist">
                 	<div class="itemname">收货人：</div>
                 	<div class="iteminfo">{$a.username}</div>
@@ -60,11 +56,15 @@
                 	<div class="itemname">手机号：</div>
                 	<div class="iteminfo">{$a.mobile}</div>
                 </div>
+                <div class="oneaddresslist">
+                    <div class="itemname">详细地址：</div>
+                    <div class="iteminfo">{$a.prov|default=''}{$a.city|default=''}{$a.dist|default=''}{$a.address}</div>
+                </div>
                 <div class="surebutton" data-id="{$a.id}">
                 	<button>确定</button>
                 </div>
-                {/volist}	
             </div>
+            {/volist}   
         </div>
 
         <div class="space1"></div>	

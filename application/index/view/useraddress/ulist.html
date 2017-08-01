@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="address-gl-part2">
-                地址：{$a.prov}{$a.city}{$a.dist}{$a.address}
+                详细地址：{$a.prov|default=''}{$a.city|default=''}{$a.dist|default=''}{$a.address}
                 </div>
             </div>
             {/volist}
