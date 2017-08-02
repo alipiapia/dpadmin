@@ -70,6 +70,16 @@
                         <div class="proprice">￥<span class="price">{$o.product.price}</span></div>
                     </div>
                 </div>
+
+                <div class="oneprobox">
+                    运费：<input type="number" class="shipping_fee" name="shipping_fee" onblur="keyDown(this,event)" placeholder="请输入运费" /> 
+                </div>
+                <div class="oneprobox">
+                    备注：<input type="text" class="order_note" name="order_note" placeholder="请输入备注信息" />                       
+                </div>
+                <div class="oneprobox">
+                    小计：￥<span class="eachtotal">0.00</span>
+                </div>
             </div>
         {/volist}
 
@@ -91,16 +101,15 @@
                         </div>
                     </div>
                     {/notempty}
-                    <div class="postage">
-                    	<!-- 运费：<span>￥<span id="shipping_fee">0</span></span>/件 -->
-                        运费：<input type="number" id="shipping_fee" name="shipping_fee" onblur="keyDown(this,event)" placeholder="请输入运费金额" />
+<!--                     <div class="postage">
+                        运费：<input type="number" id="shipping_fee" name="shipping_fee" onblur="keyDown(this,event)" placeholder="请输入运费" />
                     </div>
                     <div class="allprice">
                     	小计：￥<span id="total">0</span>
                     </div>
                     <div class="note">
-                    	<input type="text" id="order_note" name="order_note" placeholder="请输入备注信息" />
-                    </div>
+                    	备注：<input type="text" id="order_note" name="order_note" placeholder="请输入备注信息" />
+                    </div> -->
                 </div>
 <!--                 {empty name="address"}
                 <a href="{:url('index/UserAddress/uadd')}">
@@ -160,43 +169,54 @@
                   $(".goodsCheck").each(function() { //循环店铺里面的商品
                       var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
                       var price = parseFloat($(this).parents(".shop-info").find(".price").text()); //得到商品的单价
-                      var total = price * num; //计算单个商品的总价
-                      oprice += total; //计算该店铺的总价
-                      onum += num; //计算该店铺的总价
                     // $(this).closest(".shop-group-item").find(".ShopTotal").text(oprice.toFixed(2)); //显示被选中商品的店铺总价
-                    var shipping_fee;
-                    var shipping_fee = parseFloat($("#shipping_fee").val());
-                    // alert(parseFloat(shipping_fee));return false;
+                    // var shipping_fee;
+                    // var shipping_fee = parseFloat($("#shipping_fee").val());
+                    var shipping_fee = parseFloat($(this).parents(".shop-info").find(".shipping_fee").val());
+                    // alert(shipping_fee);return false;
                     if((shipping_fee != NaN) && shipping_fee){
                         // alert("请填写运费");return false;
                         shipping_fee = shipping_fee;
                     }else{
                         shipping_fee = 0.00;
                     }
+                      var total = price * num + shipping_fee; //计算单个商品的总价
+                      oprice += total; //计算该店铺的总价
+                      onum += num; //计算该店铺的总价
                     // alert(shipping_fee);return false;
-                    $("#total").text((oprice + shipping_fee).toFixed(2));
-                    $("#AllTotal").text((oprice + shipping_fee).toFixed(2));
+                    $(this).parents(".shop-info").find(".eachtotal").text(total.toFixed(2));
+                    $("#total").text(oprice.toFixed(2));
+                    $("#AllTotal").text(oprice.toFixed(2));
                     $("#AllNum").text(onum);
                   });
             }
 
             function keyDown(obj,e) {
-                var shipping_fee = parseFloat($(obj).val());
-                // alert(parseFloat(shipping_fee));return false;
-                if((shipping_fee == NaN) || !shipping_fee){
-                    alert("请填写运费");return false;
-                }
                   var oprice = 0; //店铺总价
                   var onum = 0; //店铺总数
                   $(".goodsCheck").each(function() { //循环店铺里面的商品
                       var num = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
                       var price = parseFloat($(this).parents(".shop-info").find(".price").text()); //得到商品的单价
-                      var total = price * num; //计算单个商品的总价
+                        // var shipping_fee = parseFloat($(obj).val());
+                        var shipping_fee = parseFloat($(this).parents(".shop-info").find(".shipping_fee").val());
+                        // if((shipping_fee == NaN) || !shipping_fee){
+                        //     alert("请填写运费");return false;
+                        // }
+                        if((shipping_fee != NaN) && shipping_fee){
+                            // alert("请填写运费");return false;
+                            shipping_fee = shipping_fee;
+                        }else{
+                            shipping_fee = 0.00;
+                        }
+                        // alert(shipping_fee);return false;
+                      var total = price * num + shipping_fee; //计算单个商品的总价
                       oprice += total; //计算该店铺的总价
                       onum += num; //计算该店铺的总价
                     // $(this).closest(".shop-group-item").find(".ShopTotal").text(oprice.toFixed(2)); //显示被选中商品的店铺总价
-                    $("#total").text((oprice + shipping_fee).toFixed(2));
-                    $("#AllTotal").text((oprice + shipping_fee).toFixed(2));
+                    // alert(total);return false;
+                    $(this).parents(".shop-info").find(".eachtotal").text(total.toFixed(2));
+                    $("#total").text(oprice.toFixed(2));
+                    $("#AllTotal").text(oprice.toFixed(2));
                   });
              }
 
@@ -244,8 +264,8 @@
                 $("#justbuy").on('click', function(d){
                     var uid = "{$session_user.id}";
                     var buyer_address = $("#address_id").attr("data-id");
-                    var order_note = $("#order_note").val();
-                    var shipping_fee = $("#shipping_fee").val();
+                    // var order_note = $("#order_note").val();
+                    // var shipping_fee = $("#shipping_fee").val();
 
                     var postProducts = [];
                     $(".goodsCheck").each(function(r){
@@ -254,7 +274,17 @@
                         var product_count = parseInt($(this).parents(".shop-info").find(".num").text()); //得到商品的数量
                         // var product_stock = parseInt($(this).attr('data-stock'));
                         var product_stock = $(this).closest("body").find(".gg").attr('data-stock');
-                        var cart_id = parseInt($(this).attr('data-oid'));                        
+                        var cart_id = parseInt($(this).attr('data-oid'));
+                        var order_note = $(this).parents(".shop-info").find(".order_note").val();
+
+                        var shipping_fee = parseFloat($(this).parents(".shop-info").find(".shipping_fee").val());
+                        if((shipping_fee != NaN) && shipping_fee){
+                            // alert("请填写运费");return false;
+                            shipping_fee = shipping_fee;
+                        }else{
+                            shipping_fee = 0.00;
+                        }
+                        // alert(order_note);return false;                      
                         var eachPost = [product_id,product_spec,product_count,uid,buyer_address,shipping_fee,order_note,cart_id];
                         postProducts.push(eachPost);
                     });
@@ -284,9 +314,9 @@
                     if(buyer_address == undefined){
                         alert("请选择收货地址");return false;                        
                     }
-                    if(!shipping_fee){
-                        alert("请填写运费");return false;                        
-                    }
+                    // if(!shipping_fee){
+                    //     alert("请填写运费");return false;                        
+                    // }
 
                     location.href = '/index/Order/buildOrder?products=' + JSON.stringify(postProducts);
 

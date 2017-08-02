@@ -47,6 +47,12 @@ class Order extends Admin
                 $map['order_sn'] = $keyword_arr;
             }            
         }
+        if(in_array('order_note', $serach_field_arr)){
+            $ordIds = (new OrderModel)->getColumn(['order_note' => $keyword_arr], 'id'); 
+            if($ordIds){
+                $map['order_note'] = $keyword_arr;
+            }            
+        }
 
         if(in_array('product_id', $serach_field_arr)){
             $proIds = (new ProductModel)->getColumn(['name' => $keyword_arr], 'id'); 
@@ -83,19 +89,20 @@ class Order extends Admin
             ->setPageTitle('订单管理') // 设置页面标题
             ->setTableName('Order') // 设置数据表名
             ->addTimeFilter('create_time')
-            ->setSearch(['order_sn' => '订单号', 'product_id' => '商品名称', 'buyer' => '买家']) // 设置搜索参数
+            ->setSearch(['order_sn' => '订单号', 'product_id' => '商品名称', 'buyer' => '买家', 'order_note']) // 设置搜索参数
             ->addOrder('id,order_sn') // 添加排序
             ->addFilter('id,order_sn') // 添加筛选
             ->addColumns([ // 批量添加列
                 ['order_sn' , '订单号'],
                 ['product_id', '商品名称', 'callback', 'get_product_value', 'name'],
                 ['product_count', '商品数量'],
+                ['shipping_fee', '运费'],
                 ['order_price', '订单金额'],
-                // ['shipping_fee', '运费', 'text.edit'],
                 ['buyer', '买家', 'callback', 'get_user_value', 'username'],
                 // ['buyer_address', '收货地址'],
-                ['pay_status', '支付状态', 'status', '', config('order.pay_status')],
-                ['pay_type', '支付类型', 'status', '', config('order.pay_type')],
+                // ['pay_status', '支付状态', 'status', '', config('order.pay_status')],
+                // ['pay_type', '支付类型', 'status', '', config('order.pay_type')],
+                ['order_note', '备注'],
                 ['create_time', '下单时间'],
                 // ['order_status', '订单状态', 'status', '', config('order.order_status')],
                 ['order_status', '订单状态', 'status', '', config('order.order_status')],
@@ -198,6 +205,7 @@ class Order extends Admin
                     ['static', 'order_price', '订单金额'],
                     // ['text', 'shipping_fee', '运费'],
                     ['static', 'create_time', '下单时间'],
+                    ['static', 'order_note', '备注'],
                     // ['static', 'buyer_address', '收货地址'],
                     // ['radio', 'order_status', '订单状态', '', config('order.order_status')]
                     // ['Bmap', '111','CAf9a5889147c3b2b9ca3e3cdad0ca2a']
@@ -219,6 +227,7 @@ class Order extends Admin
                     ['static', 'order_sn', '订单号'],
                     // ['static', 'product_id', '商品'],
                     ['static', 'order_price', '订单金额'],
+                    ['static', 'order_note', '备注'],
                     // ['text', 'shipping_fee', '运费'],
                     // ['static', 'buyer', '收货人'],
                     // ['static', 'buyer_address', '收货地址'],

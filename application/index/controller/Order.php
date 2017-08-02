@@ -334,7 +334,7 @@ class Order extends Home
             $addCurUserAccount = add_user_account($curAccountData);
 
 
-            //二级代理商差价计算
+            //二级代理商 推荐佣金 计算
             if($curUser['pro_level'] == 2){                
                 $additionalPrice = $productInfo['member_price'] - $productInfo['promotion_price'];//差价=会员价-代理价
                 $additionalPrice = ($additionalPrice > 0) ? $additionalPrice : 0;
@@ -352,10 +352,10 @@ class Order extends Home
                 }
             }
 
-            //当前用户代理等级pro_level > 2时，进行团队奖励&差价计算
+            //当前用户代理等级pro_level > 2时，进行团队奖励&推荐佣金计算
             if($curUser['pro_level'] > 2){
 
-                //团队奖励（返利）开始
+                //团队奖励 开始
                 if($refUser){
                     $proPercent = (isset($proPercent) && $proPercent > 0) ? $proPercent : 0;//团队奖励
                     // $upRefUser = $this->user->upData(['balance' => ($userInfo['balance'] - $orderInfo['order_price'])], ['id' => $this->userInfo['id']]);
@@ -373,18 +373,19 @@ class Order extends Home
                     }              
                 }
 
-                //差价（提成）开始
+                //推荐佣金 开始
                 if($groupTopUser){
-                    $additionalPrice = $productInfo['member_price'] - $productInfo['promotion_price'];//差价=会员价-代理价
+                    $additionalPrice = $productInfo['member_price'] - $productInfo['promotion_price'];//推荐佣金=会员价-代理价
                     $additionalPrice = ($additionalPrice > 0) ? $additionalPrice : 0;
                     if($additionalPrice){
+                        $additionalPrice *= $orderInfo['product_count'];
                         $upGroupTopUser = $this->user->where(['id' => $groupTopUser['id']])->setInc('balance', $additionalPrice);
                         $groupTopAccountData = [
                             'uid' => $groupTopUser['id'],
                             'sign' => 2,
                             'count' => $additionalPrice,
                             'type' => 3,
-                            'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 产生:'.$configAccountType[3]
+                            'desc' => '用户:'.$userInfo['username'].' 购买商品:'.$productInfo['name'].' 数量：'.$orderInfo['product_count'].' 产生:'.$configAccountType[3]
                         ];
                         $addGroupTopUserAccount = add_user_account($groupTopAccountData);
                     }

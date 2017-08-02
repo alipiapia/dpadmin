@@ -226,11 +226,24 @@
 	1，客户留言@admin_custom_message;
 	2，
 
+【order配置】
+	//订单状态
+	// 'order_status' => ['待付款', '待发货', '已发货', '已签收', '已评价', '已删除'],
+	'order_status' => ['待付款', '已付款', '已发货', '已完成', '已删除'],
+	
+	//订单支付状态
+	'pay_status' => ['待支付', '已支付', '支付失败'],
+	'pay_type' => ['余额','微信', '支付宝'],
+
+	//账户资金明细
+	'account_type' => ['订单消费', '管理员录款', '团队奖励', '推荐佣金'],
+	
 【后期测试修复】【周期：一周左右】
 
 	手动添加一级代理：
 		username+password+mobile+ref_mobile+pro_level(1)
 		18687211878 $2y$10$JdTbfGsLsgJu/T7CBgZ4yu45WXvj7SIVLgTWj0gRI8e.G68lpgNZ6 0 0 1
+		
 		
 		
 后台www.2he87.com/admin 
