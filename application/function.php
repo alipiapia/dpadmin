@@ -83,7 +83,7 @@ if (!function_exists('get_user_value')) {
      * @return String
      */
     function get_user_value($id, $column){
-        return model('common/user')->getValue(['id' => $id], $column);
+        return model('common/User')->getValue(['id' => $id], $column);
     }
 }
 
@@ -94,7 +94,7 @@ if (!function_exists('get_product_value')) {
      * @return String
      */
     function get_product_value($id, $column){
-        return model('common/product')->getValue(['id' => $id], $column);
+        return model('common/Product')->getValue(['id' => $id], $column);
     }
 }
 
@@ -105,7 +105,7 @@ if (!function_exists('get_cate_value')) {
      * @return String
      */
     function get_cate_value($id, $column){
-        return model('common/cate')->getValue(['id' => $id], $column);
+        return model('common/Cate')->getValue(['id' => $id], $column);
     }
 }
 
@@ -116,7 +116,7 @@ if (!function_exists('get_spec_value')) {
      * @return String
      */
     function get_spec_value($id, $column){
-        return model('common/spec')->getValue(['id' => $id], $column);
+        return model('common/Spec')->getValue(['id' => $id], $column);
     }
 }
 
@@ -127,7 +127,7 @@ if (!function_exists('get_user_address_value')) {
      * @return String
      */
     function get_user_address_value($id, $column){
-        return model('common/useraddress')->getValue(['id' => $id], $column);
+        return model('common/UserAddress')->getValue(['id' => $id], $column);
     }
 }
 
@@ -138,7 +138,7 @@ if (!function_exists('get_order_status_count')) {
      * @return Int
      */
     function get_order_status_count($uid, $status){
-        return model('common/order')->where(['buyer' => $uid, 'order_status' => $status])->count();
+        return model('common/Order')->where(['buyer' => $uid, 'order_status' => $status])->count();
     }
 }
 

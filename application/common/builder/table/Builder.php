@@ -518,6 +518,21 @@ class Builder extends ZBuilder
                 ];
                 break;
 
+            // 导出订单按钮
+            case 'export':
+                // 默认属性
+                $btn_attribute = [
+                    'title'       => '导出订单',
+                    'icon'        => 'fa fa-sign-out',
+                    'class'       => 'btn btn-primary ajax-post confirm',
+                    'target-form' => 'ids',
+                    'href'        => url(
+                        $this->_module.'/'.$this->_controller.'/export',
+                        ['field' => $field]
+                    ),
+                ];
+                break;
+
             // 自定义按钮
             case 'custom':
                 // 默认属性

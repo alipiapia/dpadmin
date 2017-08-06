@@ -327,7 +327,7 @@ class Admin extends Common
      */
     public function setStatus($type = '', $record = [])
     {
-        $ids   = $this->request->isPost() ? input('post.ids/a') : input('param.ids');
+        $ids   = $this->request->isPost() ? input('post.ids/a') : input('param.ids');return $ids;
         $table = input('param.table');
         $field = input('param.field', 'status');
 
