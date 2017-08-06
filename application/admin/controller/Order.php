@@ -20,6 +20,7 @@ use util\Tree;
 use think\Db;
 use PHPExcel_IOFactory;
 use PHPExcel;
+use PHPExcel_Cell_DataType;
 // use plugins\Excel\controller;
 
 /**
@@ -97,7 +98,7 @@ class Order extends Admin
         // Miscellaneous glyphs, UTF-8
         for($i=0;$i<$dataNum;$i++){
             for($j=0;$j<$cellNum;$j++){
-                $objPHPExcel->getActiveSheet(0)->setCellValue($cellName[$j].($i+3), $expTableData[$i][$expCellName[$j][0]]);
+                $objPHPExcel->getActiveSheet(0)->setCellValue($cellName[$j].($i+3), ' '.$expTableData[$i][$expCellName[$j][0]]);
             }
         }
 
