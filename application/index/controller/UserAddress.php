@@ -71,7 +71,7 @@ class UserAddress extends Home
             }
 
             $res = UserAddressModel::create($data);
-            echo '<script>history.go(-1);location.reload();</script>';die;
+            echo '<script>history.go(-2);location.reload();</script>';die;
             // if ($res) {
             //     $this->success('收货地址添加成功', url('index/UserAddress/ulist'));
             // } else {
