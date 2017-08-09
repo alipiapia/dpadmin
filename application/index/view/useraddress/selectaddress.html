@@ -81,7 +81,7 @@
                     var addressId = $(this).attr('data-id');
                     $.post('switchDefaultAdd', {id:addressId}, function(j){
                         if(j > 0){
-                            history.go(-1);
+                            history.go(-1);location.reload();
                         }
                     });
                     // alert(addressId);return false;
