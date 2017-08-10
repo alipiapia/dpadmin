@@ -91,7 +91,7 @@
 
            {volist name="cate" id="cate"}
                 <!-- <a href="{:url('index/product/index', ['_filter' => 'cate', '_filter_content' => $cate['id']])}"> -->
-                <a href="index.php/index/product/index?_filter=cate&_filter_content={$cate['id']}">
+                <a href="/index/product/index?_filter=cate&_filter_content={$cate['id']}">
                     <li>
                         <div class="{$cate.icon}"><img src="{$cate.picture|get_file_path}" /></div>
                         {$cate.name}
@@ -147,7 +147,7 @@
                 if (ev.keyCode == 13) {
                     var keyword = $("#keyword").val();
                     // alert(keyword);return false;
-                    location.href = 'index.php/index/product/index?search_field=name&keyword=' + keyword;
+                    location.href = '/index/product/index?search_field=name&keyword=' + keyword;
                 }
              }
 

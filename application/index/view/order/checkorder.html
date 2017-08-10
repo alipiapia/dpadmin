@@ -195,7 +195,7 @@
                     // alert(Number(product_count) > Number(stock));return false;
                     //登录判断
                     if(!uid){
-                        window.location.href = 'index.php/index/index/loginpatch';return false;
+                        window.location.href = '/index/index/loginpatch';return false;
                     }
                     if(!product_spec){
                         alert("请选择商品规格");return false;
@@ -217,12 +217,12 @@
                     //去生成订单
                     // $.ajax({
                     //     type:'post',
-                    //     url:'index.php/index/order/buildOrder',
+                    //     url:'/index/order/buildOrder',
                     //     data:{product_id:product_id, product_spec:product_spec, product_count:product_count,buyer:uid,buyer_address:buyer_address,order_note:order_note},
                     //     success:function(s){
                     //         // alert(s);return false;
                     //         if(s > 0){
-                    //             location.href = 'index.php/index/order/checkpay?order_sn=' + s;
+                    //             location.href = '/index/order/checkpay?order_sn=' + s;
                     //         }
                     //     },
                     //     error:function(e){
@@ -231,7 +231,7 @@
                     // });
                     var postProducts = [[product_id,product_spec,product_count,uid,buyer_address,shipping_fee,order_note]];
                     // alert(postProducts);return false;
-                    location.href = 'index.php/index/Order/buildOrder?products=' + JSON.stringify(postProducts);
+                    location.href = '/index/Order/buildOrder?products=' + JSON.stringify(postProducts);
                 });
             });
                 
