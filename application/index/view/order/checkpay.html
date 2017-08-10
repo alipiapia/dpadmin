@@ -102,12 +102,12 @@
 
                     $.ajax({
                         type:'post',
-                        url:'/index/order/payOrder',
+                        url:'index.php/index/order/payOrder',
                         data:{paypass:paypass,order_sn:order_sn},
                         success:function(s){
                             // alert(s);return false;
                             if(s == 1){
-                                location.href = '/index/ucenter/index';
+                                location.href = 'index.php/index/ucenter/index';
                             }else if(s == 2){
                                 alert("订单已支付或被删除");return false;
                             }else{

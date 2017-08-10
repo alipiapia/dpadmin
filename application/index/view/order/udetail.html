@@ -155,14 +155,14 @@
                 $("#justbuy").on('click', function(d){
                     var order_sn = "{$order.order_sn}";
                     // alert(order_sn);return false;
-                    location.href = '/index/order/checkPay?order_sn=' + order_sn;
+                    location.href = 'index.php/index/order/checkPay?order_sn=' + order_sn;
                 });
 
                 $("#justcancel").on('click', function(d){
                     var order_sn = "{$order.order_sn}";
                     // alert(order_sn);return false;
                     if(confirm("确认取消该订单？")){
-                        location.href = '/index/order/cancelOrder?order_sn=' + order_sn;                        
+                        location.href = 'index.php/index/order/cancelOrder?order_sn=' + order_sn;                        
                     }else{
                         window.reload();
                     }

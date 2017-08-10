@@ -197,7 +197,7 @@
 
                         //登录判断
                         if(!uid){
-                            window.location.href = '/index/index/loginpatch';return false;
+                            window.location.href = 'index.php/index/index/loginpatch';return false;
                         }
 
                         if(!product_spec){
@@ -219,7 +219,7 @@
 
                         // alert(new Date(group_end_time).getTime());return false;
 
-                        window.location.href = '/index/order/checkorder?'
+                        window.location.href = 'index.php/index/order/checkorder?'
                                              + 'product_id=' + product_id
                                               + '&product_spec=' + product_spec
                                                + '&product_count=' + product_count;

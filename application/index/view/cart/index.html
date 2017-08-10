@@ -228,7 +228,7 @@
                     // alert(id);return false;
                     if(confirm("确认删除该商品？")){
                         // location.href = 'index/cart/delete?id=' + id;
-                        $.post('/index/cart/delete',{id:id},function(j){
+                        $.post('index.php/index/cart/delete',{id:id},function(j){
                             // alert(j);
                             window.location.reload();
                         });
@@ -337,9 +337,9 @@
                         alert("请选择商品");return false;                        
                     }
 
-                    location.href = '/index/Order/checkCartOrder?products=' + JSON.stringify(postProducts);
+                    location.href = 'index.php/index/Order/checkCartOrder?products=' + JSON.stringify(postProducts);
 
-                    // $.post('/index/Order/checkCartOrder',{products:postProducts},function(d){
+                    // $.post('index.php/index/Order/checkCartOrder',{products:postProducts},function(d){
                     //     //
                     // });
 
