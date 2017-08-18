@@ -139,6 +139,7 @@ if (!function_exists('get_user_addresses')) {
      */
     function get_user_addresses($id, $column = 'prov,city,dist,address'){
         $addArr = model('common/UserAddress')->getOneDarry(['id' => $id], $column);
+        return implode('', $addArr);
     }
 }
 
