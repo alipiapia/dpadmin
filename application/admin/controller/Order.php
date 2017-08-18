@@ -52,7 +52,7 @@ class Order extends Admin
         ->join('__PRODUCT__ p', 'o.product_id = p.id')
         ->join('__USER__ u', 'o.buyer = u.id')
         ->join('__USER_ADDRESS__ a', 'o.buyer_address = a.id')
-        ->field('order_sn, a.username as user_name, a.mobile as user_mobile, a.address as user_address, p.name as product_name, product_count, p.member_price*product_count as product_price, order_note, u.username as user_buyer')
+        ->field('order_sn, a.username as user_name, a.mobile as user_mobile, CONCAT(a.prov,a.city,a.dist,a.address) as user_address, p.name as product_name, product_count, p.member_price*product_count as product_price, order_note, u.username as user_buyer')
         ->select();
         // $xlsData = (new OrderModel)->getColumn($map, 'id,order_sn,order_note');
         // pp($xlsData);
