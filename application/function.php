@@ -131,6 +131,17 @@ if (!function_exists('get_user_address_value')) {
     }
 }
 
+if (!function_exists('get_user_addresses')) {
+    /**
+     * 获取某些column
+     * @author pp
+     * @return String
+     */
+    function get_user_addresses($id, $column = 'prov,city,dist,address'){
+        $addArr = model('common/UserAddress')->getOneDarry(['id' => $id], $column);
+    }
+}
+
 if (!function_exists('get_order_status_count')) {
     /**
      * 订单状态统计

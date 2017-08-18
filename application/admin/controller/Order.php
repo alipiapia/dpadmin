@@ -247,7 +247,7 @@ class Order extends Admin
                 ['buyer', '会员', 'callback', 'get_user_value', 'username'],
                 ['buyer_address', '收件人姓名', 'callback', 'get_user_address_value', 'username'],
                 ['buyer_mobile', '收件人电话', 'callback', 'get_user_address_value', 'mobile'],
-                ['buyer_detail_address', '收件人地址', 'callback', 'get_user_address_value', 'address'],
+                ['buyer_detail_address', '收件人地址', 'callback', 'get_user_addresses'],
                 // ['pay_status', '支付状态', 'status', '', config('order.pay_status')],
                 // ['pay_type', '支付类型', 'status', '', config('order.pay_type')],
                 ['order_note', '备注'],
