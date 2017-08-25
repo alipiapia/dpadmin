@@ -274,7 +274,15 @@
 	1，部署项目上线p2p.ynyaoqi.com；
 	2，更改进件端逻辑（由于之前是做进件端版本导致进件端逻辑需要修改）；
 	3，进件端数据库字段修改；
-	4，富友借口封装（完成40%）；
+	4，富友接口封装（完成40%）；
+	5，页面css,js全局加载；
+	
+0814-0818
+本周进度：
+	1，项目流程梳理；
+	2，更改进件端逻辑（由于之前是做进件端版本导致进件端逻辑需要修改）；
+	3，进件端数据库字段修改；
+	4，富友接口封装（完成40%）；
 	5，页面css,js全局加载；
 	
 	
@@ -285,3 +293,28 @@
 
 	2发短信	
 		$result = send_verify_sms($mobile,$verify_code,null,true);
+		
+	3获取用户信息
+		$user_info = get_user_info("*","id = ".$user_id);
+		
+	4错误显示
+		showErr($GLOBALS['lang']['TWO_ENTER_IDNO_ERROR'],1);
+		
+	5加密字段
+		$data['idno_encrypt'] = "AES_ENCRYPT('".strim($_REQUEST['idno'])."','".AES_DECRYPT_KEY."')";
+		$sql = "update ".DB_PREFIX."user set money_encrypt = AES_ENCRYPT(ifnull(AES_DECRYPT(money_encrypt,'".AES_DECRYPT_KEY."'),0) + ".floatval($data['money']).",'".AES_DECRYPT_KEY."') where id =".$user_id;
+		
+	/**
+	 * 会员资金积分变化操作函数
+	 * @param array $data 包括 score,money,point,site_money
+	 * @param integer $user_id
+	 * @param string $log_msg 日志内容
+	 * @param integer $type  
+	 0结存，1充值，2投标成功，3招标成功，4偿还本息，5回收本息，6提前还款，7提前回收，8申请提现，9提现手续费，10借款管理费，
+	 11逾期罚息，12逾期管理费，13人工充值，14借款服务费，15出售债权，16购买债权，17债权转让管理费，18开户奖励，19流标还返，20投标管理费，
+	 21投标逾期收入，22兑换，23邀请返利，24投标返利，26逾期罚金（垫付后），27其他费用 ，28投资奖励，29红包奖励，30:配资本金(冻结); 
+	 31:配资预交款(冻结);32:配资审核费(冻结);33:配资服务费(平台收入);34:配资利息(出资者收入);35:配资平仓收益;36:配资投资;37:配资提取赢余;38:配资交易佣金;47:体验金收益
+	 function modify_account($data,$user_id,$log_msg='',$type=0)
+	 
+	 
+	 mysqldump --host=qdm220352508.my3w.com -uqdm220352508 -pwodemima --databases qdm220352508_db |mysql --host=47.91.236.124 -uroot -pyaoqi888 dpadmin
