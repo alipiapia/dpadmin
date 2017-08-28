@@ -156,8 +156,12 @@ class Member extends Common
                     $res = UserModel::create($data);
                     if ($res) {
                         // $this->login($data['username'], $data['password']);
-                        $this->user->login($data['username'], $data['password']);
-                        $this->success('注册成功，自动登录中...', url('index/ucenter/index'));
+//                        $this->user->login($data['username'], $data['password']);
+//							$this->redirect(url('index/member/login'));
+//                        $this->success('注册成功，自动登录中...', url('index/ucenter/index'));
+                        $this->success('注册成功', url('index/member/login'));
+//						$this->login();
+//						$this->redirect(url('index/member/login'));
                     } else {
                         $this->error($res);
                     }

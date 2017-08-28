@@ -58,7 +58,7 @@ if (!function_exists('has_signin')) {
      */
     function has_signin()
     {
-        return model('index/user')->isLogin();
+        return model('common/user')->isLogin();
     }
 }
 

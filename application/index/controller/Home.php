@@ -12,6 +12,7 @@
 namespace app\index\controller;
 
 use app\common\controller\Common;
+use app\common\model\User;
 
 /**
  * 前台公共控制器
@@ -39,6 +40,19 @@ class Home extends Common
         if(!is_mobile()){
             echo "提示：请使用手机访问！";die;
         }
+				
+		//用户信息实时检测
+        $user = session('user_auth_index');
+		$userInfo = (new User)->getOneDarry(['id' => $user['id']]);
+		if($user && empty($userInfo)){			
+			// session(null);
+			session('user_auth_index', null);
+			session('user_auth_sign_index', null);
+			cookie('id', null);
+			cookie('signin_token', null);
+//			$this->redirect('index/member/login');
+             $this->error("用户不存在", url('index/member/login'));
+		}
 
         if(!has_signin()){
             $this->redirect(url('index/index/loginpatch'));

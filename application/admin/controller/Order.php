@@ -32,7 +32,10 @@ class Order extends Admin
     public function export(){//导出Excel
         // pp(input('post.'));
         $input = input('');
-        $map = ['o.id' => ['in', $input['ids']]];
+        $map = [
+			'o.id' => ['in', $input['ids']],
+			'o.order_status' => ['neq', '4'],
+		];
         $xlsName  = "商城订单";
         $xlsCell  = array(
             array('order_sn','订单号'),
@@ -166,13 +169,14 @@ class Order extends Admin
         cookie('__forward__', $_SERVER['REQUEST_URI']);
 
         // 获取查询条件
-        // $map = $this->getMap();
-
+         $map = $this->getMap();
+		 
         $search_field = input('search_field');
         $keyword = input('keyword');
         $keyword_arr = ['like', '%'.$keyword.'%'];
         $serach_field_arr = explode('|', $search_field);
-        $map = [];
+//        $map = [];
+//		 pp($map[$search_field]);
         if(in_array('order_sn', $serach_field_arr)){
             $ordIds = (new OrderModel)->getColumn(['order_sn' => $keyword_arr], 'id'); 
             if($ordIds){
@@ -199,7 +203,9 @@ class Order extends Admin
                 $map['buyer'] = ['in', $buyerIds];
             }
         }
-        // pp($map);
+		$map['order_status'] = ['neq', '4'];
+		unset($map[$search_field]);
+//         pp($map);
 
         // 数据列表
         $data_list = OrderModel::where($map)->order('create_time desc')->field('id,order_sn,product_id,product_count,shipping_fee,order_price,buyer,buyer_address,buyer_address as buyer_mobile,buyer_address as buyer_detail_address,order_note,create_time,order_status')->paginate();
