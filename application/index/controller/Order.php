@@ -410,18 +410,25 @@ class Order extends Home
 
         $orderInfo = $this->order->getOneDarry(['order_sn' => input('order_sn')]);
         $productInfo = $this->product->getOneDarry(['id' => $orderInfo['product_id']]);
+        $specInfo = $this->spec->getOneDarry(['id' => $orderInfo['product_spec']]);
+//		pp($specInfo);
 
         //更新订单信息
         $upOrder = $this->order->upData(['order_status' => 4], ['order_sn' => input('order_sn')]);
 
         //更新商品库存信息
         // $upProduct = $this->product->where(['id' => $orderInfo['product_id']])->setInc('stock', $orderInfo['product_count']);
-        // $upProduct = $this->product->where(['id' => $orderInfo['product_id']])->setDec('sales', $orderInfo['product_count']);
-        $upData = [
-            'stock' => ($productInfo['stock'] + $orderInfo['product_count']),//更新库存
-            'sales' => ($productInfo['sales'] - $orderInfo['product_count']),//更新销售数量
-        ];
-        $upProduct = $this->product->upData($upData, ['id' => $productInfo['id']]);
+        // $upProduct = $this->product->where(['id' => $orderInfo['product_id']])->setDec('sales', $orderInfo['product_count']);		
+		$proData = [
+			//'stock' => ($productInfo['stock'] + $orderInfo['product_count']),//更新库存
+			'sales' => (($productInfo['sales'] - $orderInfo['product_count']) > 0) ? ($productInfo['sales'] - $orderInfo['product_count']) : 0,//更新销售数量
+		];
+        $upProduct = $this->product->upData($proData, ['id' => $productInfo['id']]);
+
+		$speData = [
+			'stock' => $specInfo['stock'] + $orderInfo['product_count'],//更新库存
+		];
+		$upSpec = $this->spec->upData($speData, ['product_id' => $orderInfo['product_id']]);
 
         // return $upOrder ? 1 : 0;
         $upOrder ? $this->success("订单取消成功") : $this->error("订单取消失败");

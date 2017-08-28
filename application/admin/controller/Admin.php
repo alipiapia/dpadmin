@@ -350,6 +350,21 @@ class Admin extends Common
         //取消订单
         if($table == 'Order' && $type == 'cancel'){
             $result = Db::name($table)->where($map)->setField('order_status', 4);
+			$orderInfo = Db::name($table)->where(['id' => $ids])->find();
+			$productInfo = Db::name('Product')->where(['id' => $orderInfo['product_id']])->find();
+			$specInfo = Db::name('Spec')->where(['id' => $orderInfo['product_spec']])->find();
+//			pp($specInfo);
+			$proData = [
+//				'stock' => ($productInfo['stock'] + $orderInfo['product_count']),//更新库存
+				'sales' => (($productInfo['sales'] - $orderInfo['product_count']) > 0) ? ($productInfo['sales'] - $orderInfo['product_count']) : 0,//更新销售数量
+			];
+			$upProduct = Db::name('Product')->where(['id' => $productInfo['id']])->setField($proData);
+			
+			$speData = [
+				'stock' => $specInfo['stock'] + $orderInfo['product_count'],//更新库存
+			];
+			$upSpec = Db::name('Spec')->where(['product_id' => $orderInfo['product_id']])->setField($speData);
+			
             return $result ? $this->success('操作成功') : $this->error('操作失败');
         }
 
