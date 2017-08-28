@@ -177,18 +177,20 @@ class Order extends Admin
         $serach_field_arr = explode('|', $search_field);
 //        $map = [];
 //		 pp($map[$search_field]);
+
         if(in_array('order_sn', $serach_field_arr)){
             $ordIds = (new OrderModel)->getColumn(['order_sn' => $keyword_arr], 'id'); 
             if($ordIds){
                 $map['order_sn'] = $keyword_arr;
             }            
         }
-        if(in_array('order_note', $serach_field_arr)){
-            $ordIds = (new OrderModel)->getColumn(['order_note' => $keyword_arr], 'id'); 
-            if($ordIds){
-                $map['order_note'] = $keyword_arr;
-            }            
-        }
+        
+        // if(in_array('order_note', $serach_field_arr)){
+        //     $ordIds = (new OrderModel)->getColumn(['order_note' => $keyword_arr], 'id'); 
+        //     if($ordIds){
+        //         $map['order_note'] = $keyword_arr;
+        //     }            
+        // }
 
         if(in_array('product_id', $serach_field_arr)){
             $proIds = (new ProductModel)->getColumn(['name' => $keyword_arr], 'id'); 
@@ -241,7 +243,7 @@ class Order extends Admin
             ->setPageTitle('订单管理') // 设置页面标题
             ->setTableName('Order') // 设置数据表名
             ->addTimeFilter('create_time')
-            ->setSearch(['order_sn' => '订单号', 'product_id' => '商品名称', 'buyer' => '会员', 'order_note']) // 设置搜索参数
+            ->setSearch(['order_sn' => '订单号', 'product_id' => '商品名称', 'buyer' => '会员']) // 设置搜索参数
             ->addOrder('id,order_sn') // 添加排序
             ->addFilter('id,order_sn') // 添加筛选
             ->addColumns([ // 批量添加列
