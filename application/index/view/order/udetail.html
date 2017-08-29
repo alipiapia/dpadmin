@@ -83,7 +83,8 @@
         	<div class="order-d">
             	<div class="order-d-one order-d-address">
                 	<div class="order-d-address-l">收货地址：</div>
-                    <div class="order-d-address-r">{$order.buyer_address|get_user_address_value='address'}</div>
+                    <!--<div class="order-d-address-r">{$order.buyer_address|get_user_address_value='address'}</div>-->
+                    <div class="order-d-address-r">{$order.allAddress}</div>
                 	
                 </div>
             </div>

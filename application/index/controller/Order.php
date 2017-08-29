@@ -463,7 +463,7 @@ class Order extends Home
         foreach ($orders as $k => $v) {
             $userAddress = $this->userAddress->getOneDarry(['id' => $v['buyer_address']]);
 			if($userAddress){
-				$newOrders[$k]['address'] = $userAddress['username'] .' ' . $userAddress['mobile'] . '' .$userAddress['address'] . $v['order_note'];
+				$newOrders[$k]['address'] = $userAddress['username'] .' ' . $userAddress['mobile'] . ' ' . $userAddress['prov'] .'省/'. $userAddress['city'].'市/'. $userAddress['dist'] .$userAddress['address'] . $v['order_note'];
 			}else{
 				$newOrders[$k]['address'] = '';
 			}
@@ -491,7 +491,12 @@ class Order extends Home
 
         $orderInfo = $this->order->getOneDarry(['order_sn' => input('order_sn')]);
         $orderInfo['picture'] = get_product_value($orderInfo['product_id'], 'picture');
-        // pp($orderInfo);
+        $userAddress = $this->userAddress->getOneDarry(['id' => $orderInfo['buyer_address']]);
+		$orderInfo['allAddress'] = '';
+		if($userAddress){
+			$orderInfo['allAddress'] = $userAddress['prov'] .'省/'. $userAddress['city'].'市/'. $userAddress['dist'] .$userAddress['address'];			
+		}
+//		pp($userAddress);
 
         // if(request()->isPost()){
         //     pp(input('order_sn'));

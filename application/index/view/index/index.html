@@ -217,17 +217,19 @@
             $("div[id^='count']").each(function(i, o){
                 var pid = $(this).attr("date-id");
                 var getime = $(this).attr("date-getime");
-                var getimeArr = getime.split('-');
+//                var getimeArr = getime.split('-');
                 // var year = formatDate(getime, 'year');
                 // var month = formatDate(getime, 'month');
                 // var day = formatDate(getime, 'day');
                 // var hour = formatDate(getime, 'hour');
                 // var minute = formatDate(getime, 'minute');
                 // var second = formatDate(getime, 'second');
-                var getimedate = new Date(getime);
+//                var getimedate = new Date(getime);
+                var getimeArr = getime.split(/[- : \/]/);
+				var getimedate = new Date(getimeArr[0], getimeArr[1]-1, getimeArr[2], getimeArr[3], getimeArr[4], getimeArr[5]);
                 var getimedateatt = getimedate.getTime();
                 // alert(formatDate(getime));return false;
-                // alert(getimeArr[2]);return false;
+//                 alert(getimedateatt);return false;
                 window.setInterval(function(){
                     // ShowCountDown(getimeArr[0], getimeArr[1], getimeArr[2], 'count' + pid);
                         ShowCountDown(getimedateatt, 'count' + pid);
