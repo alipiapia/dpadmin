@@ -53,7 +53,7 @@ class User extends Admin
                 ['ref_mobile', '推荐人手机号'],
                 ['group_mobile', '团队手机号'],
                 ['pro_level', '代理等级'],
-                ['balance', '余额', 'text.edit'],
+                ['balance', '余额(点击可充值)', 'text.edit'],
                 // ['score', '积分'],
                 ['create_time', '注册时间'],
                 ['status', '审核状态', 'switch'],
@@ -225,23 +225,38 @@ class User extends Admin
         $value   = input('post.value', '');
         $config  = UserModel::where('id', $id)->value($field);
         $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $value . ')';
-        // $this->error(floatval($value));
+        // $this->error(floatval($value).'==');
         if($field == 'balance'){
-            $abs = floatval($value) - floatval($config);
+            if(floatval($value) == 0){
+                $this->error('请输入有效金额');
+            }
+            $new = floatval($config) + floatval($value);
+            if($new < 0){
+                $this->error('余额不足');
+            }
+            // $this->error($new.'==');
+
+            //余额计算
+            $details = '字段(' . $field . ')，原值(' . $config . ')，新值：(' . $new . ')';
+
             //添加管理员录款记录
             $configAccountType = config('order.account_type');
             $curAccountData = [
                 'uid' => $id,
-                'sign' => ($abs < 0) ? 1 : 2,
+                'sign' => (floatval($value) > 0) ? 1 : 2,
                 // 'sign' => 2,
-                'count' => abs($abs),
+                'count' => abs((floatval($value))),
                 // 'count' => $abs,
                 'type' => 1,
-                'desc' => $configAccountType[1].' 金额： '. (($abs < 0) ? '-' : '+') . abs($abs).'元'
+                'desc' => $configAccountType[1].' 金额： '. ((floatval($value) > 0) ? '+' : '-') . abs(floatval($value)).'元'
                 // 'desc' => $configAccountType[1].' 金额： '. $abs.'元'
             ];
             $addCurUserAccount = add_user_account($curAccountData);
         }
+        // $this->error($details);
+        $pk  = Db::name('User')->getPk();
+        $res = Db::name('User')->where($pk, $id)->setField($field , $new);
+        return $res ? $this->success('操作成功','admin/user/index') : $this->error('操作失败');
         return parent::quickEdit(['user_edit', 'user', $id, UID, $details]);
     }
 }

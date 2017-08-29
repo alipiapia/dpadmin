@@ -49,7 +49,7 @@
                 <div class="u-list-zj-l">
                 类型：{$config_account_type[$ua.type]}<br /><span>{$ua.create_time}</span>
                 </div>
-                <div class="u-list-zj-r">{eq name="ua.sign" value="1"}-{else /}+{/eq} {$ua.count}元</div>
+                <div class="u-list-zj-r">{eq name="ua.sign" value="1"}+{else /}-{/eq} {$ua.count}元</div>
             </div>
             </a>
             {/volist}
