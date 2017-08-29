@@ -243,12 +243,12 @@ class User extends Admin
             $configAccountType = config('order.account_type');
             $curAccountData = [
                 'uid' => $id,
-                'sign' => (floatval($value) > 0) ? 1 : 2,
+                'sign' => (floatval($value) < 0) ? 1 : 2,
                 // 'sign' => 2,
                 'count' => abs((floatval($value))),
                 // 'count' => $abs,
                 'type' => 1,
-                'desc' => $configAccountType[1].' 金额： '. ((floatval($value) > 0) ? '+' : '-') . abs(floatval($value)).'元'
+                'desc' => $configAccountType[1].' 金额： '. ((floatval($value) < 0) ? '-' : '+') . abs(floatval($value)).'元'
                 // 'desc' => $configAccountType[1].' 金额： '. $abs.'元'
             ];
             $addCurUserAccount = add_user_account($curAccountData);

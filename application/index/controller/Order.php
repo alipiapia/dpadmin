@@ -463,7 +463,7 @@ class Order extends Home
         foreach ($orders as $k => $v) {
             $userAddress = $this->userAddress->getOneDarry(['id' => $v['buyer_address']]);
 			if($userAddress){
-				$newOrders[$k]['address'] = $userAddress['username'] .' ' . $userAddress['mobile'] . ' ' . $userAddress['prov'] .'省/'. $userAddress['city'].'市/'. $userAddress['dist'] .$userAddress['address'] . $v['order_note'];
+				$newOrders[$k]['address'] = $userAddress['username'] .' ' . $userAddress['mobile'] . ' ' . $userAddress['prov'] .'省/'. $userAddress['city'].'市/'. $userAddress['dist'] .$userAddress['address'] . ' '. $v['order_note'];
 			}else{
 				$newOrders[$k]['address'] = '';
 			}

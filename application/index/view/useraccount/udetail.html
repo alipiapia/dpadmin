@@ -60,7 +60,7 @@
                 	会员资金：<em>{$balance}元</em>
                 </div>
                 <div class="order-d-one">
-                	当前金额：<em>{eq name="accountinfo.sign" value="1"}+{else /}-{/eq} {$accountinfo.count}元</em>
+                	当前金额：<em>{eq name="accountinfo.sign" value="1"}-{else /}+{/eq} {$accountinfo.count}元</em>
                 </div>
                 <div class="order-d-one">
                 	备注：<em>{$accountinfo.desc}</em>
