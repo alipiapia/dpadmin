@@ -256,7 +256,7 @@ class User extends Admin
         // $this->error($details);
         $pk  = Db::name('User')->getPk();
         $res = Db::name('User')->where($pk, $id)->setField($field , $new);
-        return $res ? $this->success('操作成功','admin/user/index') : $this->error('操作失败');
-        return parent::quickEdit(['user_edit', 'user', $id, UID, $details]);
+        return $res ? $this->success('操作成功') : $this->error('操作失败');
+        // return parent::quickEdit(['user_edit', 'user', $id, UID, $details]);
     }
 }
