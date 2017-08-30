@@ -52,6 +52,7 @@ class Order extends Admin
         $xlsData  = Db::name('Order')
         ->alias('o')
         ->where($map)
+        // ->order(['o.create_time' => 'desc'])
         ->join('__PRODUCT__ p', 'o.product_id = p.id')
         ->join('__USER__ u', 'o.buyer = u.id')
         ->join('__USER_ADDRESS__ a', 'o.buyer_address = a.id')
