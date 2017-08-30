@@ -214,7 +214,9 @@ class Order extends Admin
 //         pp($map);
 
         // 数据列表
-        $data_list = OrderModel::where($map)->order('create_time desc')->field('id,order_sn,product_id,product_count,shipping_fee,order_price,buyer,buyer_address,buyer_address as buyer_mobile,buyer_address as buyer_detail_address,order_note,create_time,order_status')->paginate();
+        $data_list = OrderModel::where($map)->order('create_time desc')->field('id,order_sn,product_id,product_count,shipping_fee,order_price,buyer,buyer_address,buyer_address as buyer_mobile,buyer_address as buyer_detail_address,order_note,create_time,order_status')->paginate(20, false, [
+        'query' => request()->param(),
+    ]);
         // pp(model('common/Order')->upData(['buyer_address' => 495], ['order_sn' => '2017083010248515']));
 
         // 分页数据

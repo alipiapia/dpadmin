@@ -140,16 +140,16 @@ if (!function_exists('get_user_addresses')) {
     function get_user_addresses($id, $column = 'prov,city,dist,address'){
         $addArr = model('common/UserAddress')->getOneDarry(['id' => $id], $column);
         $arr = '';
-        if($addArr['prov'] != null){
+        if(isset($addArr['prov']) && $addArr['prov'] != null){
             $arr .= $addArr['prov'].'省';
         }
-        if($addArr['city'] != null){
+        if(isset($addArr['city']) && $addArr['city'] != null){
             $arr .= $addArr['city'].'市';
         }
-        // if($addArr['dist'] != null){
+        // if(isset($addArr['dist']) && $addArr['dist'] != null){
         //     $arr .= $addArr['dist'].'县/区';
         // }
-        if($addArr['address'] != null){
+        if(isset($addArr['address']) && $addArr['address'] != null){
             $arr .= $addArr['address'];
         }
         // return implode('', $addArr);

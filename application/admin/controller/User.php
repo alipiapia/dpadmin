@@ -252,12 +252,12 @@ class User extends Admin
                 // 'desc' => $configAccountType[1].' 金额： '. $abs.'元'
             ];
             $addCurUserAccount = add_user_account($curAccountData);
+            // $this->error($details);
+            $pk  = Db::name('User')->getPk();
+            $res = Db::name('User')->where($pk, $id)->setField($field , $new);
+            $msg = (floatval($value) > 0) ? '充值' : '扣款';
+            return $res ? $this->success($msg.'成功') : $this->error($msg.'失败');
         }
-        // $this->error($details);
-        $pk  = Db::name('User')->getPk();
-        $res = Db::name('User')->where($pk, $id)->setField($field , $new);
-        $msg = (floatval($value) > 0) ? '充值' : '扣款';
-        return $res ? $this->success($msg.'成功') : $this->error($msg.'失败');
-        // return parent::quickEdit(['user_edit', 'user', $id, UID, $details]);
+        return parent::quickEdit(['user_edit', 'user', $id, UID, $details]);
     }
 }
