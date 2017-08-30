@@ -139,7 +139,23 @@ if (!function_exists('get_user_addresses')) {
      */
     function get_user_addresses($id, $column = 'prov,city,dist,address'){
         $addArr = model('common/UserAddress')->getOneDarry(['id' => $id], $column);
-        return implode('', $addArr);
+        $arr = '';
+        if($addArr['prov'] != null){
+            $arr .= $addArr['prov'].'省';
+        }
+        if($addArr['city'] != null){
+            $arr .= $addArr['city'].'市';
+        }
+        // if($addArr['dist'] != null){
+        //     $arr .= $addArr['dist'].'县/区';
+        // }
+        if($addArr['address'] != null){
+            $arr .= $addArr['address'];
+        }
+        // return implode('', $addArr);
+        // $arr = $addArr['prov'].'省'.$addArr['city'].'市'.$addArr['dist'].'县/区'.$addArr['address'];
+        // $ret = $arr ? $arr : '';
+        return $arr;
     }
 }
 

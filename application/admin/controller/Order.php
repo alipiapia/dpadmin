@@ -55,11 +55,15 @@ class Order extends Admin
         ->join('__PRODUCT__ p', 'o.product_id = p.id')
         ->join('__USER__ u', 'o.buyer = u.id')
         ->join('__USER_ADDRESS__ a', 'o.buyer_address = a.id')
-        ->field('order_sn, a.username as user_name, a.mobile as user_mobile, CONCAT(a.prov,a.city,a.dist,a.address) as user_address, p.name as product_name, product_count, p.member_price*product_count as product_price, order_note, u.username as user_buyer')
+        ->field('order_sn, a.username as user_name, a.mobile as user_mobile, o.buyer_address, p.name as product_name, product_count, p.member_price*product_count as product_price, order_note, u.username as user_buyer')
         ->select();
         // $xlsData = (new OrderModel)->getColumn($map, 'id,order_sn,order_note');
-        // pp($xlsData);
-        $res = $this->exportExcel($xlsName,$xlsCell,$xlsData,false);
+        $newXlsData = $xlsData;
+        foreach ($xlsData as $k => $v) {
+            $newXlsData[$k]['user_address'] = get_user_addresses($v['buyer_address']);
+        }
+        // pp($newXlsData);
+        $res = $this->exportExcel($xlsName,$xlsCell,$newXlsData,false);
         // plugin_action('Excel/Excel/export', [$xlsName,$xlsCell,$xlsData]);
 
         // ob_end_clean();//这一步非常关键，用来清除缓冲区防止导出的excel乱码
@@ -211,6 +215,7 @@ class Order extends Admin
 
         // 数据列表
         $data_list = OrderModel::where($map)->order('create_time desc')->field('id,order_sn,product_id,product_count,shipping_fee,order_price,buyer,buyer_address,buyer_address as buyer_mobile,buyer_address as buyer_detail_address,order_note,create_time,order_status')->paginate();
+        // pp(model('common/Order')->upData(['buyer_address' => 495], ['order_sn' => '2017083010248515']));
 
         // 分页数据
         $page = $data_list->render();
