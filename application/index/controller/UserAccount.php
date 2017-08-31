@@ -40,7 +40,7 @@ class UserAccount extends Home
         // $uid = $this->user->getValue(['id' => $this->userInfo['id']], 'id');
         // $userAccount = $this->userAccount->getColumn(['uid' => $this->userInfo['id']], 'id,uid,sign,count,type,create_time');
         $userAccount = $this->userAccount->getLists($map, 'create_time DESC', 'id,uid,sign,count,type,create_time');
-        // pp($userAccount);
+        // pp(count($userAccount));
 
         // return $this->fetch();
         return view('useraccount/ulist', [

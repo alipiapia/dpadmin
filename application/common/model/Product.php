@@ -101,7 +101,7 @@ class Product extends Model
     }
 
     //列表数据
-    public function getLists($where = 1, $order = ['id'], $field = "*", $limit = 8){
+    public function getLists($where = 1, $order = ['id'], $field = "*", $limit = ''){
      $lists = $this->where($where)->order($order)->field($field)->limit($limit)->select();
      $return_lists = [];
      foreach ($lists as $k => $v){
